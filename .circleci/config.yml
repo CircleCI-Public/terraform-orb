@@ -1,0 +1,18 @@
+version: 2.1
+
+jobs:
+  getting-started:
+    docker:
+      - image: circleci/node
+    steps:
+      - run:
+          name: Getting Started
+          command: |
+            echo "Your orb is now building on CircleCI"
+            echo "This is a temporary configuration file. Continue with the orb-init.sh script and follow the README.md to publish your orb."
+workflows:
+  setup:
+    jobs:
+      - getting-started
+
+
