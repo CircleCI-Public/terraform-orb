@@ -22,5 +22,6 @@ steps:
       steps:
         - attach_workspace:
             at: << parameters.workspace-root-dir >>
-      - init:
+        - init:
           path: "."
+          
