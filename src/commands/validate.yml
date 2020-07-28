@@ -1,0 +1,18 @@
+description: "Validate TF files"
+
+parameters:
+  path:
+    type: "string"
+    description: "Path to the terraform module"
+    default: "/src"
+steps:
+  - init:
+      path: "."
+  - run:
+      name: terraform validate
+      command: |
+        # 'path' is a required parameter, save it as module_path
+        readonly module_path="<< parameters.path >>"
+        export path=$module_path
+        # what is the significance of no color?
+        terraform validate -no-color "$module_path"
