@@ -1,0 +1,15 @@
+# We could add additional parameters
+
+description: >
+  Simple Docker based Terraform executor.
+
+docker:
+  - image: '<< parameters.image >>'
+
+parameters:
+  working_dir:
+    type: string
+    default: "~/src"
+  image:
+    type: string
+    default: hashicorp/terraform:light

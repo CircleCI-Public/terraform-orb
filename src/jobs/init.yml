@@ -1,0 +1,26 @@
+description: >
+  Inits terraform directory
+  # What will this command do?
+  # Descriptions should be short, simple, and clear.
+
+parameters:
+  mount-workspace:
+    default: false
+    description: "Do cool stuff with workspaces"
+    type: boolean
+  workspace-root-dir:
+    default: "."
+    description: "circleci workspaces...not terraform"
+    type: string
+
+executor: terraform-executor
+working_directory: "~/src"
+steps:
+  - checkout
+  - when:
+      condition: << parameters.mount-workspace >>
+      steps:
+        - attach_workspace:
+            at: << parameters.workspace-root-dir >>
+      - init:
+          path: "."
