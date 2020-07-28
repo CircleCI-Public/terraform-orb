@@ -1,5 +1,5 @@
 description: >
-  Validate Terraform files
+  Run Terraform plan against current state
 
 parameters:
   mount-workspace:
@@ -26,5 +26,5 @@ steps:
             at: << parameters.workspace-root-dir >>
   - init:
       path: "."
-  - validate:
+  - plan:
       path: "."
