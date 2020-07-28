@@ -6,8 +6,7 @@ parameters:
     description: "Path to the terraform module"
     default: "/src"
 steps:
-  - init:
-      path: "."
+  # commands shouldn't assume init()
   - run:
       name: terraform validate
       command: |

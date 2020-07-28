@@ -1,0 +1,30 @@
+description: >
+  Destroy current state
+
+parameters:
+  mount-workspace:
+    default: false
+    description: "Do cool stuff with workspaces"
+    type: boolean
+  workspace-root-dir:
+    default: "."
+    description: "circleci workspaces...not terraform"
+    type: string
+  path:
+    type: "string"
+    description: "Path to the terraform module"
+    default: "/src"
+
+executor: terraform-executor
+working_directory: "~/src"
+steps:
+  - checkout
+  - when:
+      condition: << parameters.mount-workspace >>
+      steps:
+        - attach_workspace:
+            at: << parameters.workspace-root-dir >>
+  - init:
+      path: "."
+  - destroy:
+      path: "."
