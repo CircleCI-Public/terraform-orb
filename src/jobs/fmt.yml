@@ -1,5 +1,5 @@
 description: >
-  Destroy current state
+  Run terraform fmt
 
 parameters:
   mount-workspace:
@@ -20,18 +20,16 @@ parameters:
     description: "Perform git checkout"
 
 executor: terraform-executor
-working_directory: "~/src"
+
 steps:
   - when:
-      condition: << parameters.checkout-code >>
+      condition: << parameters.checkout >>
       steps:
         - checkout
   - when:
-      condition: << parameters.mount-workspace >>
+      condition: << parameters.attach-workspace >>
       steps:
         - attach_workspace:
-            at: << parameters.workspace-root-dir >>
-  - init:
-      path: "."
-  - destroy:
+            at: << parameters.workspace-root >>
+  - fmt:
       path: "."
