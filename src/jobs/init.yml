@@ -8,10 +8,14 @@ parameters:
     default: false
     description: "Do cool stuff with workspaces"
     type: boolean
-  path:
+  workspace-root-dir:
     default: "."
     description: "circleci workspaces...not terraform"
     type: string
+  path:
+    type: "string"
+    description: "Path to the terraform module"
+    default: "/src"
 
 executor: terraform-executor
 working_directory: "~/src"
@@ -21,6 +25,6 @@ steps:
       condition: << parameters.mount-workspace >>
       steps:
         - attach_workspace:
-            at: << parameters.path >>
+            at: << parameters.workspace-root-dir >>
         - init:
             path: "."
