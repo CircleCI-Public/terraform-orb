@@ -77,6 +77,8 @@ workflows:
       - integration-test-1
       - terraform/init:
           path: "."
+      - terraform/validate:
+          path: "."
 
       # publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"
