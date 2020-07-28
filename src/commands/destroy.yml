@@ -10,9 +10,9 @@ parameters:
     type: "string"
     description: "Comma separated list of vars to set, e.g. 'foo=bar,bas=foo'"
     default: ""
-  var_file:
+  vars_file:
     type: "string"
-    description: "Comma separated list of var file paths"
+    description: "Comma separated list of vars file paths"
     default: ""
   workspace:
     type: "string"
@@ -44,19 +44,19 @@ steps:
         export workspace
         unset TF_WORKSPACE
         terraform workspace select -no-color "$workspace"
-        if [[ -n "<< parameters.var >>" ]]; then
-            for var in $(echo "<< parameters.var >>" | tr ',' '\n'); do
-                PLAN_ARGS="$PLAN_ARGS -var $var"
+        if [[ -n "<< parameters.vars >>" ]]; then
+            for vars in $(echo "<< parameters.vars >>" | tr ',' '\n'); do
+                PLAN_ARGS="$PLAN_ARGS -vars $vars"
             done
         fi
-        if [[ -n "<< parameters.var_file >>" ]]; then
-        for file in $(echo "<< parameters.var_file >>" | tr ',' '\n'); do
+        if [[ -n "<< parameters.vars_file >>" ]]; then
+        for file in $(echo "<< parameters.vars_file >>" | tr ',' '\n'); do
             if [[ -f "$file" ]]; then
-                PLAN_ARGS="$PLAN_ARGS -var-file=$file"
+                PLAN_ARGS="$PLAN_ARGS -vars-file=$file"
             elif [[ -f "$module_path/$file" ]]; then
-                PLAN_ARGS="$PLAN_ARGS -var-file=$module_path/$file"
+                PLAN_ARGS="$PLAN_ARGS -vars-file=$module_path/$file"
             else
-                echo "Var file '$file' wasn't found" >&2
+                echo "vars file '$file' wasn't found" >&2
                 exit 1
             fi
         done
