@@ -17,7 +17,8 @@ parameters:
     default: "default"
   backend_config:
     type: "string"
-    description: "Comma separated list of backend configs to set, e.g. 'foo=bar'"
+    description: |
+      "Comma separated list of backend configs to set, e.g. 'foo=bar'"
     default: ""
   backend_config_file:
     type: "string"
@@ -38,4 +39,3 @@ steps:
         fi
         # terraform init -input=false -no-color $INIT_ARGS "$module_path"
         terraform init -input=false -no-color "$module_path"
-        

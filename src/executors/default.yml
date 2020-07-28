@@ -1,4 +1,3 @@
-# How to author Executors: https://circleci.com/docs/2.0/reusing-config/#authoring-reusable-executors
 description: >
   This is a sample executor using Docker and Node.
   # What is this executor?

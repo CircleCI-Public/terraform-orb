@@ -1,5 +1,4 @@
-# How to author commands: https://circleci.com/docs/2.0/reusing-config/#authoring-reusable-commands
-description: >
+description: |
   Replace this text with a description for this command.
   # What will this command do?
   # Descriptions should be short, simple, and clear.

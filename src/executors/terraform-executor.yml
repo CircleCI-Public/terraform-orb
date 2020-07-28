@@ -13,4 +13,3 @@ parameters:
   image:
     type: string
     default: hashicorp/terraform:light
-    
