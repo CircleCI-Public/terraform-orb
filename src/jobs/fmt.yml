@@ -6,7 +6,7 @@ parameters:
     default: false
     description: "Do cool stuff with workspaces"
     type: boolean
-  workspace-root-dir:
+  workspace-root:
     default: "."
     description: "circleci workspaces...not terraform"
     type: string
@@ -14,7 +14,7 @@ parameters:
     type: "string"
     description: "Path to the terraform module"
     default: "/src"
-  checkout-code:
+  checkout:
     type: boolean
     default: false
     description: "Perform git checkout"
@@ -27,7 +27,7 @@ steps:
       steps:
         - checkout
   - when:
-      condition: << parameters.attach-workspace >>
+      condition: << parameters.mount-workspace >>
       steps:
         - attach_workspace:
             at: << parameters.workspace-root >>
