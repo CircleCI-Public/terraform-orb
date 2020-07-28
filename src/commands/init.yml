@@ -3,14 +3,6 @@ parameters:
     type: "string"
     description: "Path to the terraform module"
     default: "/src"
-  vars:
-    type: "string"
-    description: "Comma separated list of vars to set, e.g. 'foo=bar,bas=foo'"
-    default: ""
-  var_file:
-    type: "string"
-    description: "Comma separated list of var file paths"
-    default: ""
   workspace:
     type: "string"
     description: "Name of the terraform workspace"
@@ -37,5 +29,28 @@ steps:
           echo "Path does not exist: \"$module_path\""
           exit 1
         fi
-        # terraform init -input=false -no-color $INIT_ARGS "$module_path"
-        terraform init -input=false -no-color "$module_path"
+
+        # the following is needed to process backend configs
+        if [[ -n "<< parameters.backend_config_file >>" ]]; then
+            for file in $(echo "<< parameters.backend_config_file >>" | tr ',' '\n'); do
+                if [[ -f "$file" ]]; then
+                    INIT_ARGS="$INIT_ARGS -backend-config=$file"
+                elif [[ -f "$module_path/$file" ]]; then
+                    INIT_ARGS="$INIT_ARGS -backend-config=$module_path/$file"
+                else
+                    echo "Backend config '$file' wasn't found" >&2
+                    exit 1
+                fi
+            done
+        fi
+        if [[ -n "<< parameters.backend_config >>" ]]; then
+            for config in $(echo "<< parameters.backend_config >>" | tr ',' '\n'); do
+                INIT_ARGS="$INIT_ARGS -backend-config=$config"
+            done
+        fi
+        export INIT_ARGS
+
+        readonly workspace_parameter="<< parameters.workspace >>"
+        readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
+        export workspace
+        terraform init -input=false -no-color $INIT_ARGS "$module_path"

@@ -1,13 +1,12 @@
-# We could add additional parameters
-
 description: >
   Simple Docker based Terraform executor.
 
 docker:
   - image: '<< parameters.image >>'
+working_directory: << parameters.working_directory >>
 
 parameters:
-  working_dir:
+  working_working_directory:
     type: string
     default: "~/src"
   image:
