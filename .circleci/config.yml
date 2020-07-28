@@ -31,10 +31,10 @@ jobs:
       - checkout
       - terraform/init:
           path: "."
-          checkout: true
+          #checkout: true
       - terraform/fmt:
           path: "."
-          checkout: true
+          #checkout: true
 
 workflows:
   # This `lint-pack_validate_publish-dev` workflow will run on any commit.
