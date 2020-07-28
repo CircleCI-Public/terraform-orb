@@ -16,15 +16,22 @@ parameters:
     type: "string"
     description: "Path to the terraform module"
     default: "/src"
+  checkout:
+    type: boolean
+    default: false
+    description: "Perform git checkout"
 
 executor: terraform-executor
 working_directory: "~/src"
 steps:
-  - checkout
+  - when:
+      condition: << parameters.checkout >>
+      steps:
+        - checkout
   - when:
       condition: << parameters.mount-workspace >>
       steps:
         - attach_workspace:
             at: << parameters.workspace-root-dir >>
-        - init:
-            path: "."
+  - init:
+      path: "."
