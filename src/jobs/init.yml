@@ -8,7 +8,7 @@ parameters:
     default: false
     description: "Do cool stuff with workspaces"
     type: boolean
-  workspace-root-dir:
+  path:
     default: "."
     description: "circleci workspaces...not terraform"
     type: string
@@ -21,6 +21,6 @@ steps:
       condition: << parameters.mount-workspace >>
       steps:
         - attach_workspace:
-            at: << parameters.workspace-root-dir >>
+            at: << parameters.path >>
         - init:
-          path: "."
+            path: "."
