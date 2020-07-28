@@ -6,7 +6,7 @@ docker:
 working_directory: << parameters.working_directory >>
 
 parameters:
-  working_working_directory:
+  working_directory:
     type: string
     default: "~/src"
   image:
