@@ -44,7 +44,6 @@ steps:
         readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
         export workspace
         unset TF_WORKSPACE
-        unset TF_WORKSPACE
         terraform workspace select -no-color "$workspace"
         if [[ -n "<< parameters.vars >>" ]]; then
             for vars in $(echo "<< parameters.vars >>" | tr ',' '\n'); do
