@@ -31,7 +31,10 @@ parameters:
 executor: terraform-executor
 working_directory: "~/src"
 steps:
-  - checkout
+  - when:
+      condition: << parameters.checkout >>
+      steps:
+        - checkout
   - when:
       condition: << parameters.attach-workspace >>
       steps:
