@@ -38,4 +38,4 @@ steps:
         - persist_to_workspace:
             paths:
               - << parameters.workspace-path >>
-            root: << parameters.workspace >>
+            root: << parameters.workspace-root >>
