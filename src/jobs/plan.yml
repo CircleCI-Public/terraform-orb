@@ -23,6 +23,7 @@ parameters:
     description: "circleci workspaces...not terraform"
     type: string
   checkout:
+    type: boolean
     default: true
     description: |
       Checkout as a first step? Default is true
