@@ -1,5 +1,5 @@
 description: >
-  Run Terraform plan against current state
+  Execute terraform plan
 
 parameters:
   attach-workspace:
@@ -21,6 +21,7 @@ parameters:
 
 executor: terraform-executor
 working_directory: "~/src"
+
 steps:
   - checkout
   - when:
@@ -30,7 +31,7 @@ steps:
             at: << parameters.workspace-root >>
   - init:
       path: "."
-  - plan:
+  - apply:
       path: "."
   - when:
       condition: << parameters.persist-workspace >>
