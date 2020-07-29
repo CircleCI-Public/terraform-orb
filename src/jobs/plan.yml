@@ -22,6 +22,10 @@ parameters:
     default: "."
     description: "circleci workspaces...not terraform"
     type: string
+  checkout:
+    default: true
+    description: |
+      Checkout as a first step? Default is true
 
 executor: terraform-executor
 working_directory: "~/src"
