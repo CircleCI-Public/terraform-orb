@@ -40,8 +40,10 @@ steps:
           echo "Path does not exist: \"$module_path\""
           exit 1
         fi
+        readonly workspace_parameter="<< parameters.workspace >>"
         readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
         export workspace
+        unset TF_WORKSPACE
         unset TF_WORKSPACE
         terraform workspace select -no-color "$workspace"
         if [[ -n "<< parameters.vars >>" ]]; then
