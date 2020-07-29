@@ -18,6 +18,10 @@ parameters:
     type: boolean
     default: false
     description: "Persist files to (cci) workspace for use in subsequent jobs"
+  workspace-path:
+    default: "."
+    description: "circleci workspaces...not terraform"
+    type: string
 
 executor: terraform-executor
 working_directory: "~/src"
