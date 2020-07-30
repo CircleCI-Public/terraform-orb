@@ -22,7 +22,7 @@ parameters:
     description: "Perform git checkout"
 
 executor: terraform-executor
-working_directory: "~/src"
+
 steps:
   - when:
       condition: << parameters.checkout >>
@@ -34,4 +34,4 @@ steps:
         - attach_workspace:
             at: << parameters.workspace-root-dir >>
   - init:
-      path: "."
+      path: << parameters.path >>

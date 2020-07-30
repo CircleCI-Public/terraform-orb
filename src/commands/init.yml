@@ -3,10 +3,6 @@ parameters:
     type: "string"
     description: "Path to the terraform module"
     default: "/src"
-  workspace:
-    type: "string"
-    description: "Name of the terraform workspace"
-    default: "default"
   backend_config:
     type: "string"
     description: |
@@ -30,7 +26,7 @@ steps:
           exit 1
         fi
 
-        # the following is needed to process backend configs
+        # Initialize terraform
         if [[ -n "<< parameters.backend_config_file >>" ]]; then
             for file in $(echo "<< parameters.backend_config_file >>" | tr ',' '\n'); do
                 if [[ -f "$file" ]]; then
@@ -49,8 +45,4 @@ steps:
             done
         fi
         export INIT_ARGS
-
-        readonly workspace_parameter="<< parameters.workspace >>"
-        readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
-        export workspace
         terraform init -input=false -no-color $INIT_ARGS "$module_path"
