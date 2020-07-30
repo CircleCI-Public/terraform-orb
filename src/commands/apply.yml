@@ -10,7 +10,7 @@ parameters:
     type: "string"
     description: "Comma separated list of vars to set, e.g. 'foo=bar,bas=foo'"
     default: ""
-  vars_file:
+  var_file:
     type: "string"
     description: "Comma separated list of vars file paths"
     default: ""
