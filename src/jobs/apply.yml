@@ -27,6 +27,27 @@ parameters:
     default: true
     description: |
       Checkout as a first step? Default is true
+  vars:
+    type: "string"
+    description: "Comma separated list of vars to set, e.g. 'foo=bar,bas=foo'"
+    default: ""
+  var_file:
+    type: "string"
+    description: "Comma separated list of var file paths"
+    default: ""
+  workspace:
+    type: "string"
+    description: "Name of the terraform workspace"
+    default: "default"
+  backend_config:
+    type: "string"
+    description: |
+      "Comma separated list of backend configs to set, e.g. 'foo=bar'"
+    default: ""
+  backend_config_file:
+    type: "string"
+    description: "Path to a backend config file"
+    default: ""
 
 executor: terraform-executor
 working_directory: "~/src"
@@ -41,9 +62,14 @@ steps:
         - attach_workspace:
             at: << parameters.workspace-root >>
   - init:
-      path: "."
+      path: << parameters.path >>
   - apply:
-      path: "."
+      path: << parameters.path >>
+      vars: << parameters.vars >>
+      var_file: << parameters.var_file >>
+      workspace: << parameters.workspace >>
+      backend_config: << parameters.backend_config >>
+      backend_config_file: << parameters.backend_config_file >>
   - when:
       condition: << parameters.persist-workspace >>
       steps:
