@@ -2,7 +2,7 @@ parameters:
   path:
     type: "string"
     description: "Path to the terraform module"
-    default: "/src"
+    default: "."
   vars:
     type: "string"
     description: "Comma separated list of vars to set, e.g. 'foo=bar,bas=foo'"
@@ -37,10 +37,6 @@ steps:
           echo "Path does not exist: \"$module_path\""
           exit 1
         fi
-        readonly workspace_parameter="<< parameters.workspace >>"
-        readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
-        export workspace
-        unset TF_WORKSPACE
         # the following is needed to process backend configs
         if [[ -n "<< parameters.backend_config_file >>" ]]; then
             for file in $(echo "<< parameters.backend_config_file >>" | tr ',' '\n'); do
