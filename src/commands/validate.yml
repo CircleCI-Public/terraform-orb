@@ -4,14 +4,18 @@ parameters:
   path:
     type: "string"
     description: "Path to the terraform module"
-    default: "/src"
+    default: "."
+
 steps:
-  # commands shouldn't assume init()
   - run:
       name: terraform validate
       command: |
         # 'path' is a required parameter, save it as module_path
         readonly module_path="<< parameters.path >>"
         export path=$module_path
-        # what is the significance of no color?
+        if [[ ! -d "$module_path" ]]; then
+          echo "Path does not exist: \"$module_path\""
+          exit 1
+        fi
+        terraform init -input=false -backend=false -no-color "$module_path"
         terraform validate -no-color "$module_path"
