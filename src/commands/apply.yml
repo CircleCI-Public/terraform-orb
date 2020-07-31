@@ -31,7 +31,7 @@ parameters:
     auto_approve:
     type: "boolean"
     description: "Automatically approve and apply plan"
-    default: false
+    default: true
 
 steps:
   - run:

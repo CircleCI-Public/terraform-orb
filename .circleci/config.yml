@@ -94,18 +94,26 @@ workflows:
           context: Terraform-orb-testing
           checkout: true
           path: "src/infra"
+          requires:
+            - terraform/init
       - terraform/validate:
           context: Terraform-orb-testing
           checkout: true
           path: "src/infra"
+          requires:
+            - terraform/fmt
       - terraform/plan:
           context: Terraform-orb-testing
           checkout: true
           path: "src/infra"
+          requires:
+            - terraform/validate
       - terraform/apply:
           context: Terraform-orb-testing
           checkout: true
           path: "src/infra"
+          requires:
+            - terraform/plan
       - hold-to-destroy:
           type: approval
           requires:
