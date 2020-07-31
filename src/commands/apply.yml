@@ -83,4 +83,4 @@ steps:
         done
         fi
         export PLAN_ARGS
-        terraform apply -auto-approve $PLAN_ARGS
+        terraform apply -auto-approve $PLAN_ARGS "$module_path"
