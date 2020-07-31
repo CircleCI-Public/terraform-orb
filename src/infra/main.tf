@@ -1,13 +1,8 @@
 provider "aws" {
   region = "us-west-1"
-}
 
-terraform {
-  backend "s3" {
-    bucket = "terracube"
-    key    = "terraform.tfstate"
-    region = "us-west-1"
-  }
+  # Allow any 2.x version of the AWS provider
+  version = "~> 2.0"
 }
 
 resource "aws_security_group" "instance" {
