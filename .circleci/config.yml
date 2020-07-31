@@ -116,7 +116,6 @@ workflows:
             - terraform/apply
       - terraform/destroy:
           context: Terraform-orb-testing
-          checkout: true
           path: "src/infra"
           requires:
             - hold-to-destroy
