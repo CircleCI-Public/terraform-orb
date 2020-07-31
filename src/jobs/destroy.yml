@@ -40,7 +40,7 @@ parameters:
     description: "Path to a backend config file"
     default: ""
 
-executor: terraform-executor
+executor: default
 
 steps:
   - when:

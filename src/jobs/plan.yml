@@ -20,7 +20,7 @@ parameters:
     description: "Persist files to (cci) workspace for use in subsequent jobs"
   workspace-path:
     default: "."
-    description: "Path of the workspace to persist to relative to workspace-root. "
+    description: "Path of the workspace to persist to relative to workspace-root."
     type: string
   checkout:
     type: boolean
@@ -48,7 +48,7 @@ parameters:
     description: "Path to a backend config file"
     default: ""
 
-executor: terraform-executor
+executor: default
 
 steps:
   - when:

@@ -19,7 +19,7 @@ parameters:
     default: false
     description: "Perform checkout as first step in job."
 
-executor: terraform-executor
+executor: default
 
 steps:
   - when:
