@@ -15,7 +15,7 @@ parameters:
   path:
     type: "string"
     description: "Path to the terraform module"
-    default: "/src"
+    default: "."
   checkout:
     type: boolean
     default: false
