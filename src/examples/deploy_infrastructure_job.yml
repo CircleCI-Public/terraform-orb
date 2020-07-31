@@ -1,0 +1,27 @@
+description: |
+  Deploy infrastructure by leveraging a sequence of commands to create and apply subseqent terraform plan.
+
+usage:
+  version: 2.1
+  jobs:
+    single-job-lifecycle:
+      executor: terraform/default
+      working_directory: "~/src"
+      steps:
+        - checkout
+        - terraform/init:
+            path: "."
+        - terraform/validate:
+            path: "."
+        - terraform/fmt:
+            path: "."
+        - terraform/plan:
+            path: "."
+        - terraform/apply:
+            path: "."
+        - terraform/destroy:
+            path: "."
+  workflows:
+    single-job-lifecycle:
+      jobs:
+        single-job-lifecycle
