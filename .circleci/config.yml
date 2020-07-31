@@ -26,7 +26,7 @@ jobs:
   #
   integration-test-1:
     # executor: orb-tools/ubuntu
-    executor: terraform/terraform-executor
+    executor: terraform/default
     steps:
       - checkout
       - terraform/init:
