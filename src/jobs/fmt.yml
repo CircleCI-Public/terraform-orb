@@ -4,11 +4,11 @@ description: >
 parameters:
   attach-workspace:
     default: false
-    description: "Do cool stuff with workspaces"
+    description: "Attach (CircleCI) workspace to job."
     type: boolean
   workspace-root:
     default: "."
-    description: "circleci workspaces...not terraform"
+    description: "Workspace root path that is either an absolute path or a path relative to the working directory. Defaults to '.' (the working directory)"
     type: string
   path:
     type: "string"
@@ -17,7 +17,7 @@ parameters:
   checkout:
     type: boolean
     default: false
-    description: "Perform git checkout"
+    description: "Perform checkout as first step in job."
 
 executor: terraform-executor
 

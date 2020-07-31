@@ -8,7 +8,7 @@ parameters:
     type: boolean
   workspace-root:
     default: "."
-    description: "circleci workspaces...not terraform"
+    description: "Workspace root path that is either an absolute path or a path relative to the working directory. Defaults to '.' (the working directory)"
     type: string
   path:
     type: "string"
@@ -20,13 +20,12 @@ parameters:
     description: "Persist files to (cci) workspace for use in subsequent jobs"
   workspace-path:
     default: "."
-    description: "circleci workspaces...not terraform"
+    description: "Path of the workspace to persist to relative to workspace-root. "
     type: string
   checkout:
     type: boolean
     default: true
-    description: |
-      Checkout as a first step? Default is true
+    description: "Perform checkout as first step in job."
   vars:
     type: "string"
     description: "Comma separated list of vars to set, e.g. 'foo=bar,bas=foo'"

@@ -19,7 +19,7 @@ parameters:
   checkout:
     type: boolean
     default: false
-    description: "Perform git checkout"
+    description: "Perform checkout as first step in job."
 
 executor: terraform-executor
 

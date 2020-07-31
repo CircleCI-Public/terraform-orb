@@ -17,7 +17,7 @@ parameters:
   checkout-code:
     type: boolean
     default: false
-    description: "Perform git checkout"
+    description: "Perform checkout as first step in job."
   vars:
     type: "string"
     description: "Comma separated list of vars to set, e.g. 'foo=bar,bas=foo'"

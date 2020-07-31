@@ -24,9 +24,8 @@ parameters:
     type: string
   checkout:
     type: boolean
-    default: true
-    description: |
-      Checkout as a first step? Default is true
+    default: false
+    description: "Perform checkout as first step in job."
   vars:
     type: "string"
     description: "Comma separated list of vars to set, e.g. 'foo=bar,bas=foo'"
