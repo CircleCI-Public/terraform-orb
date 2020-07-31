@@ -24,4 +24,4 @@ usage:
   workflows:
     single-job-lifecycle:
       jobs:
-        single-job-lifecycle
+        - single-job-lifecycle

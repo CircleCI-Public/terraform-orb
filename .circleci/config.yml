@@ -24,7 +24,7 @@ jobs:
   #
   # Rename this job and add more as needed.
   #
-  integration-test-1:
+  validate-command-sequence:
     # executor: orb-tools/ubuntu
     executor: terraform/default
     steps:
@@ -48,6 +48,12 @@ workflows:
           requires:
             - orb-tools/lint
 
+      - hold-for-dev-publish:
+          type: approval
+          requires:
+            - orb-tools/lint
+            - orb-tools/pack
+
       # release dev version of orb, for testing & possible publishing.
       # orb will be published as dev:alpha and dev:${CIRCLE_SHA1:0:7}.
       # requires a CircleCI API token to be stored as CIRCLE_TOKEN (default)
@@ -55,13 +61,15 @@ workflows:
       # store CIRCLE_TOKEN as a project env var or Contexts resource
       # if using Contexts, add your context below
       - orb-tools/publish-dev:
+          context: orb-publishing
           orb-name: circleci/terraform
           requires:
-            - orb-tools/pack
+            - hold-for-dev-publish
 
       # trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
       - orb-tools/trigger-integration-tests-workflow:
+          context: orb-publishing
           name: trigger-integration-dev
           requires:
             - orb-tools/publish-dev
@@ -76,13 +84,12 @@ workflows:
       # your integration test jobs go here: essentially, run all your orb's
       # jobs and commands to ensure they behave as expected. or, run other
       # integration tests of your choosing
+      - validate-command-sequence
 
-      # an example job
-      - integration-test-1
       - terraform/init:
-          path: "."
+          path: "/infra"
       - terraform/validate:
-          path: "."
+          path: "/infra"
 
       # publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"
@@ -91,13 +98,14 @@ workflows:
       # be skipped.
       # e.g. [semver:patch] will cause a patch version to be published.
       - orb-tools/dev-promote-prod-from-commit-subject:
+          context: orb-publishing
           orb-name: circleci/terraform
-
           add-pr-comment: false
           fail-if-semver-not-indicated: true
           publish-version-tag: false
           requires:
-            - integration-test-1
+            - terraform/init
+            - terraform/validate
           filters:
             branches:
               only: master
