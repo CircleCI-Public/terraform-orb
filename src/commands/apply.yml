@@ -27,11 +27,6 @@ parameters:
     type: "string"
     description: "Path to a backend config file"
     default: ""
-  auto_approve: &auto_approve
-    auto_approve:
-    type: "boolean"
-    description: "Automatically approve and apply plan"
-    default: true
 
 steps:
   - run:
@@ -88,9 +83,5 @@ steps:
         done
         fi
         export PLAN_ARGS
-        if [[ "<< parameters.auto_approve >>" == "true" ]];
-          echo "Automatically applying plan"
-          terraform apply -auto-approve $PLAN_ARGS
-        then
-          echo "Manual approval required"
-        fi
+        
+        terraform apply -auto-approve $PLAN_ARGS
