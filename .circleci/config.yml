@@ -130,10 +130,13 @@ workflows:
       # e.g. [semver:patch] will cause a patch version to be published.
       - orb-tools/dev-promote-prod-from-commit-subject:
           context: orb-publishing
-          orb-name: circleci/terraform
-          add-pr-comment: false
+          add-pr-comment: true
+          bot-token-variable: GHI_TOKEN
+          bot-user: cpe-bot
           fail-if-semver-not-indicated: true
-          publish-version-tag: false
+          publish-version-tag: true
+          ssh-fingerprints: 45:59:71:c6:c2:66:86:3f:7c:78:30:1b:ed:7d:f0:8d
+          orb-name: circleci/terraform
           requires:
             - terraform/init
             - terraform/validate
