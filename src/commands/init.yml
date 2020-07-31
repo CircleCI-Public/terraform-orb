@@ -1,8 +1,11 @@
+description: |
+  Execute 'terraform init' in directory specifed in 'path' parameter.
+
 parameters:
   path:
     type: "string"
     description: "Path to the terraform module"
-    default: "/src"
+    default: "."
   backend_config:
     type: "string"
     description: |

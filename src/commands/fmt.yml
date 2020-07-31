@@ -1,5 +1,5 @@
 description: |
-  Run terraform fmt
+  Execute 'terraform fmt' in specified module path.
 
 parameters:
   path:

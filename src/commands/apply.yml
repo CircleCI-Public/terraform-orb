@@ -1,11 +1,11 @@
 description: |
-  Apply Terraform manifest
+  Execute Terraform Apply to apply desired configuration changes to state.
 
 parameters:
   path:
     type: "string"
     description: "Path to the terraform module"
-    default: "/src"
+    default: "."
   vars:
     type: "string"
     description: "Comma separated list of vars to set, e.g. 'foo=bar,bas=foo'"

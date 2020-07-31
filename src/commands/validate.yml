@@ -1,4 +1,5 @@
-description: "Validate TF files"
+description: |
+  Execute 'terraform validate' against modules specified in 'path' variable.
 
 parameters:
   path:
