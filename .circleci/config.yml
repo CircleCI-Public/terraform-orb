@@ -88,10 +88,17 @@ workflows:
 
       - terraform/init:
           checkout: true
-          path: "/infra"
+          path: "src/infra"
+      - terraform/fmt:
+          checkout: true
+          path: "src/infra"
       - terraform/validate:
           checkout: true
-          path: "/infra"
+          path: "src/infra"
+      - terraform/plan:
+          checkout: true
+          path: "src/infra"
+
 
       # publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"
