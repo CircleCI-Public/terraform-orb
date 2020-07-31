@@ -1,5 +1,5 @@
 description: |
-  Execute Terraform Apply to apply desired configuration changes to state.
+  Execute 'terraform apply' to apply desired configuration changes to state.
 
 parameters:
   path:

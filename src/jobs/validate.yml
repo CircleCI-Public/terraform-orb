@@ -2,13 +2,13 @@ description: >
   Validate Terraform files
 
 parameters:
-  mount-workspace:
+  attach-workspace:
     default: false
-    description: "Do cool stuff with workspaces"
+    description: "Attach (CircleCI) workspace to job."
     type: boolean
-  workspace-root-dir:
+  workspace-root:
     default: "."
-    description: "circleci workspaces...not terraform"
+    description: "Workspace root path that is either an absolute path or a path relative to the working directory. Defaults to '.' (the working directory)"
     type: string
   path:
     type: "string"
@@ -28,10 +28,10 @@ steps:
       steps:
         - checkout
   - when:
-      condition: << parameters.mount-workspace >>
+      condition: << parameters.attach-workspace >>
       steps:
         - attach_workspace:
-            at: << parameters.workspace-root-dir >>
+            at: << parameters.workspace-root >>
   - init:
       path: << parameters.path >>
   - validate:

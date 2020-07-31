@@ -2,7 +2,7 @@ description: >
   Run terraform fmt
 
 parameters:
-  mount-workspace:
+  attach-workspace:
     default: false
     description: "Do cool stuff with workspaces"
     type: boolean
@@ -27,7 +27,7 @@ steps:
       steps:
         - checkout
   - when:
-      condition: << parameters.mount-workspace >>
+      condition: << parameters.attach-workspace >>
       steps:
         - attach_workspace:
             at: << parameters.workspace-root >>
