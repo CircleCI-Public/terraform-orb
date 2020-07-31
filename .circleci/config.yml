@@ -87,8 +87,10 @@ workflows:
       - validate-command-sequence
 
       - terraform/init:
+          checkout: true
           path: "/infra"
       - terraform/validate:
+          checkout: true
           path: "/infra"
 
       # publish a semver version of the orb. relies on
