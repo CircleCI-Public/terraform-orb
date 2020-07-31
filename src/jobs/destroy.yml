@@ -38,6 +38,7 @@ parameters:
   backend_config_file:
     type: "string"
     description: "Path to a backend config file"
+    default: ""
 
 executor: terraform-executor
 
