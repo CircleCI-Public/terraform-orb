@@ -1,0 +1,35 @@
+description: >
+  Run terraform fmt
+
+parameters:
+  attach-workspace:
+    default: false
+    description: "Attach (CircleCI) workspace to job."
+    type: boolean
+  workspace-root:
+    default: "."
+    description: "Workspace root path that is either an absolute path or a path relative to the working directory. Defaults to '.' (the working directory)"
+    type: string
+  path:
+    type: "string"
+    description: "Path to the terraform module"
+    default: "."
+  checkout:
+    type: boolean
+    default: false
+    description: "Perform checkout as first step in job."
+
+executor: default
+
+steps:
+  - when:
+      condition: << parameters.checkout >>
+      steps:
+        - checkout
+  - when:
+      condition: << parameters.attach-workspace >>
+      steps:
+        - attach_workspace:
+            at: << parameters.workspace-root >>
+  - fmt:
+      path: << parameters.path >>

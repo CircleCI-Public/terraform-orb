@@ -1,0 +1,37 @@
+description: >
+  Inits terraform directory
+  # What will this command do?
+  # Descriptions should be short, simple, and clear.
+
+parameters:
+  attach-workspace:
+    default: false
+    description: "Do cool stuff with workspaces"
+    type: boolean
+  workspace-root-dir:
+    default: "."
+    description: "circleci workspaces...not terraform"
+    type: string
+  path:
+    type: "string"
+    description: "Path to the terraform module"
+    default: "."
+  checkout:
+    type: boolean
+    default: false
+    description: "Perform checkout as first step in job."
+
+executor: default
+
+steps:
+  - when:
+      condition: << parameters.checkout >>
+      steps:
+        - checkout
+  - when:
+      condition: << parameters.attach-workspace >>
+      steps:
+        - attach_workspace:
+            at: << parameters.workspace-root-dir >>
+  - init:
+      path: << parameters.path >>

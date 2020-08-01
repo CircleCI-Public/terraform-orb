@@ -1,0 +1,34 @@
+description: |
+  Deploy infrastructure leveraging a sequence of jobs and workspaces to create and persist a terraform plan.
+
+  Apply will 'apply' the result of a terraform plan.
+
+usage:
+  version: 2.1
+  orbs:
+    terraform: circleci/terraform@dev:alpha
+  workflows:
+    deploy_infrastructure:
+      jobs:
+        - terraform/fmt:
+            checkout: true
+            context: terraform
+        - terraform/validate:
+            checkout: true
+            context: terraform
+            requires:
+              - terraform/fmt
+        - terraform/plan:
+            checkout: true
+            persist-workspace: true
+            context: terraform
+            requires:
+              - terraform/validate
+        - terraform/apply:
+            attach-workspace: true
+            context: terraform
+            requires:
+              - terraform/plan
+            filters:
+              branches:
+                only: master

@@ -1,0 +1,77 @@
+description: >
+  Execute terraform plan
+
+parameters:
+  attach-workspace:
+    default: false
+    description: "Attach (CircleCI) workspace to job."
+    type: boolean
+  workspace-root:
+    default: "."
+    description: "Workspace root path that is either an absolute path or a path relative to the working directory. Defaults to '.' (the working directory)"
+    type: string
+  path:
+    type: "string"
+    description: "Path to the terraform module"
+    default: "."
+  persist-workspace:
+    type: boolean
+    default: false
+    description: "Boolean parameter to indicate whether or not to attach to an existing workspace."
+  workspace-path:
+    default: "."
+    description: "Path of the workspace to persist to relative to workspace-root. "
+    type: string
+  checkout:
+    type: boolean
+    default: false
+    description: "Perform checkout as first step in job."
+  vars:
+    type: "string"
+    description: "Comma separated list of vars to set, e.g. 'foo=bar,bas=foo'"
+    default: ""
+  var_file:
+    type: "string"
+    description: "Comma separated list of var file paths"
+    default: ""
+  workspace:
+    type: "string"
+    description: "Name of the terraform workspace"
+    default: "default"
+  backend_config:
+    type: "string"
+    description: |
+      "Comma separated list of backend configs to set, e.g. 'foo=bar'"
+    default: ""
+  backend_config_file:
+    type: "string"
+    description: "Path to a backend config file"
+    default: ""
+
+executor: default
+steps:
+  - when:
+      condition: << parameters.checkout >>
+      steps:
+        - checkout
+  - when:
+      condition: << parameters.attach-workspace >>
+      steps:
+        - attach_workspace:
+            at: << parameters.workspace-root >>
+  - init:
+      path: << parameters.path >>
+  - apply:
+      path: << parameters.path >>
+      vars: << parameters.vars >>
+      var_file: << parameters.var_file >>
+      workspace: << parameters.workspace >>
+      backend_config: << parameters.backend_config >>
+      backend_config_file: << parameters.backend_config_file >>
+  - when:
+      condition: << parameters.persist-workspace >>
+      steps:
+        - persist_to_workspace:
+            paths:
+              - << parameters.workspace-path >>
+            root: << parameters.workspace-root >>
