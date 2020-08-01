@@ -82,4 +82,6 @@ steps:
         done
         fi
         export PLAN_ARGS
+        terraform init -input=false -no-color $INIT_ARGS "$module_path"
+        terraform workspace select -no-color "$workspace" "$module_path"
         terraform destroy -input=false -no-color -auto-approve $PLAN_ARGS
