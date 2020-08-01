@@ -123,6 +123,7 @@ workflows:
             - terraform/plan
             - terraform/apply
       - terraform/destroy:
+          checkout: true
           context: Terraform-orb-testing
           path: "src/infra"
           requires:
