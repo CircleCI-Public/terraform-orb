@@ -114,20 +114,6 @@ workflows:
           path: "src/infra"
           requires:
             - terraform/plan
-      - hold-to-destroy:
-          type: approval
-          requires:
-            - terraform/init
-            - terraform/fmt
-            - terraform/validate
-            - terraform/plan
-            - terraform/apply
-      - terraform/destroy:
-          checkout: true
-          context: Terraform-orb-testing
-          path: "src/infra"
-          requires:
-            - hold-to-destroy
 
       # publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"
