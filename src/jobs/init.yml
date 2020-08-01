@@ -1,7 +1,5 @@
 description: >
   Inits terraform directory
-  # What will this command do?
-  # Descriptions should be short, simple, and clear.
 
 parameters:
   attach-workspace:

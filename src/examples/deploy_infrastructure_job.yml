@@ -3,6 +3,8 @@ description: |
 
 usage:
   version: 2.1
+  orbs:
+    terraform: circleci/terraform@x.y.z
   jobs:
     single-job-lifecycle:
       executor: terraform/default
