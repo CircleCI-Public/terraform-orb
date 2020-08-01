@@ -14,7 +14,7 @@ parameters:
     type: "string"
     description: "Path to the terraform module"
     default: "."
-  checkout-code:
+  checkout:
     type: boolean
     default: false
     description: "Perform checkout as first step in job."
@@ -44,7 +44,7 @@ executor: default
 
 steps:
   - when:
-      condition: << parameters.checkout-code >>
+      condition: << parameters.checkout >>
       steps:
         - checkout
   - when:
