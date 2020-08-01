@@ -109,7 +109,6 @@ workflows:
           requires:
             - terraform/validate
       - terraform/apply:
-          persist-workspace: true
           context: Terraform-orb-testing
           checkout: true
           path: "src/infra"
@@ -124,7 +123,6 @@ workflows:
             - terraform/plan
             - terraform/apply
       - terraform/destroy:
-          attach-workspace: true
           context: Terraform-orb-testing
           path: "src/infra"
           requires:
