@@ -6,5 +6,6 @@ docker:
 
 parameters:
   image:
+    description: Specify Docker image for executor
     type: string
     default: hashicorp/terraform:light
