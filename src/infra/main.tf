@@ -25,9 +25,10 @@ resource "aws_instance" "example" {
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.instance.id]
   tags = {
-    Instance_Name = "Ave_Mundus"
+    Instance_Name    = "Ave_Mundus"
+    Instance_Purpose = var.purpose
   }
-  user_data              = <<-EOF
+  user_data = <<-EOF
               #!/bin/bash
               echo "<h1>Hello from CircleCI!</h1>" > index.html
               nohup busybox httpd -f -p 8080 &
