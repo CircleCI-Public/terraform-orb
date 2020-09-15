@@ -64,7 +64,7 @@ steps:
       path: << parameters.path >>
   - plan:
       path: << parameters.path >>
-      var: << parameters.vars >>
+      var: << parameters.var >>
       var_file: << parameters.var_file >>
       workspace: << parameters.workspace >>
       backend_config: << parameters.backend_config >>

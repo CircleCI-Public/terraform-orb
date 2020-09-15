@@ -24,6 +24,9 @@ resource "aws_instance" "example" {
   ami                    = "ami-059b818564104e5c6"
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.instance.id]
+  tags = {
+    Instance_Name = "Ave_Mundus"
+  }
   user_data              = <<-EOF
               #!/bin/bash
               echo "<h1>Hello from CircleCI!</h1>" > index.html
