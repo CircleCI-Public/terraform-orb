@@ -6,7 +6,7 @@ parameters:
     type: "string"
     description: "Path to the terraform module"
     default: "."
-  vars:
+  var:
     type: "string"
     description: "Comma separated list of var to set, e.g. 'foo=bar,bas=foo'"
     default: ""
