@@ -26,7 +26,7 @@ parameters:
     type: boolean
     default: false
     description: "Perform checkout as first step in job."
-  vars:
+  var:
     type: "string"
     description: "Comma separated list of vars to set, e.g. 'foo=bar,bas=foo'"
     default: ""
@@ -63,7 +63,7 @@ steps:
       path: << parameters.path >>
   - apply:
       path: << parameters.path >>
-      vars: << parameters.vars >>
+      var: << parameters.var >>
       var_file: << parameters.var_file >>
       workspace: << parameters.workspace >>
       backend_config: << parameters.backend_config >>
