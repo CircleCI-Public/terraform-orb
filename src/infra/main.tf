@@ -27,6 +27,7 @@ resource "aws_instance" "example" {
   tags = {
     Instance_Name    = "Ave_Mundus"
     Instance_Purpose = var.purpose
+    Instance_Role    = var.role
   }
   user_data = <<-EOF
               #!/bin/bash
