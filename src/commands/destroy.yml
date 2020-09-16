@@ -64,7 +64,7 @@ steps:
         export workspace
         unset TF_WORKSPACE
         rm -rf .terraform
-        erraform init -input=false -lock-timeout=300s -no-color $INIT_ARGS
+        terraform init -input=false -lock-timeout=300s -no-color $INIT_ARGS
         "$module_path"
         terraform workspace select -no-color "$workspace" "$module_path"
         if [[ -n "<< parameters.var >>" ]]; then
