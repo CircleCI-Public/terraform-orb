@@ -84,8 +84,7 @@ steps:
 
         rm -rf .terraform
 
-        terraform init -input=false -lock-timeout=300s -no-color $INIT_ARGS
-        "$module_path"
+        terraform init -input=false -lock-timeout=300s -no-color $INIT_ARGS "$module_path"
 
         terraform workspace select -no-color "$workspace" "$module_path"
 
@@ -112,5 +111,4 @@ steps:
 
         export PLAN_ARGS
 
-        terraform destroy -input=false -no-color -auto-approve
-        -lock-timeout=300s $PLAN_ARGS "$module_path"
+        terraform destroy -input=false -no-color -auto-approve -lock-timeout=300s $PLAN_ARGS "$module_path"
