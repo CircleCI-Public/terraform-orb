@@ -92,11 +92,6 @@ steps:
 
         terraform workspace select -no-color "$workspace" "$module_path"
 
-        if [[ "<< parameters.parallelism >>" -ne 0 ]]; then
-            PLAN_ARGS="$PLAN_ARGS -parallelism=<< parameters.parallelism >>"
-        fi
-
-
         if [[ -n "<< parameters.var >>" ]]; then
             for var in $(echo "<< parameters.var >>" | tr ',' '\n'); do
                 PLAN_ARGS="$PLAN_ARGS -var $var"
