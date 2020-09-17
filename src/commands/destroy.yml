@@ -82,8 +82,7 @@ steps:
 
         export workspace
 
-        unset TF_WORKSPACE
-
+        # unset TF_WORKSPACE
 
         rm -rf .terraform
 
