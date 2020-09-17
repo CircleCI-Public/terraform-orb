@@ -6,9 +6,9 @@ parameters:
     type: "string"
     description: "Path to the terraform module"
     default: "."
-  vars:
+  var:
     type: "string"
-    description: "Comma separated list of vars to set, e.g. 'foo=bar,bas=foo'"
+    description: "Comma separated list of var to set, e.g. 'foo=bar,bas=foo'"
     default: ""
   var_file:
     type: "string"
@@ -65,9 +65,9 @@ steps:
         unset TF_WORKSPACE
         terraform init -input=false -no-color $INIT_ARGS "$module_path"
         terraform workspace select -no-color "$workspace" "$module_path"
-        if [[ -n "<< parameters.vars >>" ]]; then
-            for vars in $(echo "<< parameters.vars >>" | tr ',' '\n'); do
-                PLAN_ARGS="$PLAN_ARGS -vars $vars"
+        if [[ -n "<< parameters.var >>" ]]; then
+            for var in $(echo "<< parameters.var >>" | tr ',' '\n'); do
+                PLAN_ARGS="$PLAN_ARGS -var $var"
             done
         fi
         if [[ -n "<< parameters.var_file >>" ]]; then
@@ -77,7 +77,7 @@ steps:
             elif [[ -f "$module_path/$file" ]]; then
                 PLAN_ARGS="$PLAN_ARGS -var-file=$module_path/$file"
             else
-                echo "vars file '$file' wasn't found" >&2
+                echo "var file '$file' wasn't found" >&2
                 exit 1
             fi
         done

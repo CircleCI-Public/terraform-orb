@@ -10,13 +10,7 @@ parameters:
 steps:
   - run:
       name: terraform validate
-      command: |
-        # 'path' is a required parameter, save it as module_path
-        readonly module_path="<< parameters.path >>"
-        export path=$module_path
-        if [[ ! -d "$module_path" ]]; then
-          echo "Path does not exist: \"$module_path\""
-          exit 1
-        fi
-        terraform init -input=false -backend=false -no-color "$module_path"
-        terraform validate -no-color "$module_path"
+      environment:
+        TF_PARAM_PATH: << parameters.path >>
+      command: <<include(scripts/validate.sh)>>
+
