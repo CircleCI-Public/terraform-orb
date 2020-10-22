@@ -61,6 +61,8 @@ steps:
             at: << parameters.workspace-root >>
   - init:
       path: << parameters.path >>
+      backend_config: << parameters.backend_config >>
+      backend_config_file: << parameters.backend_config_file >>
   - apply:
       path: << parameters.path >>
       var: << parameters.var >>
