@@ -87,7 +87,7 @@ workflows:
     jobs:
       # Run any integration tests defined within the `jobs` key.
       - validate-command-sequence
-      - validate-terraform-install
+      # - validate-terraform-install
       - terraform/init:
           context: Terraform-orb-testing
           checkout: true

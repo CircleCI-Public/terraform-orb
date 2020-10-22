@@ -13,5 +13,5 @@ steps:
       command: |
         wget https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_linux_amd64.zip
         unzip terraform_<< parameters.terraform_version >>_linux_amd64.zip
-        mv terraform ~/usr/local/bin
+        mv terraform /usr/local/bin
         terraform version
