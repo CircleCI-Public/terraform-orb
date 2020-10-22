@@ -2,8 +2,8 @@ description: |
   Execute 'terraform fmt' in specified module path.
 
 parameters:
-  path:
-    type: "terraform_version"
+  terraform_version:
+    type: "string"
     description: "Specify version of terraform to install."
     default: "0.13.5"
 
