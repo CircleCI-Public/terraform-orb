@@ -94,7 +94,7 @@ workflows:
           path: "src/infra"
           requires:
             - validate-command-sequence
-            - validate-terraform-install
+            # - validate-terraform-install
       - terraform/fmt:
           context: Terraform-orb-testing
           checkout: true
