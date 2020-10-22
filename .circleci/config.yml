@@ -35,6 +35,10 @@ jobs:
       - terraform/fmt:
           path: "."
           #checkout: true
+  validate-terraform-install:
+    machine: true
+    steps:
+      - terraform/install
 
 
 workflows:

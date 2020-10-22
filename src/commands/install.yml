@@ -1,0 +1,17 @@
+description: |
+  Execute 'terraform fmt' in specified module path.
+
+parameters:
+  path:
+    type: "terraform_version"
+    description: "Specify version of terraform to install."
+    default: "0.13.5"
+
+steps:
+  - run:
+      name: Install terraform binary
+      command: |
+        wget https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_linux_amd64.zip
+        unzip terraform_<< parameters.terraform_version >>_linux_amd64.zip
+        mv terraform ~/usr/local/bin
+        terraform version
