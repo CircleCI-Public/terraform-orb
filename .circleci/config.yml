@@ -25,7 +25,6 @@ parameters:
 jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
   validate-command-sequence:
-    # executor: orb-tools/ubuntu
     executor: terraform/default
     steps:
       - checkout
@@ -119,13 +118,16 @@ workflows:
           path: "src/infra"
           requires:
             - terraform/plan
-        # include approval job
+      - hold-destroy:
+          type: approval
+          requires:
+            - terraform/apply
       - terraform/destroy:
           context: Terraform-orb-testing
           checkout: true
           path: "src/infra"
           requires:
-            - terraform/apply
+            - hold-destroy
       # Publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"
       # as that will determine whether a patch, minor or major
