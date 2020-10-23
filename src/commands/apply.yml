@@ -38,12 +38,12 @@ steps:
       command: |
         # TODO sanitize input
         if [[ -n "<parameter.cli_config_file>" ]]; then
-            if [[ -f parameter.cli_config_file ]]
-                TF_CLI_CONFIG_FILE=<parameter.cli_config_file>
-            else
-                echo "Terraform cli config does not exist: \"<parameter.cli_config_file> \""
-                exit 1
-            fi
+          if [[ -f parameter.cli_config_file ]]
+            TF_CLI_CONFIG_FILE=<parameter.cli_config_file>
+          else
+            echo "Terraform cli config does not exist: \"<parameter.cli_config_file> \""
+            exit 1
+          fi
         fi
         # 'path' is a required parameter, save it as module_path
         readonly module_path="<< parameters.path >>"
