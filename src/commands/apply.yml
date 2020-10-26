@@ -36,6 +36,15 @@ steps:
   - run:
       name: terraform apply
       command: |
+        # Check CLI config file
+        if [[ -n "<< parameters.cli_config_file >>"]]; then
+            if [[ -f << parameters.cli_config_file >> ]]
+                << TF_CLI_CONFIG_FILE=<parameter.cli_config_file >>
+            else
+                echo "Terraform cli config does not exist: \"<< parameters.cli_config_file >>\""
+                exit 1
+            fi
+        fi
         # 'path' is a required parameter, save it as module_path
         readonly module_path="<< parameters.path >>"
         export path=$module_path
