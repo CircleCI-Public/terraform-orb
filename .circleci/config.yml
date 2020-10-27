@@ -109,6 +109,7 @@ workflows:
       - terraform/plan:
           context: Terraform-orb-testing
           checkout: true
+          workspace: foo
           path: "src/infra"
           requires:
             - terraform/validate
