@@ -95,5 +95,6 @@ steps:
         fi
         export PLAN_ARGS
         terraform init -input=false -no-color $INIT_ARGS "$module_path"
-        terraform workspace select -no-color "$workspace" "$module_path"
+        # if workspace does not exist, create one
+        terraform workspace select -no-color "$workspace" "$module_path" || terraform workspace new -no-color "$workspace" "$module_path"
         terraform apply -auto-approve $PLAN_ARGS "$module_path"
