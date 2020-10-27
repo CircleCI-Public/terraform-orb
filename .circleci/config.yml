@@ -116,6 +116,7 @@ workflows:
           context: Terraform-orb-testing
           checkout: true
           path: "src/infra"
+          cli_config_file: "~/src"
           requires:
             - terraform/plan
       - hold-destroy:
