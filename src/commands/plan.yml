@@ -78,7 +78,7 @@ steps:
         export workspace
         unset TF_WORKSPACE
         terraform init -input=false -no-color $INIT_ARGS "$module_path"
-        terraform workspace select -no-color "$workspace" "$module_path"
+        terraform workspace select -no-color "$workspace" "$module_path" || terraform workspace new -no-color "$workspace" "$module_path"
         if [[ -n "<< parameters.var >>" ]]; then
             for var in $(echo "<< parameters.var >>" | tr ',' '\n'); do
                 PLAN_ARGS="$PLAN_ARGS -var $var"
