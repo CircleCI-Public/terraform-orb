@@ -29,22 +29,23 @@ jobs:
     steps:
       - checkout
       - terraform/init:
-          path: "."
+          path: "src/infra"
       - terraform/fmt:
-          path: "."
+          path: "src/infra"
       - terraform/validate:
-          path: "."
+          path: "src/infra"
       - terraform/plan:
-          path: "."
+          path: "src/infra"
           workspace: "orb-testing"
       - terraform/apply:
-          path: "."
+          path: "src/infra"
           workspace: "orb-testing"
       - terraform/destroy:
-          path: "."
+          path: "src/infra"
           workspace: "orb-testing"
   validate-terraform-install:
-    machine: true
+    machine:
+      image: ubuntu-2004:202010-01
     steps:
       - terraform/install
 
