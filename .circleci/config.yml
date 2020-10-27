@@ -30,10 +30,19 @@ jobs:
       - checkout
       - terraform/init:
           path: "."
-          #checkout: true
       - terraform/fmt:
           path: "."
-          #checkout: true
+      - terraform/validate:
+          path: "."
+      - terraform/plan:
+          path: "."
+          workspace: "orb-testing"
+      - terraform/apply:
+          path: "."
+          workspace: "orb-testing"
+      - terraform/destroy:
+          path: "."
+          workspace: "orb-testing"
   validate-terraform-install:
     machine: true
     steps:
@@ -109,7 +118,6 @@ workflows:
       - terraform/plan:
           context: Terraform-orb-testing
           checkout: true
-          workspace: foo
           path: "src/infra"
           requires:
             - terraform/validate
