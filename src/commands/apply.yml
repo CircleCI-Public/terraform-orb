@@ -37,9 +37,11 @@ steps:
       name: terraform apply
       command: |
         # Check CLI config file
-        if [[ -n "<< parameters.cli_config_file >>"]]; then
-            if [[ -f << parameters.cli_config_file >> ]]; then
-                TF_CLI_CONFIG_FILE=<< parameters.cli_config_file >>
+        readonly cli_conf_path=<< parameters.cli_config_file >>
+
+        if [[ -n "<< parameters.cli_config_file >>" ]]; then
+            if [[ -f "<< parameters.cli_config_file >>" ]]; then
+                TF_CLI_CONFIG_FILE=cli_conf_path
             else
                 echo "Terraform cli config does not exist: \"<< parameters.cli_config_file >>\""
                 exit 1
