@@ -47,6 +47,10 @@ parameters:
     type: "string"
     description: "Path to a backend config file"
     default: ""
+  cli_config_file:
+    type: "string"
+    description: "Path to terraform cli config file"
+    default: ""
 
 executor: default
 
@@ -62,6 +66,9 @@ steps:
             at: << parameters.workspace-root >>
   - init:
       path: << parameters.path >>
+      backend_config: << parameters.backend_config >>
+      backend_config_file: << parameters.backend_config_file >>
+      cli_config_file: << parameters.cli_config_file >>
   - plan:
       path: << parameters.path >>
       var: << parameters.var >>
@@ -69,6 +76,7 @@ steps:
       workspace: << parameters.workspace >>
       backend_config: << parameters.backend_config >>
       backend_config_file: << parameters.backend_config_file >>
+      cli_config_file: << parameters.cli_config_file >>
   - when:
       condition: << parameters.persist-workspace >>
       steps:
