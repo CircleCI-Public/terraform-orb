@@ -99,7 +99,6 @@ workflows:
           context: Terraform-orb-testing
       - validate-terraform-install
       - terraform/init:
-          cli_config_file: "foo"
           context: Terraform-orb-testing
           checkout: true
           path: "src/infra"
