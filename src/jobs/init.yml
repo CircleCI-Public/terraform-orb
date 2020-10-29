@@ -18,6 +18,11 @@ parameters:
     type: boolean
     default: false
     description: "Perform checkout as first step in job."
+  cli_config_file:
+    type: "string"
+    description: "Path to terraform cli config file"
+    default: ""
+
 
 executor: default
 
@@ -33,3 +38,4 @@ steps:
             at: << parameters.workspace-root-dir >>
   - init:
       path: << parameters.path >>
+      cli_config_file: << parameters.cli_config_file >>

@@ -25,16 +25,35 @@ parameters:
 jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
   validate-command-sequence:
-    # executor: orb-tools/ubuntu
     executor: terraform/default
     steps:
       - checkout
       - terraform/init:
-          path: "."
-          #checkout: true
+          path: "src/infra"
       - terraform/fmt:
-          path: "."
-          #checkout: true
+          path: "src/infra"
+      - terraform/validate:
+          path: "src/infra"
+      - terraform/plan:
+          path: "src/infra"
+          workspace: "orb-testing"
+      - terraform/apply:
+          path: "src/infra"
+          workspace: "orb-testing"
+      - terraform/destroy:
+          path: "src/infra"
+          workspace: "orb-testing"
+  validate-terraform-install:
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - terraform/install
+  validate-terraform-install-old:
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - terraform/install:
+          terraform_version: "0.11.5"
 
 
 workflows:
@@ -82,11 +101,17 @@ workflows:
     when: << pipeline.parameters.run-integration-tests >>
     jobs:
       # Run any integration tests defined within the `jobs` key.
-      - validate-command-sequence
+      - validate-command-sequence:
+          context: Terraform-orb-testing
+      - validate-terraform-install
+      - validate-terraform-install-old
       - terraform/init:
           context: Terraform-orb-testing
           checkout: true
           path: "src/infra"
+          requires:
+            - validate-command-sequence
+            - validate-terraform-install
       - terraform/fmt:
           context: Terraform-orb-testing
           checkout: true
@@ -111,13 +136,16 @@ workflows:
           path: "src/infra"
           requires:
             - terraform/plan
-        # include approval job
+      - hold-destroy:
+          type: approval
+          requires:
+            - terraform/apply
       - terraform/destroy:
           context: Terraform-orb-testing
           checkout: true
           path: "src/infra"
           requires:
-            - terraform/apply
+            - hold-destroy
       # Publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"
       # as that will determine whether a patch, minor or major
