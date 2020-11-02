@@ -4,14 +4,40 @@ description: |
 parameters:
   terraform_version:
     type: "string"
-    description: "Specify version of terraform to install."
-    default: "0.13.5"
+    description: "Specify version of terraform to install. You can specify an exact version (eg, 0.13.5) or a minor version only (eg 0.13) if you want the latest matching version."
+    default: "0.13"
 
 steps:
   - run:
       name: Install terraform binary
       command: |
-        wget https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_linux_amd64.zip
-        unzip terraform_<< parameters.terraform_version >>_linux_amd64.zip
+        # Find the URL of the highest version with same prefix as $terraform_version
+        # The jq command does the following:
+        # 1. Convert the "versions" map into an array of {key, val} maps
+        # 2. Filter only matching versions
+        #   2a. Only matching the specified prefix
+        #   2b. All pre-release versions (beta, rc) excluded
+        # 3. Find the highest version number
+        # 4. Get the URL for linux/amd64 build
+        url=$(curl -s https://releases.hashicorp.com/terraform/index.json | \
+          jq -r \
+            '.versions |
+            to_entries |
+            map(select(
+                (.key | startswith("<< parameters.terraform_version>>")) and
+                (.key | test("^[0-9.]+$"; ""))
+            )) |
+            sort_by(
+              .key | split(".") | map(tonumber)
+            )[-1].value.builds |
+            map(select(
+              .os == "linux" and
+              .arch == "amd64"
+            ))[].url'
+        )
+        echo "Downloading $url"
+        curl -o terraform.zip "$url"
+        unzip terraform.zip
+        rm terraform.zip
         sudo mv terraform /usr/local/bin
         terraform version
