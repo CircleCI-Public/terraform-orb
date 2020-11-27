@@ -11,29 +11,20 @@ steps:
   - run:
       name: Install terraform binary
       command: |
-        # Find the URL of the highest version with same prefix as $terraform_version
-        # The jq command does the following:
-        # 1. Convert the "versions" map into an array of {key, val} maps
-        # 2. Filter only matching versions
-        #   2a. Only matching the specified prefix
-        #   2b. All pre-release versions (beta, rc) excluded
-        # 3. Find the highest version number
-        # 4. Get the URL for linux/amd64 build
+        os=$(uname -s | tr "[:upper:]" "[:lower:]")
+        arch=$(uname -m)
+        if [[ $arch = x86_64 ]] ; then
+          arch="amd64"
+        fi
+        # This is really hacky, but means we don't need to rely on jq.
         url=$(curl -s https://releases.hashicorp.com/terraform/index.json | \
-          jq -r \
-            '.versions |
-            to_entries |
-            map(select(
-                (.key | startswith("<< parameters.terraform_version>>")) and
-                (.key | test("^[0-9.]+$"; ""))
-            )) |
-            sort_by(
-              .key | split(".") | map(tonumber)
-            )[-1].value.builds |
-            map(select(
-              .os == "linux" and
-              .arch == "amd64"
-            ))[].url'
+          tr ',' '\n' | \
+          grep "https://" | \
+          grep "terraform_<< parameters.terraform_version >>\." | \
+          grep ${os}_${arch}.zip | \
+          sort --version-sort | \
+          tail -1 | \
+          cut -d\" -f4
         )
         echo "Downloading $url"
         curl -o terraform.zip "$url"
