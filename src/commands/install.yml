@@ -4,31 +4,14 @@ description: |
 parameters:
   terraform_version:
     type: "string"
-    description: "Specify version of terraform to install. You can specify an exact version (eg, 0.13.5) or a minor version only (eg 0.13) if you want the latest matching version."
-    default: "0.13"
+    description: "Specify version of terraform to install."
+    default: "0.13.5"
 
 steps:
   - run:
       name: Install terraform binary
       command: |
-        os=$(uname -s | tr "[:upper:]" "[:lower:]")
-        arch=$(uname -m)
-        if [[ $arch = x86_64 ]] ; then
-          arch="amd64"
-        fi
-        # This is really hacky, but means we don't need to rely on jq.
-        url=$(curl -s https://releases.hashicorp.com/terraform/index.json | \
-          tr ',' '\n' | \
-          grep "https://" | \
-          grep "terraform_<< parameters.terraform_version >>\." | \
-          grep ${os}_${arch}.zip | \
-          sort --version-sort | \
-          tail -1 | \
-          cut -d\" -f4
-        )
-        echo "Downloading $url"
-        curl -o terraform.zip "$url"
-        unzip terraform.zip
-        rm terraform.zip
+        wget https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_linux_amd64.zip
+        unzip terraform_<< parameters.terraform_version >>_linux_amd64.zip
         sudo mv terraform /usr/local/bin
         terraform version
