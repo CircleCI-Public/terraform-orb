@@ -18,6 +18,10 @@ parameters:
     type: boolean
     default: false
     description: "Perform checkout as first step in job."
+  backend:
+    type: boolean
+    description: "Enable backend configuration or not"
+    default: true
 
 executor: default
 
@@ -33,5 +37,6 @@ steps:
             at: << parameters.workspace-root >>
   - init:
       path: << parameters.path >>
+      backend: << parameters.backend >>
   - validate:
       path: << parameters.path >>
