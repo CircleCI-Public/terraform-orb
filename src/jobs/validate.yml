@@ -31,6 +31,10 @@ parameters:
     type: "string"
     description: "Path to terraform cli config file"
     default: ""
+  backend:
+    type: boolean
+    description: "Enable backend configuration or not"
+    default: true
 
 executor: default
 
@@ -49,5 +53,6 @@ steps:
       backend_config: << parameters.backend_config >>
       backend_config_file: << parameters.backend_config_file >>
       cli_config_file: << parameters.cli_config_file >>
+      backend: << parameters.backend >>
   - validate:
       path: << parameters.path >>
