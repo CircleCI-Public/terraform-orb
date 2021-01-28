@@ -6,6 +6,10 @@ parameters:
     type: "string"
     description: "Path to the terraform module"
     default: "."
+  recursive:
+    type: "boolean"
+    description: "Process files in subdirectories"
+    default: false
 
 steps:
   - run:
@@ -19,4 +23,4 @@ steps:
           echo "Path does not exist: \"$module_path\""
           exit 1
         fi
-        terraform fmt -no-color -check -diff "$module_path"
+        terraform fmt -no-color -check -diff <<# parameters.recursive >> -recursive <</ parameters.recursive >> "$module_path"
