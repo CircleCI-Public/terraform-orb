@@ -18,6 +18,10 @@ parameters:
     type: boolean
     default: false
     description: "Perform checkout as first step in job."
+  recursive:
+    type: "boolean"
+    description: "Process files in subdirectories"
+    default: false
 
 executor: default
 
@@ -33,3 +37,4 @@ steps:
             at: << parameters.workspace-root >>
   - fmt:
       path: << parameters.path >>
+      recursive: << parameters.recursive >>
