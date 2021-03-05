@@ -12,6 +12,16 @@ steps:
       name: Install terraform binary
       command: |
         wget https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_linux_amd64.zip
+        wget https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_SHA256SUMS.sig
+
+        # Validate checksum
+        expected_sha=$(cat terraform_<< parameters.terraform_version >>_SHA256SUMS.sig | grep "terraform_<< parameters.terraform_version >>_linux_amd64.zip" | awk '{print $1}')
+        download_sha=$(shasum -a 256 "terraform_<< parameters.terraform_version >>_linux_amd64.zip" | cut -d' ' -f1)
+        if [ $expected_sha != $download_sha ]; then
+          echo "Expected SHA256SUM does not match downloaded file, exiting."
+          exit 1
+        fi
+
         unzip terraform_<< parameters.terraform_version >>_linux_amd64.zip
         sudo mv terraform /usr/local/bin
         terraform version
