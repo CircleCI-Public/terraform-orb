@@ -51,8 +51,12 @@ parameters:
     type: "string"
     description: "Path to terraform cli config file"
     default: ""
+  executor:
+    type: "string"
+    description: "Executor to use in job"
+    default: default
 
-executor: default
+executor: << parameters.executor >>
 steps:
   - when:
       condition: << parameters.checkout >>
