@@ -56,7 +56,8 @@ parameters:
     description: "Executor to use in job"
     default: "default"
 
-executor: << parameters.executor >>
+executor:
+  name: << parameters.executor >>
 steps:
   - when:
       condition: << parameters.checkout >>
