@@ -11,7 +11,8 @@ steps:
   - run:
       name: Install terraform binary
       command: |
+        if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
         wget https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_linux_amd64.zip
         unzip terraform_<< parameters.terraform_version >>_linux_amd64.zip
-        sudo mv terraform /usr/local/bin
+        $SUDO mv terraform /usr/local/bin
         terraform version
