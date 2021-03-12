@@ -1,18 +1,23 @@
 description: |
-  Install specified version of terraform.
+  Install specified version of terraform. If unspecified, the latest version will be installed.
 
 parameters:
   terraform_version:
     type: "string"
     description: "Specify version of terraform to install."
-    default: "0.13.5"
+    default: "latest"
+  platform:
+    type: enum
+    description: |
+      Specify the target platform to install Terraform to. By default, linux_amd64 will be used.
+      Options: [linux_amd64, linux_arm]
+    enum: [linux_amd64, linux_arm]
+    default: "linux_amd64"
 
 steps:
   - run:
       name: Install terraform binary
-      command: |
-        if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
-        wget https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_linux_amd64.zip
-        unzip terraform_<< parameters.terraform_version >>_linux_amd64.zip
-        $SUDO mv terraform /usr/local/bin
-        terraform version
+      environment:
+        TF_PARAM_VERSION: <<parameters.terraform_version>>
+        TF_PARAM_PLATFORM: <<parameters.platform>>
+      command: <<include(scripts/install.sh)>>
