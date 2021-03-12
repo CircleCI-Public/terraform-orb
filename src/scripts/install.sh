@@ -1,6 +1,6 @@
 if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
 if [[ $TF_PARAM_VERSION == "latest" ]]; then
-  TF_PARAM_VERSION="$(curl -Ls -w '%{url_effective}' "https://releases.hashicorp.com/terraform/" | grep -m1 -Eo 'terraform_[0-9]+.[0-9]+.[0-9]+<' | grep -m1 -Eo [0-9]+.[0-9]+.[0-9]+)"
+  TF_PARAM_VERSION=$(curl -Ls -w '%{url_effective}' "https://releases.hashicorp.com/terraform/" | grep -m1 -Eo 'terraform_[0-9]+.[0-9]+.[0-9]+<' | grep -m1 -Eo '[0-9]+.[0-9]+.[0-9]+')
   echo "Latest version of jq is $TF_PARAM_VERSION"
 fi
 
