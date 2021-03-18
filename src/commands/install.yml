@@ -6,13 +6,21 @@ parameters:
     type: "string"
     description: "Specify version of terraform to install."
     default: "0.13.5"
+  os:
+    type: string
+    description: "specify the operating system version to install [linux, darwin, windows]"
+    default: "linux"
+  arch:
+    type: string
+    description: "specify the platform architecture to install [amd64, arm64, arm, 386]"
+    default: "amd64"
 
 steps:
   - run:
       name: Install terraform binary
       command: |
         if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
-        wget https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_linux_amd64.zip
-        unzip terraform_<< parameters.terraform_version >>_linux_amd64.zip
+        wget https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_<< parameters.os >>_<< parameters.arch >>.zip
+        unzip terraform_<< parameters.terraform_version >>_<< parameters.os >>_<< parameters.arch >>.zip
         $SUDO mv terraform /usr/local/bin
         terraform version
