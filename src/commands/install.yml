@@ -7,13 +7,15 @@ parameters:
     description: "Specify version of terraform to install."
     default: "0.13.5"
   os:
-    type: string
-    description: "specify the operating system version to install [linux, darwin, windows]"
+    type: enum
+    description: "specify the operating system version to install. Must one of these values: linux, darwin"
     default: "linux"
+    enum: ["linux", "darwin"]
   arch:
-    type: string
-    description: "specify the platform architecture to install [amd64, arm64, arm, 386]"
+    type: enum
+    description: "specify the platform architecture to install. Must one of these values: amd64, arm64"
     default: "amd64"
+    enum: ["amd64", "arm64"]
 
 steps:
   - run:
