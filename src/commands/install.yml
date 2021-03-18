@@ -23,6 +23,7 @@ steps:
           exit 1
         fi
 
+        if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
         unzip terraform_<< parameters.terraform_version >>_linux_amd64.zip
-        sudo mv terraform /usr/local/bin
+        $SUDO mv terraform /usr/local/bin
         terraform version
