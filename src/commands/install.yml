@@ -23,6 +23,6 @@ steps:
       command: |
         if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
         wget -P /tmp https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_<< parameters.os >>_<< parameters.arch >>.zip
-        unzip -o terraform_<< parameters.terraform_version >>_<< parameters.os >>_<< parameters.arch >>.zip -d /tmp
+        unzip -o /tmp/terraform_<< parameters.terraform_version >>_<< parameters.os >>_<< parameters.arch >>.zip -d /tmp
         $SUDO mv /tmp/terraform /usr/local/bin
         terraform version
