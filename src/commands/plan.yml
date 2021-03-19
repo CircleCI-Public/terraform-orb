@@ -77,7 +77,7 @@ steps:
         fi
         export INIT_ARGS
         # Test for saving state locally vs a remote state storage
-        if [[ -n "<< parameters.local_state >> "]]; then
+        if [[ -n "<< parameters.local_state >>" ]]; then
           readonly workspace_parameter="<< parameters.workspace >>"
           readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
           export workspace
