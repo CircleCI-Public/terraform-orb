@@ -34,6 +34,10 @@ parameters:
     type: "string"
     description: "Comma separated list of var file paths"
     default: ""
+  local_state:
+    type: "boolean"
+    description: "Save the Terraform state locally or remote backend. If a remote backend is defined in Terraform code this should be false."
+    default: true
   workspace:
     type: "string"
     description: "Name of the terraform workspace"
@@ -72,6 +76,7 @@ steps:
       path: << parameters.path >>
       var: << parameters.var >>
       var_file: << parameters.var_file >>
+      local_state: << parameters.local_state >>
       workspace: << parameters.workspace >>
       backend_config: << parameters.backend_config >>
       backend_config_file: << parameters.backend_config_file >>

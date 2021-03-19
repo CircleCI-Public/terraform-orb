@@ -16,7 +16,7 @@ parameters:
     default: ""
   local_state:
     type: "boolean"
-    description: "Save the Terraform state locally or remote backend"
+    description: "Save the Terraform state locally or remote backend. If a remote backend is defined in Terraform code this should be false."
     default: true
   workspace:
     type: "string"
@@ -76,7 +76,7 @@ steps:
             done
         fi
         export INIT_ARGS
-        # Test for saving state locally vs a remote state storage
+        # Test for saving state locally vs a remote state backend storage
         export LOCAL_STATE=<< parameters.local_state >>
         if [[ $LOCAL_STATE = true ]]; then
           readonly workspace_parameter="<< parameters.workspace >>"
