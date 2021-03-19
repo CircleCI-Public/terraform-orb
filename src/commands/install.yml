@@ -8,12 +8,12 @@ parameters:
     default: "0.13.5"
   os:
     type: enum
-    description: "specify the operating system version to install. Must be one of these values: linux, darwin"
+    description: "Specify the operating system version to install. Must be one of these values: linux, darwin"
     default: "linux"
     enum: ["linux", "darwin"]
   arch:
     type: enum
-    description: "specify the platform architecture to install. Must be one of these values: amd64, arm64"
+    description: "Specify the platform architecture to install. Must be one of these values: amd64, arm64"
     default: "amd64"
     enum: ["amd64", "arm64"]
 
