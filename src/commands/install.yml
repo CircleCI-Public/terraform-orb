@@ -22,7 +22,7 @@ steps:
       name: Install terraform binary
       command: |
         if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
-        wget https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_<< parameters.os >>_<< parameters.arch >>.zip
-        unzip terraform_<< parameters.terraform_version >>_<< parameters.os >>_<< parameters.arch >>.zip
-        $SUDO mv terraform /usr/local/bin
+        wget -P /tmp https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_<< parameters.os >>_<< parameters.arch >>.zip
+        unzip -o terraform_<< parameters.terraform_version >>_<< parameters.os >>_<< parameters.arch >>.zip -d /tmp
+        $SUDO mv /tmp/terraform /usr/local/bin
         terraform version
