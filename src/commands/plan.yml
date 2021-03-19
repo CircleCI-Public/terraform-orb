@@ -53,7 +53,6 @@ steps:
         # 'path' is a required parameter, save it as module_path
         readonly module_path="<< parameters.path >>"
         export path=$module_path
-
         if [[ ! -d "$module_path" ]]; then
           echo "Path does not exist: \"$module_path\""
           exit 1
@@ -76,11 +75,9 @@ steps:
                 INIT_ARGS="$INIT_ARGS -backend-config=$config"
             done
         fi
-
         export INIT_ARGS
-
         # Test for saving state locally vs a remote state storage
-        if [[ -n "<< paramters.local_state >> "]]; then
+        if [[ -n "<< parameters.local_state >> "]]; then
           readonly workspace_parameter="<< parameters.workspace >>"
           readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
           export workspace
@@ -88,7 +85,6 @@ steps:
           terraform init -input=false -no-color $INIT_ARGS "$module_path"
           terraform workspace select -no-color "$workspace" "$module_path" || terraform workspace new -no-color "$workspace" "$module_path"
         fi
-        
         if [[ -n "<< parameters.var >>" ]]; then
             for var in $(echo "<< parameters.var >>" | tr ',' '\n'); do
                 PLAN_ARGS="$PLAN_ARGS -var $var"
