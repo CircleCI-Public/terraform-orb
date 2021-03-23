@@ -4,7 +4,6 @@ orbs:
   # Replace this with your own!
   terraform: circleci/terraform@<<pipeline.parameters.dev-orb-version>>
   orb-tools: circleci/orb-tools@10.0
-  bats: circleci/bats@1.0
   shellcheck: circleci/shellcheck@2.0
 
 # Pipeline Parameters
@@ -55,7 +54,6 @@ jobs:
       - terraform/install:
           terraform_version: "0.11.5"
 
-
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
   # This workflow will run on every commit
@@ -67,24 +65,16 @@ workflows:
       - shellcheck/check:
           dir: ./src/scripts
           exclude: SC2148
-      # optional: Run BATS tests against your scripts
-      # - bats/run:
-      #     path: ./src/tests
-      # If you accept building open source forks, protect your secrects behind a restricted context.
-      # A job containing restricted context (which holds your orb publishing credentials) may only be accessed by a user with proper permissions.
-      # An open source user may begin a pipeline with a PR, and once the pipeline is approved by an authorized user at this point, the pipeline will continue with the proper context permissions.
-      - hold-for-dev-publish:
-          type: approval
-          requires:
-            - orb-tools/lint
-            - orb-tools/pack
-            # - bats/run
-            - shellcheck/check
+
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
           orb-name: circleci/terraform
           context: orb-publishing # A restricted context containing your private publishing credentials. Will only execute if approved by an authorized user.
-          requires: [hold-for-dev-publish]
+          requires:
+            - orb-tools/lint
+            - orb-tools/pack
+            - shellcheck/check
+            
       # Trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
       - orb-tools/trigger-integration-tests-workflow:
@@ -136,16 +126,12 @@ workflows:
           path: "src/infra"
           requires:
             - terraform/plan
-      - hold-destroy:
-          type: approval
-          requires:
-            - terraform/apply
       - terraform/destroy:
           context: Terraform-orb-testing
           checkout: true
           path: "src/infra"
           requires:
-            - hold-destroy
+            - terraform/apply
       # Publish a semver version of the orb. relies on
       # the commit subject containing the text "[semver:patch|minor|major|skip]"
       # as that will determine whether a patch, minor or major
