@@ -114,18 +114,21 @@ workflows:
           context: Terraform-orb-testing
           checkout: true
           path: "src/infra"
+          workspace: "orb-testing"
           requires:
             - terraform/validate
       - terraform/apply:
           context: Terraform-orb-testing
           checkout: true
           path: "src/infra"
+          workspace: "orb-testing"
           requires:
             - terraform/plan
       - terraform/destroy:
           context: Terraform-orb-testing
           checkout: true
           path: "src/infra"
+          workspace: "orb-testing"
           requires:
             - terraform/apply
       # Publish a semver version of the orb. relies on
