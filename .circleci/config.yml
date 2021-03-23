@@ -5,7 +5,6 @@ orbs:
   terraform: circleci/terraform@<<pipeline.parameters.dev-orb-version>>
   orb-tools: circleci/orb-tools@10.0
   shellcheck: circleci/shellcheck@2.0
-
 # Pipeline Parameters
 ## These parameters are used internally by orb-tools. Skip to the Jobs section.
 parameters:
@@ -65,7 +64,6 @@ workflows:
       - shellcheck/check:
           dir: ./src/scripts
           exclude: SC2148
-
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
           orb-name: circleci/terraform
@@ -74,7 +72,6 @@ workflows:
             - orb-tools/lint
             - orb-tools/pack
             - shellcheck/check
-            
       # Trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
       - orb-tools/trigger-integration-tests-workflow:
@@ -82,7 +79,6 @@ workflows:
           context: orb-publishing
           requires:
             - orb-tools/publish-dev
-
   # This `integration-test_deploy` workflow will only run
   # when the run-integration-tests pipeline parameter is set to true.
   # It is meant to be triggered by the "trigger-integration-tests-workflow"
