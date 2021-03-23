@@ -55,6 +55,10 @@ parameters:
     type: "string"
     description: "Path to terraform cli config file"
     default: ""
+  ci-executor:
+    type: "executor"
+    description: "Executor to use"
+    default: "default"
 
 executor: default
 steps:
