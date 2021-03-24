@@ -14,10 +14,6 @@ parameters:
     type: "string"
     description: "Comma separated list of var file paths"
     default: ""
-  local_state:
-    type: "boolean"
-    description: "Save the Terraform state locally or remote backend. If a remote backend is defined in Terraform code this should be false."
-    default: true
   workspace:
     type: "string"
     description: "Name of the terraform workspace"
@@ -106,9 +102,10 @@ steps:
         export TF_SELECT_WORKSPACE=$(terraform workspace select default 2>&1)
         if [[ $TF_SELECT_WORKSPACE != *"workspaces not supported"* ]]; then
           # if workspace does not exist, create one
-          terraform workspace select -no-color "$workspace" "$module_path"
+          echo "[info] Using local state."
+          terraform workspace select -no-color "$workspace" "$module_path" || terraform workspace new -no-color "$workspace" "$module_path"
         else
-          echo "Remote State Backend Enabled"
+          echo "[info] Remote State Backend Enabled"
         fi
         if [[ -n "<< parameters.var >>" ]]; then
             for var in $(echo "<< parameters.var >>" | tr ',' '\n'); do
