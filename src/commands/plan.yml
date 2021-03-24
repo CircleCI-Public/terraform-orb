@@ -76,15 +76,19 @@ steps:
             done
         fi
         export INIT_ARGS
+
+        readonly workspace_parameter="<< parameters.workspace >>"
+        readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
+        export workspace
+        unset TF_WORKSPACE
+        terraform init -input=false -no-color $INIT_ARGS "$module_path"
         # Test for saving state locally vs a remote state backend storage
-        export LOCAL_STATE=<< parameters.local_state >>
-        if [[ $LOCAL_STATE = true ]]; then
-          readonly workspace_parameter="<< parameters.workspace >>"
-          readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
-          export workspace
-          unset TF_WORKSPACE
-          terraform init -input=false -no-color $INIT_ARGS "$module_path"
+        export TF_SELECT_WORKSPACE=$(terraform workspace select default 2>&1)
+        if [[ $TF_SELECT_WORKSPACE != *"workspaces not supported"* ]]; then
+          # if workspace does not exist, create one
           terraform workspace select -no-color "$workspace" "$module_path" || terraform workspace new -no-color "$workspace" "$module_path"
+        else
+          echo "Remote State Backend Enabled"
         fi
         if [[ -n "<< parameters.var >>" ]]; then
             for var in $(echo "<< parameters.var >>" | tr ',' '\n'); do
