@@ -86,7 +86,7 @@ steps:
           terraform workspace select -no-color "$workspace" "$module_path" || terraform workspace new -no-color "$workspace" "$module_path"
         else
           echo "[INFO] Remote State Backend Enabled"
-        if
+        fi
 
         if [[ -n "<< parameters.var >>" ]]; then
             for var in $(echo "<< parameters.var >>" | tr ',' '\n'); do
