@@ -17,7 +17,7 @@ parameters:
   workspace:
     type: "string"
     description: "Name of the terraform workspace"
-    default: "default"
+    default: ""
   backend_config:
     type: "string"
     description: |
@@ -96,12 +96,10 @@ steps:
         export PLAN_ARGS
         terraform init -input=false -no-color $INIT_ARGS "$module_path"
         # Test for saving state locally vs a remote state backend storage
-        export TF_SELECT_WORKSPACE=$(terraform workspace select default 2>&1)
-        if [[ $TF_SELECT_WORKSPACE != *"workspaces not supported"* ]]; then
-          # if workspace does not exist, create one
-          echo "[info] Using local state."
+        if [[ $workspace_parameter != "" ]]; then
+          echo "[INFO] Provisioning local workspace: $workspace"
           terraform workspace select -no-color "$workspace" "$module_path" || terraform workspace new -no-color "$workspace" "$module_path"
         else
-          echo "[info] Remote State Backend Enabled"
+          echo "[INFO] Remote State Backend Enabled"
         fi
         terraform apply -auto-approve $PLAN_ARGS "$module_path"
