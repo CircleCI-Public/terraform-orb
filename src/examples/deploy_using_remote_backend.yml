@@ -1,0 +1,40 @@
+description: |
+  Deploy infrastructure that uses a remote backend to manage state. This example uses a Terraform Cloud example and references a remote.hcl file to specify the backend config.
+
+usage:
+  version: 2.1
+  orbs:
+    terraform: circleci/terraform@x.y.z
+  jobs:
+    single-job-lifecycle:
+      executor: terraform/default
+      working_directory: "~/src"
+      steps:
+        - checkout
+        - run:
+            name: "Create .terraformrc file locally"
+            command: echo "credentials \"app.terraform.io\" {token = \"$TERRAFORM_TOKEN\"}" > $HOME/.terraformrc
+        - terraform/install:
+            terraform_version: "0.14.2"
+            arch: "amd64"
+            os: "linux"
+        - terraform/fmt:
+            path: "."
+        - terraform/validate:
+            path: "."
+        - terraform/init:
+            path: "."
+            backend: true
+            backend_config_file: backend.hcl #See the Using CLI Input section for details on creating backend configuration file: https://www.terraform.io/docs/language/settings/backends/remote.html#using-cli-input
+        - terraform/plan:
+            path: "."
+            backend_config_file: backend.hcl
+        - terraform/apply:
+            path: "."
+            backend_config_file: backend.hcl
+        - terraform/destroy:
+            path: "."
+  workflows:
+    single-job-lifecycle:
+      jobs:
+        - single-job-lifecycle

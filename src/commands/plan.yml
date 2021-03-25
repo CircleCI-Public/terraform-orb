@@ -17,7 +17,7 @@ parameters:
   workspace:
     type: "string"
     description: "Name of the terraform workspace"
-    default: "default"
+    default: ""
   backend_config:
     type: "string"
     description: |
@@ -49,7 +49,6 @@ steps:
         # 'path' is a required parameter, save it as module_path
         readonly module_path="<< parameters.path >>"
         export path=$module_path
-
         if [[ ! -d "$module_path" ]]; then
           echo "Path does not exist: \"$module_path\""
           exit 1
@@ -73,12 +72,22 @@ steps:
             done
         fi
         export INIT_ARGS
+
         readonly workspace_parameter="<< parameters.workspace >>"
         readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
         export workspace
         unset TF_WORKSPACE
+
         terraform init -input=false -no-color $INIT_ARGS "$module_path"
-        terraform workspace select -no-color "$workspace" "$module_path" || terraform workspace new -no-color "$workspace" "$module_path"
+
+        # Test for saving state locally vs a remote state backend storage
+        if [[ $workspace_parameter != "" ]]; then
+          echo "[INFO] Provisioning local workspace: $workspace"
+          terraform workspace select -no-color "$workspace" "$module_path" || terraform workspace new -no-color "$workspace" "$module_path"
+        else
+          echo "[INFO] Remote State Backend Enabled"
+        fi
+
         if [[ -n "<< parameters.var >>" ]]; then
             for var in $(echo "<< parameters.var >>" | tr ',' '\n'); do
                 PLAN_ARGS="$PLAN_ARGS -var $var"

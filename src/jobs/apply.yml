@@ -37,7 +37,7 @@ parameters:
   workspace:
     type: "string"
     description: "Name of the terraform workspace"
-    default: "default"
+    default: ""
   backend_config:
     type: "string"
     description: |
