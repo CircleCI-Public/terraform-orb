@@ -106,4 +106,4 @@ steps:
         done
         fi
         export PLAN_ARGS
-        terraform plan -input=false -no-color -out=plan.out $PLAN_ARGS "$module_path"
+        terraform -chdir="$module_path" plan -input=false -no-color -out=plan.out $PLAN_ARGS
