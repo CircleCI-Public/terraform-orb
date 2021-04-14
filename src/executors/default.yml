@@ -1,11 +1,11 @@
 description: >
-  Simple Docker based Terraform executor.
+  Official Hashicorp Terraform docker container.
 
 docker:
-  - image: '<< parameters.image >>'
+  - image: hashicorp/terraform:<<parameters.tag>>
 
 parameters:
-  image:
-    description: Specify Docker image for executor
+  tag:
+    description: Specify the hashicorp/terraform docker tag to use.
     type: string
-    default: hashicorp/terraform:light
+    default: "0.15.0"

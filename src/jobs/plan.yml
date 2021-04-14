@@ -51,8 +51,14 @@ parameters:
     type: "string"
     description: "Path to terraform cli config file"
     default: ""
+  tf-version:
+    description: Specify the hashicorp/terraform docker tag to use for the executor.
+    type: string
+    default: "0.15.0"
 
-executor: default
+executor:
+  name: default
+  tag: <<parameters.tf-version>>
 
 steps:
   - when:
