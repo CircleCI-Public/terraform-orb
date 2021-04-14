@@ -5,66 +5,14 @@ parameters:
   path:
     type: "string"
     description: "Path to the terraform module"
-    default: "."
-  backend:
-    type: "boolean"
-    description: "Enable backend configuration or not"
-    default: true
-  backend_config:
+    default: "$PWD"
+  args:
     type: "string"
-    description: |
-      "Comma separated list of backend configs to set, e.g. 'foo=bar'"
-    default: ""
-  backend_config_file:
-    type: "string"
-    description: "Path to a backend config file"
-    default: ""
-  cli_config_file:
-    type: "string"
-    description: "Path to terraform cli config file"
+    description: "Add addtional arguments to the terraform init command"
     default: ""
 
 steps:
   - run:
       name: terraform init
       command: |
-        # Check CLI config file
-        if [[ -n "<< parameters.cli_config_file >>" ]]; then
-            if [[ -f "<< parameters.cli_config_file >>" ]]; then
-                export TF_CLI_CONFIG_FILE=<< parameters.cli_config_file >>
-            else
-                echo "Terraform cli config does not exist: \"<< parameters.cli_config_file >>\""
-                exit 1
-            fi
-        fi
-        # 'path' is a required parameter, save it as module_path
-        readonly module_path="<< parameters.path >>"
-        export path=$module_path
-
-        export backend="<< parameters.backend >>"
-
-        if [[ ! -d "$module_path" ]]; then
-          echo "Path does not exist: \"$module_path\""
-          exit 1
-        fi
-
-        # Initialize terraform
-        if [[ -n "<< parameters.backend_config_file >>" ]]; then
-            for file in $(echo "<< parameters.backend_config_file >>" | tr ',' '\n'); do
-                if [[ -f "$file" ]]; then
-                    INIT_ARGS="$INIT_ARGS -backend-config=$file"
-                elif [[ -f "$module_path/$file" ]]; then
-                    INIT_ARGS="$INIT_ARGS -backend-config=$module_path/$file"
-                else
-                    echo "Backend config '$file' wasn't found" >&2
-                    exit 1
-                fi
-            done
-        fi
-        if [[ -n "<< parameters.backend_config >>" ]]; then
-            for config in $(echo "<< parameters.backend_config >>" | tr ',' '\n'); do
-                INIT_ARGS="$INIT_ARGS -backend-config=$config"
-            done
-        fi
-        export INIT_ARGS
-        terraform init -input=false -no-color -backend=$backend $INIT_ARGS "$module_path"
+        terraform init -input=false -no-color -chdir="<<parameters.path>>" <<parameters.args>>
