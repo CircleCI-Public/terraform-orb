@@ -17,7 +17,7 @@ parameters:
   workspace:
     type: "string"
     description: "Name of the terraform workspace"
-    default: "default"
+    default: ""
   backend_config:
     type: "string"
     description: |
@@ -98,9 +98,13 @@ steps:
         rm -rf .terraform
 
         terraform init -input=false -lock-timeout=300s -no-color $INIT_ARGS "$module_path"
-
-        terraform workspace select -no-color "$workspace" "$module_path"
-
+        # Test for saving state locally vs a remote state backend storage
+        if [[ $workspace_parameter != "" ]]; then
+          echo "[INFO] Provisioning local workspace: $workspace"
+          terraform workspace select -no-color "$workspace" "$module_path"
+        else
+          echo "[INFO] Remote State Backend Enabled"
+        fi
         if [[ -n "<< parameters.var >>" ]]; then
             for var in $(echo "<< parameters.var >>" | tr ',' '\n'); do
                 PLAN_ARGS="$PLAN_ARGS -var $var"
