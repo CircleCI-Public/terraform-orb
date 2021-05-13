@@ -8,4 +8,4 @@ parameters:
   image:
     description: Specify Docker image for executor
     type: string
-    default: hashicorp/terraform:0.14.11
+    default: hashicorp/terraform:0.14.11 # update commands/install when updating this
