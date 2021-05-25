@@ -38,6 +38,7 @@ jobs:
       - terraform/apply:
           path: "src/infra"
           workspace: "orb-testing"
+          plan_file: plan.out
       - terraform/destroy:
           path: "src/infra"
           workspace: "orb-testing"
@@ -115,6 +116,7 @@ workflows:
           checkout: true
           path: "src/infra"
           workspace: "orb-testing"
+          persist-workspace: true
           requires:
             - terraform/validate
       - terraform/apply:
@@ -122,6 +124,8 @@ workflows:
           checkout: true
           path: "src/infra"
           workspace: "orb-testing"
+          attach-workspace: true
+          plan_file: plan.out
           requires:
             - terraform/plan
       - terraform/destroy:

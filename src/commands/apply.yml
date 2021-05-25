@@ -31,6 +31,10 @@ parameters:
     type: "string"
     description: "Path to terraform cli config file"
     default: ""
+  plan_file:
+    type: "string"
+    description: "Path to a saved plan file to execute"
+    default: ""
 
 steps:
   - run:
@@ -76,20 +80,20 @@ steps:
         unset TF_WORKSPACE
         if [[ -n "<< parameters.var >>" ]]; then
             for var in $(echo "<< parameters.var >>" | tr ',' '\n'); do
-                PLAN_ARGS="$PLAN_ARGS -var $var"
+                APPLY_ARGS="$APPLY_ARGS -var $var"
             done
         fi
         if [[ -n "<< parameters.var_file >>" ]]; then
         for file in $(echo "<< parameters.var_file >>" | tr ',' '\n'); do
             if [[ -f "$module_path/$file" ]]; then
-                PLAN_ARGS="$PLAN_ARGS -var-file=$file"
+                APPLY_ARGS="$APPLY_ARGS -var-file=$file"
             else
                 echo "var file '$file' wasn't found" >&2
                 exit 1
             fi
         done
         fi
-        export PLAN_ARGS
+        export APPLY_ARGS
         terraform -chdir="$module_path" init -input=false -no-color $INIT_ARGS
         # Test for saving state locally vs a remote state backend storage
         if [[ $workspace_parameter != "" ]]; then
@@ -98,4 +102,13 @@ steps:
         else
           echo "[INFO] Remote State Backend Enabled"
         fi
-        terraform -chdir="$module_path" apply -auto-approve $PLAN_ARGS
+        readonly plan_file="<< parameters.plan_file >>"
+        if [[ -n "$plan_file" ]]; then
+          if [[ -f "$module_path/$plan_file" ]]; then
+            export plan_file
+          else
+            echo "Saved plan path does not exist: \"$module_path\""
+            exit 1
+          fi
+        fi
+        terraform -chdir="$module_path" apply -auto-approve $APPLY_ARGS $plan_file
