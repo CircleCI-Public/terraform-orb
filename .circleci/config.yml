@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   # Replace this with your own!
-  terraform: circleci/terraform@<<pipeline.parameters.dev-orb-version>>
+  terraform: sl-benoitoyez/terraform@<<pipeline.parameters.dev-orb-version>>
   orb-tools: circleci/orb-tools@10.0
   shellcheck: circleci/shellcheck@2.0
 # Pipeline Parameters
@@ -66,7 +66,7 @@ workflows:
           exclude: SC2148
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
-          orb-name: circleci/terraform
+          orb-name: sl-benoitoyez/terraform
           context: orb-publishing # A restricted context containing your private publishing credentials. Will only execute if approved by an authorized user.
           requires:
             - orb-tools/lint
@@ -139,7 +139,7 @@ workflows:
       # e.g. [semver:patch] will cause a patch version to be published.
       - orb-tools/dev-promote-prod-from-commit-subject:
           context: orb-publishing
-          orb-name: circleci/terraform
+          orb-name: sl-benoitoyez/terraform
           ssh-fingerprints: 45:59:71:c6:c2:66:86:3f:7c:78:30:1b:ed:7d:f0:8d
           add-pr-comment: true
           fail-if-semver-not-indicated: true
