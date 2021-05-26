@@ -51,6 +51,10 @@ parameters:
     type: "string"
     description: "Path to terraform cli config file"
     default: ""
+  plan_file:
+    type: "string"
+    description: "Path to save the plan as a file"
+    default: "plan.out"
 
 executor: default
 
@@ -77,6 +81,7 @@ steps:
       backend_config: << parameters.backend_config >>
       backend_config_file: << parameters.backend_config_file >>
       cli_config_file: << parameters.cli_config_file >>
+      plan_file: << parameters.plan_file >>
   - when:
       condition: << parameters.persist-workspace >>
       steps:
