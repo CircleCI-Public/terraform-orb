@@ -61,10 +61,8 @@ steps:
 
         if [[ -n "<< parameters.backend_config_file >>" ]]; then
             for file in $(echo "<< parameters.backend_config_file >>" | tr ',' '\n'); do
-                if [[ -f "$file" ]]; then
+                if [[ -f "$module_path/$file" ]]; then
                     INIT_ARGS="$INIT_ARGS -backend-config=$file"
-                elif [[ -f "$module_path/$file" ]]; then
-                    INIT_ARGS="$INIT_ARGS -backend-config=$module_path/$file"
                 else
                     echo "Backend config '$file' wasn't found" >&2
                     exit 1
@@ -97,11 +95,11 @@ steps:
 
         rm -rf .terraform
 
-        terraform init -input=false -lock-timeout=300s -no-color $INIT_ARGS "$module_path"
+        terraform -chdir="$module_path" init -input=false -lock-timeout=300s -no-color $INIT_ARGS
         # Test for saving state locally vs a remote state backend storage
         if [[ $workspace_parameter != "" ]]; then
           echo "[INFO] Provisioning local workspace: $workspace"
-          terraform workspace select -no-color "$workspace" "$module_path"
+          terraform -chdir="$module_path" workspace select -no-color "$workspace"
         else
           echo "[INFO] Remote State Backend Enabled"
         fi
@@ -117,7 +115,7 @@ steps:
                 if [[ -f "$file" ]]; then
                     PLAN_ARGS="$PLAN_ARGS -var-file=$file"
                 elif [[ -f "$module_path/$file" ]]; then
-                    PLAN_ARGS="$PLAN_ARGS -var-file=$module_path/$file"
+                    PLAN_ARGS="$PLAN_ARGS -var-file=$file"
                 else
                     echo "Var file '$file' wasn't found" >&2
                     exit 1
@@ -128,4 +126,4 @@ steps:
 
         export PLAN_ARGS
 
-        terraform destroy -input=false -no-color -auto-approve -lock-timeout=300s $PLAN_ARGS "$module_path"
+        terraform -chdir="$module_path" destroy -input=false -no-color -auto-approve -lock-timeout=300s $PLAN_ARGS
