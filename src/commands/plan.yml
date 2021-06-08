@@ -107,6 +107,7 @@ steps:
         fi
         export PLAN_ARGS
         if [[ -n "<< parameters.plan_file >>" ]]; then
-          export plan_file="-out=<< parameters.plan_file >>"
+          PLAN_ARGS="$PLAN_ARGS -out=<< parameters.plan_file >>"
         fi
-        terraform -chdir="$module_path" plan -input=false -no-color $plan_file $PLAN_ARGS
+        export PLAN_ARGS
+        terraform -chdir="$module_path" plan -input=false -no-color $PLAN_ARGS
