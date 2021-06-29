@@ -66,5 +66,11 @@ if [[ $workspace_parameter != "" ]]; then
 else
     echo "[INFO] Remote State Backend Enabled"
 fi
+if [[ -n "${TF_PARAM_PLAN_FILE}" ]]; then
+    if [[ ! -f "${module_path}/${TF_PARAM_PLAN_FILE}" ]]; then
+        echo "Saved plan file \"${TF_PARAM_PLAN_FILE}\" does not exist in \"${module_path}\""
+        exit 1
+    fi
+fi
 # shellcheck disable=SC2086
-terraform -chdir="$module_path" apply -auto-approve $PLAN_ARGS
+terraform -chdir="$module_path" apply -auto-approve $PLAN_ARGS $TF_PARAM_PLAN_FILE

@@ -31,7 +31,10 @@ parameters:
     type: "string"
     description: "Path to terraform cli config file"
     default: ""
-
+  plan_file:
+    type: "string"
+    description: "Path to a saved plan file to execute"
+    default: plan.out
 
 steps:
   - run:
@@ -44,4 +47,5 @@ steps:
         TF_PARAM_BACKEND_CONFIG: <<parameters.backend_config>>
         TF_PARAM_BACKEND_CONFIG_FILE: <<parameters.backend_config_file>>
         TF_PARAM_CLI_CONFIG_FILE: <<parameters.cli_config_file>>
+        TF_PARAM_PLAN_FILE: <<parameters.plan_file>>
       command: <<include(scripts/plan.sh)>>
