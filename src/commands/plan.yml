@@ -31,7 +31,10 @@ parameters:
     type: "string"
     description: "Path to terraform cli config file"
     default: ""
-
+  plan_file:
+    type: "string"
+    description: "Path to a saved plan file to execute"
+    default: plan.out
 
 steps:
   - run:
@@ -106,4 +109,7 @@ steps:
         done
         fi
         export PLAN_ARGS
-        terraform plan -input=false -no-color -out=plan.out $PLAN_ARGS "$module_path"
+        if [[ -n "<< parameters.plan_file >>" ]]; then
+          PLAN_ARGS="$PLAN_ARGS -out=<< parameters.plan_file >>"
+        fi
+        terraform plan -input=false -no-color $PLAN_ARGS "$module_path"

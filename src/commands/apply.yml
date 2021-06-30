@@ -31,6 +31,10 @@ parameters:
     type: "string"
     description: "Path to terraform cli config file"
     default: ""
+  plan_file:
+    type: "string"
+    description: "Path to a saved plan file to execute"
+    default: ""
 
 steps:
   - run:
@@ -102,4 +106,15 @@ steps:
         else
           echo "[INFO] Remote State Backend Enabled"
         fi
-        terraform apply -auto-approve $PLAN_ARGS "$module_path"
+        readonly plan_file="<< parameters.plan_file >>"
+        if [[ -n "$plan_file" ]]; then
+          if [[ -f "$plan_file" ]]; then
+            export apply_path=$PWD/$plan_file
+          else
+            echo "Saved plan path does not exist: \"$plan_file\""
+            exit 1
+          fi
+        else
+          export apply_path=$module_path
+        fi
+        terraform apply -auto-approve $PLAN_ARGS $apply_path
