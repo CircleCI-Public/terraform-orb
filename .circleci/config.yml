@@ -51,7 +51,7 @@ jobs:
       image: ubuntu-2004:202010-01
     steps:
       - terraform/install:
-          terraform_version: "0.11.5"
+          terraform_version: "1.0.0"
 
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
