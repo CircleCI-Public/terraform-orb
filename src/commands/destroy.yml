@@ -97,7 +97,8 @@ steps:
 
         rm -rf .terraform
 
-        terraform -chdir="$module_path" init -input=false -lock-timeout=300s -no-color $INIT_ARGS
+        #  terraform -chdir="$module_path" init -input=false -lock-timeout=300s -no-color $INIT_ARGS
+
 
         # Test for saving state locally vs a remote state backend storage
         if [[ $workspace_parameter != "" ]]; then
@@ -127,4 +128,5 @@ steps:
         fi
 
         export PLAN_ARGS
+        terraform -chdir="$module_path" init -input=false -lock-timeout=300s -no-color $INIT_ARGS
         terraform -chdir="$module_path" apply -destroy -input=false -no-color -auto-approve -lock-timeout=300s $PLAN_ARGS
