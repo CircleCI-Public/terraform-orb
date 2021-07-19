@@ -23,7 +23,7 @@ resource "aws_security_group" "instance" {
 resource "aws_instance" "example" {
   ami                    = "ami-059b818564104e5c6"
   instance_type          = "t2.micro"
-  vpc_security_group_ids = aws_security_group.instance.id
+  vpc_security_group_ids = [aws_security_group.instance.id]
   tags = {
     Instance_Name    = "Ave_Mundus"
     Instance_Purpose = var.purpose
