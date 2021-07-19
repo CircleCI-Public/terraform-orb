@@ -102,4 +102,4 @@ steps:
         else
           echo "[INFO] Remote State Backend Enabled"
         fi
-        terraform apply -auto-approve $PLAN_ARGS "$module_path"
+        terraform -chdir="$module_path" apply -auto-approve $PLAN_ARGS "$module_path"

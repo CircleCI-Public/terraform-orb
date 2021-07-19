@@ -1,5 +1,5 @@
 description: |
-  Execute 'terraform init' in directory specifed in 'path' parameter.
+  Execute 'terraform init' in directory specified in 'path' parameter.
 
 parameters:
   path:
@@ -67,4 +67,4 @@ steps:
             done
         fi
         export INIT_ARGS
-        terraform init -input=false -no-color -backend=$backend $INIT_ARGS "$module_path"
+        terraform -chdir="$module_path" init -input=false -no-color -backend=$backend $INIT_ARGS 
