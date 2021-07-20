@@ -13,4 +13,3 @@ steps:
       environment:
         TF_PARAM_PATH: << parameters.path >>
       command: <<include(scripts/validate.sh)>>
-
