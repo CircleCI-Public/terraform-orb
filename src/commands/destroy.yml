@@ -58,7 +58,6 @@ steps:
         fi
 
         # Initialize terraform
-
         if [[ -n "<< parameters.backend_config_file >>" ]]; then
             for file in $(echo "<< parameters.backend_config_file >>" | tr ',' '\n'); do
                 if [[ -f "$file" ]]; then
@@ -71,16 +70,13 @@ steps:
                 fi
             done
         fi
-
-
         if [[ -n "<< parameters.backend_config >>" ]]; then
             for config in $(echo "<< parameters.backend_config >>" | tr ',' '\n'); do
                 INIT_ARGS="$INIT_ARGS -backend-config=$config"
             done
         fi
-
-
         export INIT_ARGS
+        terraform -chdir="$module_path" init -input=false -no-color $INIT_ARGS
 
 
         # Set workspace from parameter, allowing it to be overridden by TF_WORKSPACE.
@@ -96,12 +92,13 @@ steps:
         unset TF_WORKSPACE
 
         rm -rf .terraform
+        # The line below is the original place for the init
+        # terraform -chdir="$module_path" init -input=false -lock-timeout=300s -no-color $INIT_ARGS
 
-        terraform init -input=false -lock-timeout=300s -no-color $INIT_ARGS "$module_path"
         # Test for saving state locally vs a remote state backend storage
         if [[ $workspace_parameter != "" ]]; then
           echo "[INFO] Provisioning local workspace: $workspace"
-          terraform workspace select -no-color "$workspace" "$module_path"
+          terraform -chdir="$module_path" workspace select -no-color "$workspace"
         else
           echo "[INFO] Remote State Backend Enabled"
         fi
@@ -125,7 +122,6 @@ steps:
             done
         fi
 
-
         export PLAN_ARGS
-
-        terraform destroy -input=false -no-color -auto-approve -lock-timeout=300s $PLAN_ARGS "$module_path"
+        # terraform -chdir="$module_path" init -input=false -lock-timeout=300s -no-color $INIT_ARGS
+        terraform -chdir="$module_path" apply -destroy -input=false -no-color -auto-approve -lock-timeout=300s $PLAN_ARGS

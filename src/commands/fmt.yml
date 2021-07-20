@@ -23,4 +23,4 @@ steps:
           echo "Path does not exist: \"$module_path\""
           exit 1
         fi
-        terraform fmt -no-color -check -diff <<# parameters.recursive >> -recursive <</ parameters.recursive >> "$module_path"
+        terraform -chdir="$module_path" fmt -no-color -check -diff <<# parameters.recursive >> -recursive <</ parameters.recursive >>

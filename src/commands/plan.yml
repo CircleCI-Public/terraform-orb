@@ -78,12 +78,12 @@ steps:
         export workspace
         unset TF_WORKSPACE
 
-        terraform init -input=false -no-color $INIT_ARGS "$module_path"
+        terraform -chdir="$module_path" init -input=false -no-color $INIT_ARGS
 
         # Test for saving state locally vs a remote state backend storage
         if [[ $workspace_parameter != "" ]]; then
           echo "[INFO] Provisioning local workspace: $workspace"
-          terraform workspace select -no-color "$workspace" "$module_path" || terraform workspace new -no-color "$workspace" "$module_path"
+          terraform -chdir="$module_path" workspace select -no-color "$workspace" || terraform -chdir="$module_path" workspace new -no-color "$workspace"
         else
           echo "[INFO] Remote State Backend Enabled"
         fi
@@ -106,4 +106,4 @@ steps:
         done
         fi
         export PLAN_ARGS
-        terraform plan -input=false -no-color -out=plan.out $PLAN_ARGS "$module_path"
+        terraform -chdir="$module_path" plan -input=false -no-color -out=plan.out $PLAN_ARGS

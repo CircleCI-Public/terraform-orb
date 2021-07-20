@@ -51,7 +51,7 @@ jobs:
       image: ubuntu-2004:202010-01
     steps:
       - terraform/install:
-          terraform_version: "0.11.5"
+          terraform_version: "1.0.0"
 
 workflows:
   # Prior to producing a development orb (which requires credentials) basic validation, linting, and even unit testing can be performed.
@@ -88,44 +88,44 @@ workflows:
     jobs:
       # Run any integration tests defined within the `jobs` key.
       - validate-command-sequence:
-          context: Terraform-orb-testing
+          context: CPE_ORBS_AWS
       - validate-terraform-install
       - validate-terraform-install-old
       - terraform/init:
-          context: Terraform-orb-testing
+          context: CPE_ORBS_AWS
           checkout: true
           path: "src/infra"
           requires:
             - validate-command-sequence
             - validate-terraform-install
       - terraform/fmt:
-          context: Terraform-orb-testing
+          context: CPE_ORBS_AWS
           checkout: true
           path: "src/infra"
           requires:
             - terraform/init
       - terraform/validate:
-          context: Terraform-orb-testing
+          context: CPE_ORBS_AWS
           checkout: true
           path: "src/infra"
           requires:
             - terraform/fmt
       - terraform/plan:
-          context: Terraform-orb-testing
+          context: CPE_ORBS_AWS
           checkout: true
           path: "src/infra"
           workspace: "orb-testing"
           requires:
             - terraform/validate
       - terraform/apply:
-          context: Terraform-orb-testing
+          context: CPE_ORBS_AWS
           checkout: true
           path: "src/infra"
           workspace: "orb-testing"
           requires:
             - terraform/plan
       - terraform/destroy:
-          context: Terraform-orb-testing
+          context: CPE_ORBS_AWS
           checkout: true
           path: "src/infra"
           workspace: "orb-testing"
@@ -138,7 +138,7 @@ workflows:
       # be skipped.
       # e.g. [semver:patch] will cause a patch version to be published.
       - orb-tools/dev-promote-prod-from-commit-subject:
-          context: orb-publishing
+          context: orb-publisher
           orb-name: circleci/terraform
           ssh-fingerprints: 45:59:71:c6:c2:66:86:3f:7c:78:30:1b:ed:7d:f0:8d
           add-pr-comment: true
