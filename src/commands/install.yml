@@ -21,6 +21,8 @@ steps:
   - run:
       name: Install terraform binary
       command: |
+        mkdir -p /tmp/terraform-install
+        cd /tmp/terraform-install
         wget -P /tmp https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_<< parameters.os >>_<< parameters.arch >>.zip
         wget -nv https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_SHA256SUMS
 
