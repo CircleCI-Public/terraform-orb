@@ -20,22 +20,8 @@ parameters:
 steps:
   - run:
       name: Install terraform binary
-      command: |
-        mkdir -p /tmp/terraform-install
-        cd /tmp/terraform-install
-        wget -P /tmp https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_<< parameters.os >>_<< parameters.arch >>.zip
-        wget -nv https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_SHA256SUMS
-
-        # Validate checksum
-        expected_sha=$(cat terraform_<< parameters.terraform_version >>_SHA256SUMS | grep "terraform_<< parameters.terraform_version >>_<< parameters.os >>_<< parameters.arch >>.zip" | awk '{print $1}')
-        download_sha=$(shasum -a 256 "/tmp/terraform_<< parameters.terraform_version >>_<< parameters.os >>_<< parameters.arch >>.zip" | cut -d' ' -f1)
-        echo "Validating download..."
-        if [ $expected_sha != $download_sha ]; then
-          echo "Expected SHA256SUM does not match downloaded file, exiting."
-          exit 1
-        fi
-
-        if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
-        unzip -o /tmp/terraform_<< parameters.terraform_version >>_<< parameters.os >>_<< parameters.arch >>.zip -d /tmp
-        $SUDO mv /tmp/terraform /usr/local/bin
-        terraform version
+      environment:
+        TF_PARAM_VERSION: <<parameters.terraform_version>>
+        TF_PARAM_OS: <<parameters.os>>
+        TF_PARAM_ARCH: <<parameters.arch>>
+      command: <<include(scripts/install.sh)>>
