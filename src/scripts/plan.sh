@@ -40,7 +40,7 @@ readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
 export workspace
 unset TF_WORKSPACE
 
-# Shellcheck disable=SC2086
+# shellcheck disable=SC2086
 terraform -chdir="$module_path" init -input=false -no-color $INIT_ARGS
 
 # Test for saving state locally vs a remote state backend storage
