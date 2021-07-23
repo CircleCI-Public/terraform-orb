@@ -87,4 +87,4 @@ fi
 
 export PLAN_ARGS
 # terraform -chdir="$module_path" init -input=false -lock-timeout=300s -no-color $INIT_ARGS
-terraform -chdir="$module_path" apply -destroy -input=false -no-color -auto-approve -lock-timeout=300s $PLAN_ARGS
+terraform -chdir="$module_path" apply -destroy -input=false -no-color -auto-approve -lock-timeout=300s "$PLAN_ARGS"
