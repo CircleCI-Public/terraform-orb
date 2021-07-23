@@ -10,7 +10,7 @@ if [[ -n "${TF_PARAM_CLI_CONFIG_FILE}" ]]; then
 fi
 # 'path' is a required parameter, save it as module_path
 
-readonly module_path="${TF_PARAM_VAR_PATH}"
+readonly module_path="${TF_PARAM_PATH}"
 
 export path=$module_path
 
