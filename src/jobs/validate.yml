@@ -35,8 +35,14 @@ parameters:
     type: boolean
     description: "Enable backend configuration or not"
     default: true
+  image:
+    description: Specify Docker image for executor
+    type: string
+    default: hashicorp/terraform:1.0.0 # update commands/install when updating this
 
-executor: default
+executor:
+  name: default
+  image: << parameters.image >>
 
 steps:
   - when:

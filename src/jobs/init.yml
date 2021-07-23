@@ -22,9 +22,14 @@ parameters:
     type: "string"
     description: "Path to terraform cli config file"
     default: ""
+  image:
+    description: Specify Docker image for executor
+    type: string
+    default: hashicorp/terraform:1.0.0 # update commands/install when updating this
 
-
-executor: default
+executor:
+  name: default
+  image: << parameters.image >>
 
 steps:
   - when:
