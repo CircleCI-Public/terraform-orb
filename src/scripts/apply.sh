@@ -65,4 +65,5 @@ if [[ $workspace_parameter != "" ]]; then
 else
     echo "[INFO] Remote State Backend Enabled"
 fi
-terraform -chdir="$module_path" apply -auto-approve "$PLAN_ARGS"
+# shellcheck disable=SC2086
+terraform -chdir="$module_path" apply -auto-approve $PLAN_ARGS
