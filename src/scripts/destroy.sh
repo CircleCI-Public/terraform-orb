@@ -4,7 +4,7 @@ if [[ -n "${TF_PARAM_CLI_CONFIG_FILE}" ]]; then
     if [[ -f "${TF_PARAM_CLI_CONFIG_FILE}" ]]; then
         export TF_CLI_CONFIG_FILE=${TF_PARAM_CLI_CONFIG_FILE}
     else
-        echo "Terraform cli config does not exist: \"${TF_PARAM_CLI_CONFIG_FILE}\""
+        echo "Terraform cli config does not exist: ${TF_PARAM_CLI_CONFIG_FILE}"
         exit 1
     fi
 fi
@@ -16,7 +16,7 @@ export path=$module_path
 
 
 if [[ ! -d "$module_path" ]]; then
-  echo "Path does not exist: \"$module_path\""
+  echo "Path does not exist: $module_path"
   exit 1
 fi
 
