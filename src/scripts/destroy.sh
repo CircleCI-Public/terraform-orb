@@ -39,7 +39,8 @@ if [[ -n "${TF_PARAM_BACKEND_CONFIG}" ]]; then
     done
 fi
 export INIT_ARGS
-terraform -chdir="$module_path" init -input=false -no-color "$INIT_ARGS"
+# shellcheck disable=SC2086
+terraform -chdir="$module_path" init -input=false -no-color $INIT_ARGS
 
 
 # Set workspace from parameter, allowing it to be overridden by TF_WORKSPACE.

@@ -57,7 +57,8 @@ for file in $(echo "${TF_PARAM_VAR_FILE}" | tr ',' '\n'); do
 done
 fi
 export PLAN_ARGS
-terraform -chdir="$module_path" init -input=false -no-color "$INIT_ARGS"
+# shellcheck disable=SC2086
+terraform -chdir="$module_path" init -input=false -no-color $INIT_ARGS
 # Test for saving state locally vs a remote state backend storage
 if [[ $workspace_parameter != "" ]]; then
     echo "[INFO] Provisioning local workspace: $workspace"
