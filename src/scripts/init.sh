@@ -22,10 +22,8 @@ fi
 # Initialize terraform
 if [[ -n "${TF_PARAM_BACKEND_CONFIG_FILE}" ]]; then
     for file in $(echo "${TF_PARAM_BACKEND_CONFIG_FILE}" | tr ',' '\n'); do
-        if [[ -f "$file" ]]; then
+        if [[ -f "$module_path/$file" ]]; then
             INIT_ARGS="$INIT_ARGS -backend-config=$file"
-        elif [[ -f "$module_path/$file" ]]; then
-            INIT_ARGS="$INIT_ARGS -backend-config=$module_path/$file"
         else
             echo "Backend config '$file' wasn't found" >&2
             exit 1
