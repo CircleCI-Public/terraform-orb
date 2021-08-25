@@ -50,7 +50,7 @@ parameters:
 
 executor:
   name: default
-  image: << parameters.tag >>
+  tag: << parameters.tag >>
 
 steps:
   - when:
