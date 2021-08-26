@@ -4,7 +4,7 @@ provider "aws" {
 
 terraform {
   backend "s3" {
-    bucket = "terracube"
+    bucket = "terracube-1"
     key    = "terraform.tfstate"
     region = "us-west-1"
   }
@@ -37,5 +37,5 @@ resource "aws_instance" "example" {
 }
 
 output "instance_ips" {
-  value = ["${aws_instance.example.*.public_ip}"]
+  value = aws_instance.example.*.public_ip
 }

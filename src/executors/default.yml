@@ -2,10 +2,10 @@ description: >
   Simple Docker based Terraform executor.
 
 docker:
-  - image: '<< parameters.image >>'
+  - image: hashicorp/terraform:<< parameters.tag >>
 
 parameters:
-  image:
-    description: Specify Docker image for executor
+  tag:
+    description: Specify the Terraform Docker image tag for the executor
     type: string
-    default: hashicorp/terraform:0.14.11 # update commands/install when updating this
+    default: "1.0.0" # update commands/install when updating this

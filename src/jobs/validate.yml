@@ -35,8 +35,14 @@ parameters:
     type: boolean
     description: "Enable backend configuration or not"
     default: true
+  tag:
+    description: Specify the Terraform Docker image tag for the executor
+    type: string
+    default: "1.0.0" # update commands/install when updating this
 
-executor: default
+executor:
+  name: default
+  tag: << parameters.tag >>
 
 steps:
   - when:

@@ -51,8 +51,15 @@ parameters:
     type: "string"
     description: "Path to terraform cli config file"
     default: ""
+  tag:
+    description: Specify the Terraform Docker image tag for the executor
+    type: string
+    default: "1.0.0" # update commands/install when updating this
 
-executor: default
+executor:
+  name: default
+  tag: << parameters.tag >>
+
 steps:
   - when:
       condition: << parameters.checkout >>
