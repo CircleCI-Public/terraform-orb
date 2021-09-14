@@ -1,6 +1,8 @@
-TF_PARAM_VERSION=$(eval echo "\$$TF_PARAM_VERSION")
-TF_PARAM_OS=$(eval echo "\$$TF_PARAM_OS")
-TF_PARAM_ARCH=$(eval echo "\$$TF_PARAM_ARCH")
+#!/bin/bash
+
+TF_PARAM_VERSION=$(eval echo "$TF_PARAM_VERSION")
+TF_PARAM_OS=$(eval echo "$TF_PARAM_OS")
+TF_PARAM_ARCH=$(eval echo "$$TF_PARAM_ARCH")
 
 mkdir -p /tmp/terraform-install
 cd /tmp/terraform-install || return
