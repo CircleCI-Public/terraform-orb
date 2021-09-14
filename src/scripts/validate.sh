@@ -1,5 +1,3 @@
-#!/bin/bash
-
 TF_PARAM_PATH=$(eval echo "\$$TF_PARAM_PATH")
 
 export path=$TF_PARAM_PATH

@@ -1,5 +1,3 @@
-#!/bin/bash
-
 TF_PARAM_PATH=$(eval echo "\$$TF_PARAM_PATH")
 TF_PARAM_WORKSPACE=$(eval echo "\$$TF_PARAM_WORKSPACE")
 TF_PARAM_BACKEND_CONFIG=$(eval echo "\$$TF_PARAM_BACKEND_CONFIG")
