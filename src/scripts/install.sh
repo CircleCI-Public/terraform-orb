@@ -1,9 +1,9 @@
+echo "Terraform Version function: $(eval echo "$TF_PARAM_VERSION")"
+echo "Terraform Version: $TF_PARAM_VERSION"
+
 TF_PARAM_VERSION=$(eval echo "\$$TF_PARAM_VERSION")
 TF_PARAM_OS=$(eval echo "\$$TF_PARAM_OS")
 TF_PARAM_ARCH=$(eval echo "\$$TF_PARAM_ARCH")
-
-echo "Terraform Version function: $(eval echo "TF_PARAM_VERSION")"
-echo "Terraform Version: $TF_PARAM_VERSION"
 
 mkdir -p /tmp/terraform-install
 cd /tmp/terraform-install || return
