@@ -1,5 +1,7 @@
+#!/bin/bash
+# Check CLI config file
+
 TF_PARAM_PATH=$(eval echo "\$$TF_PARAM_PATH")
-TF_PARAM_PATH=$(eval echo "$TF_PARAM_PATH")
 TF_PARAM_VAR=$(eval echo "\$$TF_PARAM_VAR")
 TF_PARAM_VAR_FILE=$(eval echo "\$$TF_PARAM_VAR_FILE")
 TF_PARAM_WORKSPACE=$(eval echo "\$$TF_PARAM_WORKSPACE")
@@ -7,7 +9,9 @@ TF_PARAM_BACKEND_CONFIG=$(eval echo "\$$TF_PARAM_BACKEND_CONFIG")
 TF_PARAM_BACKEND_CONFIG_FILE=$(eval echo "\$$TF_PARAM_BACKEND_CONFIG_FILE")
 TF_PARAM_CLI_CONFIG_FILE=$(eval echo "\$$TF_PARAM_CLI_CONFIG_FILE")
 
-# Check CLI config file
+
+echo "Terraform PATH: ${TF_PARAM_PATH}"
+
 if [[ -n "${TF_PARAM_CLI_CONFIG_FILE}" ]]; then
     if [[ -f "${TF_PARAM_CLI_CONFIG_FILE}" ]]; then
         export TF_CLI_CONFIG_FILE=${TF_PARAM_CLI_CONFIG_FILE}
