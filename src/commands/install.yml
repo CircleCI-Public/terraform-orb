@@ -29,4 +29,4 @@ steps:
         export TF_PARAM_OS
         export TF_PARAM_ARCH
         pwd
-        ./scripts/install.sh
+        ./src/scripts/install.sh
