@@ -33,4 +33,10 @@ steps:
         TF_PARAM_BACKEND_CONFIG: << parameters.backend_config >>
         TF_PARAM_BACKEND_CONFIG_FILE: << parameters.backend_config_file >>
         TF_PARAM_CLI_CONFIG_FILE: << parameters.cli_config_file >>
-      command: <<include(scripts/init.sh)>>
+      command: |
+        export TF_PARAM_PATH
+        export TF_PARAM_BACKEND
+        export TF_PARAM_BACKEND_CONFIG
+        export TF_PARAM_BACKEND_CONFIG_FILE
+        export TF_PARAM_CLI_CONFIG_FILE
+        ./scripts/init.sh
