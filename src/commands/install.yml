@@ -24,4 +24,8 @@ steps:
         TF_PARAM_VERSION: <<parameters.terraform_version>>
         TF_PARAM_OS: <<parameters.os>>
         TF_PARAM_ARCH: <<parameters.arch>>
-      command: <<include(scripts/install.sh)>>
+      command: |
+        export TF_PARAM_VERSION
+        export TF_PARAM_OS
+        export TF_PARAM_ARCH
+        <<include(scripts/install.sh)>>
