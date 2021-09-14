@@ -1,4 +1,3 @@
-#!/bin/bash
 mkdir -p /tmp/terraform-install
 cd /tmp/terraform-install || return
 wget -P /tmp "https://releases.hashicorp.com/terraform/${TF_PARAM_VERSION}/terraform_${TF_PARAM_VERSION}_${TF_PARAM_OS}_${TF_PARAM_ARCH}.zip"
