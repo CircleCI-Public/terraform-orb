@@ -29,4 +29,3 @@ steps:
         export TF_PARAM_OS
         export TF_PARAM_ARCH
         ./scripts/install.sh
-        # <<include(scripts/install.sh)>>
