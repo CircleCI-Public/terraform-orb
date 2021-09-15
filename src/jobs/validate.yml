@@ -62,3 +62,4 @@ steps:
       backend: << parameters.backend >>
   - validate:
       path: << parameters.path >>
+      cli_config_file: << parameters.cli_config_file >>
