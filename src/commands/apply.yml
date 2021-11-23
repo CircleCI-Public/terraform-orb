@@ -35,10 +35,15 @@ parameters:
     type: "string"
     description: "Path to a saved plan file to execute"
     default: ""
+  no_output_timeout:
+    type: "string"
+    description: "Timeout when CircleCI doesn't receive any output"
+    default: "30m"
 
 steps:
   - run:
       name: terraform apply
+      no_output_timeout: << parameters.no_output_timeout >>
       command: |
         # Check CLI config file
         if [[ -n "<< parameters.cli_config_file >>" ]]; then

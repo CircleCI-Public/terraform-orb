@@ -16,10 +16,15 @@ parameters:
     description: "Specify the platform architecture to install. Must be one of these values: amd64, arm64"
     default: "amd64"
     enum: ["amd64", "arm64"]
+  no_output_timeout:
+    type: "string"
+    description: "Timeout when CircleCI doesn't receive any output"
+    default: "30m"
 
 steps:
   - run:
       name: Install terraform binary
+      no_output_timeout: << parameters.no_output_timeout >>
       command: |
         wget -P /tmp https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_<< parameters.os >>_<< parameters.arch >>.zip
         wget -nv https://releases.hashicorp.com/terraform/<< parameters.terraform_version >>/terraform_<< parameters.terraform_version >>_SHA256SUMS

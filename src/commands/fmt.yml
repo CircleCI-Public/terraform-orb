@@ -10,10 +10,15 @@ parameters:
     type: "boolean"
     description: "Process files in subdirectories"
     default: false
+  no_output_timeout:
+    type: "string"
+    description: "Timeout when CircleCI doesn't receive any output"
+    default: "30m"
 
 steps:
   - run:
       name: terraform fmt
+      no_output_timeout: << parameters.no_output_timeout >>
       command: |
         # 'path' is a required parameter, save it as module_path
         readonly module_path="<< parameters.path >>"

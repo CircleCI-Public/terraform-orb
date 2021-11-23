@@ -6,10 +6,15 @@ parameters:
     type: "string"
     description: "Path to the terraform module"
     default: "."
+  no_output_timeout:
+    type: "string"
+    description: "Timeout when CircleCI doesn't receive any output"
+    default: "30m"
 
 steps:
   - run:
       name: terraform validate
+      no_output_timeout: << parameters.no_output_timeout >>
       environment:
         TF_PARAM_PATH: << parameters.path >>
       command: <<include(scripts/validate.sh)>>
