@@ -56,7 +56,7 @@ export PLAN_ARGS
 # shellcheck disable=SC2086
 terraform -chdir="$module_path" init -input=false -no-color $INIT_ARGS
 # Test for saving state locally vs a remote state backend storage
-if [[ $workspace_parameter != "" ]]; then
+if [[ -n "$workspace_parameter" ]]; then
     echo "[INFO] Provisioning local workspace: $workspace"
     terraform -chdir="$module_path" workspace select -no-color "$workspace" || terraform -chdir="$module_path" workspace new -no-color "$workspace"
 else
