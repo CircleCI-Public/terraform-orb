@@ -47,6 +47,10 @@ parameters:
     type: "string"
     description: "Path to a backend config file"
     default: ""
+  timeout:
+    description: Optional timeout for running tests
+    type: string
+    default: 10m
 
 executor: default
 steps:
@@ -68,6 +72,7 @@ steps:
       workspace: << parameters.workspace >>
       backend_config: << parameters.backend_config >>
       backend_config_file: << parameters.backend_config_file >>
+      timeout: << parameters.timeout >>
   - when:
       condition: << parameters.persist-workspace >>
       steps:

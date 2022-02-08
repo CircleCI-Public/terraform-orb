@@ -27,10 +27,15 @@ parameters:
     type: "string"
     description: "Path to a backend config file"
     default: ""
+  timeout:
+    description: Optional timeout for running tests
+    type: string
+    default: 10m
 
 steps:
   - run:
       name: terraform plan
+      no_output_timeout: <<parameters.timeout>>
       command: |
         # 'path' is a required parameter, save it as module_path
         readonly module_path="<< parameters.path >>"
