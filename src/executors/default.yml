@@ -3,9 +3,14 @@ description: >
 
 docker:
   - image: hashicorp/terraform:<< parameters.tag >>
+resource_class: << parameters.resource_class >>
 
 parameters:
   tag:
     description: Specify the Terraform Docker image tag for the executor
     type: string
     default: "1.0.0" # update commands/install when updating this
+  resource_class:
+    description: Specify the resource class for Docker Executor
+    type: string
+    default: "large" # select docker executor resource_class from https://circleci.com/docs/ja/2.0/configuration-reference/#docker-executor
