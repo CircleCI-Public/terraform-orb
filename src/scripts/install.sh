@@ -7,7 +7,7 @@ wget -nv "https://releases.hashicorp.com/terraform/${TF_PARAM_VERSION}/terraform
 # Validate checksum
 # shellcheck disable=SC2002
 expected_sha=$(cat "terraform_${TF_PARAM_VERSION}_SHA256SUMS" | grep "terraform_${TF_PARAM_VERSION}_${TF_PARAM_OS}_${TF_PARAM_ARCH}.zip" | awk '{print $1}')
-download_sha=$(shasum -a 256 "/tmp/terraform_${TF_PARAM_VERSION}_${TF_PARAM_OS}_${TF_PARAM_ARCH}.zip" | cut -d' ' -f1)
+download_sha=$(sha256sum "/tmp/terraform_${TF_PARAM_VERSION}_${TF_PARAM_OS}_${TF_PARAM_ARCH}.zip" | cut -d' ' -f1)
 echo "Validating download..."
 if [ "$expected_sha" != "$download_sha" ]; then
 	echo "Expected SHA256SUM does not match downloaded file, exiting."
