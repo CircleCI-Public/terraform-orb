@@ -41,8 +41,16 @@ parameters:
     default: "1.0.0" # update commands/install when updating this
   resource_class:
     description: Specify the resource class for Docker Executor
-    type: string
-    default: "small"
+    type: enum
+    enum:
+      - small
+      - medium
+      - medium+
+      - large
+      - xlarge
+      - 2xlarge
+      - 2xlarge+
+    default: small
 
 executor:
   name: default
