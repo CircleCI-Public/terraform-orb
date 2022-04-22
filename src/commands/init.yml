@@ -54,4 +54,4 @@ steps:
             done
         fi
         export INIT_ARGS
-        terraform init -input=false -no-color -backend=$backend $INIT_ARGS "$module_path"
+        terraform init -input=false -backend=$backend $INIT_ARGS "$module_path"

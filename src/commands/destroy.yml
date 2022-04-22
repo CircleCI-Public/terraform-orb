@@ -63,7 +63,7 @@ steps:
         readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
         export workspace
         unset TF_WORKSPACE
-        terraform workspace select -no-color "$workspace"
+        terraform workspace select "$workspace"
         if [[ -n "<< parameters.vars >>" ]]; then
             for vars in $(echo "<< parameters.vars >>" | tr ',' '\n'); do
                 PLAN_ARGS="$PLAN_ARGS -vars $vars"
@@ -82,6 +82,6 @@ steps:
         done
         fi
         export PLAN_ARGS
-        terraform init -input=false -no-color $INIT_ARGS "$module_path"
-        terraform workspace select -no-color "$workspace" "$module_path"
-        terraform destroy -input=false -no-color -auto-approve $PLAN_ARGS
+        terraform init -input=false $INIT_ARGS "$module_path"
+        terraform workspace select "$workspace" "$module_path"
+        terraform destroy -input=false -auto-approve $PLAN_ARGS

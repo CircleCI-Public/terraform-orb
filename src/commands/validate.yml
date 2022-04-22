@@ -18,5 +18,5 @@ steps:
           echo "Path does not exist: \"$module_path\""
           exit 1
         fi
-        terraform init -input=false -backend=false -no-color "$module_path"
-        terraform validate -no-color "$module_path"
+        terraform init -input=false -backend=false "$module_path"
+        terraform validate "$module_path"

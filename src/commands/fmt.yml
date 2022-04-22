@@ -19,4 +19,4 @@ steps:
           echo "Path does not exist: \"$module_path\""
           exit 1
         fi
-        terraform fmt -no-color -check -diff "$module_path"
+        terraform fmt -check -diff "$module_path"
