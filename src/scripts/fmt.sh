@@ -9,6 +9,6 @@ if [[ ! -d "$module_path" ]]; then
   exit 1
 fi
 if [ "$TF_PARAM_IS_RECURSIVE" = "1" ]; then
- set -- "$@" -recursive
+  set -- "$@" -recursive
 fi
-terraform -chdir="$module_path" fmt -no-color -check -diff "$@"
+terraform -chdir="$module_path" fmt -check -diff "$@"
