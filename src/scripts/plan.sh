@@ -12,8 +12,8 @@ fi
 readonly module_path="${TF_PARAM_PATH}"
 export path=$module_path
 if [[ ! -d "$module_path" ]]; then
-  echo "Path does not exist: $module_path"
-  exit 1
+    echo "Path does not exist: $module_path"
+    exit 1
 fi
 # the following is needed to process backend configs
 if [[ -n "${TF_PARAM_BACKEND_CONFIG_FILE}" ]]; then
@@ -39,14 +39,14 @@ export workspace
 unset TF_WORKSPACE
 
 # shellcheck disable=SC2086
-terraform -chdir="$module_path" init -input=false -no-color $INIT_ARGS
+terraform -chdir="$module_path" init -input=false $INIT_ARGS
 
 # Test for saving state locally vs a remote state backend storage
 if [[ -n "$workspace_parameter" ]]; then
-  echo "[INFO] Provisioning local workspace: $workspace"
-  terraform -chdir="$module_path" workspace select -no-color "$workspace" || terraform -chdir="$module_path" workspace new -no-color "$workspace"
+    echo "[INFO] Provisioning local workspace: $workspace"
+    terraform -chdir="$module_path" workspace select "$workspace" || terraform -chdir="$module_path" workspace new "$workspace"
 else
-  echo "[INFO] Remote State Backend Enabled"
+    echo "[INFO] Remote State Backend Enabled"
 fi
 
 if [[ -n "${TF_PARAM_VAR}" ]]; then
@@ -55,15 +55,15 @@ if [[ -n "${TF_PARAM_VAR}" ]]; then
     done
 fi
 if [[ -n "${TF_PARAM_VAR_FILE}" ]]; then
-for file in $(echo "${TF_PARAM_VAR_FILE}" | tr ',' '\n'); do
-    if [[ -f "$module_path/$file" ]]; then
-        PLAN_ARGS="$PLAN_ARGS -var-file=$file"
-    else
-        echo "var file '$file' wasn't found" >&2
-        exit 1
-    fi
-done
+    for file in $(echo "${TF_PARAM_VAR_FILE}" | tr ',' '\n'); do
+        if [[ -f "$module_path/$file" ]]; then
+            PLAN_ARGS="$PLAN_ARGS -var-file=$file"
+        else
+            echo "var file '$file' wasn't found" >&2
+            exit 1
+        fi
+    done
 fi
 export PLAN_ARGS
 # shellcheck disable=SC2086
-terraform -chdir="$module_path" plan -input=false -no-color -out=plan.out $PLAN_ARGS
+terraform -chdir="$module_path" plan -input=false -out=plan.out $PLAN_ARGS

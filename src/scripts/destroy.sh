@@ -14,10 +14,9 @@ readonly module_path="${TF_PARAM_PATH}"
 
 export path=$module_path
 
-
 if [[ ! -d "$module_path" ]]; then
-  echo "Path does not exist: $module_path"
-  exit 1
+    echo "Path does not exist: $module_path"
+    exit 1
 fi
 
 # Initialize terraform
@@ -38,7 +37,7 @@ if [[ -n "${TF_PARAM_BACKEND_CONFIG}" ]]; then
 fi
 export INIT_ARGS
 # shellcheck disable=SC2086
-terraform -chdir="$module_path" init -input=false -no-color $INIT_ARGS
+terraform -chdir="$module_path" init -input=false $INIT_ARGS
 
 # Set workspace from parameter, allowing it to be overridden by TF_WORKSPACE.
 
@@ -54,14 +53,14 @@ unset TF_WORKSPACE
 
 rm -rf .terraform
 # The line below is the original place for the init
-# terraform -chdir="$module_path" init -input=false -lock-timeout=300s -no-color $INIT_ARGS
+# terraform -chdir="$module_path" init -input=false -lock-timeout=300s $INIT_ARGS
 
 # Test for saving state locally vs a remote state backend storage
 if [[ -n "$workspace_parameter" ]]; then
-  echo "[INFO] Provisioning local workspace: $workspace"
-  terraform -chdir="$module_path" workspace select -no-color "$workspace"
+    echo "[INFO] Provisioning local workspace: $workspace"
+    terraform -chdir="$module_path" workspace select "$workspace"
 else
-  echo "[INFO] Remote State Backend Enabled"
+    echo "[INFO] Remote State Backend Enabled"
 fi
 if [[ -n "${TF_PARAM_VAR}" ]]; then
     for var in $(echo "${TF_PARAM_VAR}" | tr ',' '\n'); do
@@ -81,6 +80,6 @@ if [[ -n "${TF_PARAM_VAR_FILE}" ]]; then
 fi
 
 export PLAN_ARGS
-# terraform -chdir="$module_path" init -input=false -lock-timeout=300s -no-color $INIT_ARGS
+# terraform -chdir="$module_path" init -input=false -lock-timeout=300s $INIT_ARGS
 # shellcheck disable=SC2086
-terraform -chdir="$module_path" apply -destroy -input=false -no-color -auto-approve $PLAN_ARGS
+terraform -chdir="$module_path" apply -destroy -input=false -auto-approve $PLAN_ARGS

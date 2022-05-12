@@ -15,8 +15,8 @@ export path=$module_path
 export backend="${TF_PARAM_BACKEND}"
 
 if [[ ! -d "$module_path" ]]; then
-  echo "Path does not exist: $module_path"
-  exit 1
+    echo "Path does not exist: $module_path"
+    exit 1
 fi
 
 # Initialize terraform
@@ -37,4 +37,4 @@ if [[ -n "${TF_PARAM_BACKEND_CONFIG}" ]]; then
 fi
 export INIT_ARGS
 # shellcheck disable=SC2086
-terraform -chdir="$module_path" init -input=false -no-color -backend=$backend $INIT_ARGS
+terraform -chdir="$module_path" init -input=false -backend=$backend $INIT_ARGS
