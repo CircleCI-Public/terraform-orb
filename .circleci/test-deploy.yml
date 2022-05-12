@@ -1,0 +1,118 @@
+version: 2.1
+orbs:
+  terraform: circleci/terraform@dev:<<pipeline.git.revision>>
+  orb-tools: circleci/orb-tools@11.1
+  shellcheck: circleci/shellcheck@2.0
+filters: &filters
+  tags:
+    only: /.*/
+jobs:
+  # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
+  validate-command-sequence:
+    executor: terraform/default
+    steps:
+      - checkout
+      - terraform/init:
+          path: "src/infra"
+      - terraform/fmt:
+          path: "src/infra"
+      - terraform/validate:
+          path: "src/infra"
+      - terraform/plan:
+          path: "src/infra"
+          workspace: "orb-testing"
+      - terraform/apply:
+          path: "src/infra"
+          workspace: "orb-testing"
+      - terraform/destroy:
+          path: "src/infra"
+          workspace: "orb-testing"
+  validate-terraform-install:
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - terraform/install
+  validate-terraform-install-old:
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - terraform/install:
+          terraform_version: "1.0.0"
+workflows:
+  test-deploy:
+    jobs:
+      # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
+      # Run any integration tests defined within the `jobs` key.
+      - validate-command-sequence:
+          context: CPE_ORBS_AWS
+          filters: *filters
+      - validate-terraform-install:
+          filters: *filters
+      - validate-terraform-install-old:
+          filters: *filters
+      - terraform/init:
+          context: CPE_ORBS_AWS
+          filters: *filters
+          checkout: true
+          path: "src/infra"
+          requires:
+            - validate-command-sequence
+            - validate-terraform-install
+      - terraform/fmt:
+          context: CPE_ORBS_AWS
+          filters: *filters
+          checkout: true
+          path: "src/infra"
+          requires:
+            - terraform/init
+      - terraform/validate:
+          context: CPE_ORBS_AWS
+          checkout: true
+          path: "src/infra"
+          requires:
+            - terraform/fmt
+      - terraform/plan:
+          context: CPE_ORBS_AWS
+          filters: *filters
+          checkout: true
+          path: "src/infra"
+          workspace: "orb-testing"
+          requires:
+            - terraform/validate
+      - terraform/apply:
+          context: CPE_ORBS_AWS
+          filters: *filters
+          checkout: true
+          path: "src/infra"
+          workspace: "orb-testing"
+          requires:
+            - terraform/plan
+      - terraform/destroy:
+          context: CPE_ORBS_AWS
+          filters: *filters
+          checkout: true
+          path: "src/infra"
+          workspace: "orb-testing"
+          requires:
+            - terraform/apply
+      - orb-tools/pack:
+          filters: *filters
+      - orb-tools/publish:
+          orb-name: circleci/terraform
+          vcs-type: << pipeline.project.type >>
+          pub-type: production
+          requires:
+            - orb-tools/pack
+            - validate-command-sequence
+            - terraform/init
+            - terraform/fmt
+            - terraform/validate
+            - terraform/plan
+            - terraform/apply
+            - terraform/destroy
+          context: orb-publisher
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
