@@ -10,10 +10,15 @@ parameters:
     type: "boolean"
     description: "Process files in subdirectories"
     default: false
+  timeout:
+    description: Configure a custom timeout limit
+    type: string
+    default: 10m
 
 steps:
   - run:
       name: terraform fmt
+      no_output_timeout: <<parameters.timeout>>
       environment:
         TF_PARAM_MOD_PATH: << parameters.path >>
         TF_PARAM_IS_RECURSIVE: << parameters.recursive >>
