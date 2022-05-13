@@ -26,6 +26,10 @@ parameters:
     description: Specify the Terraform Docker image tag for the executor
     type: string
     default: "1.0.0" # update commands/install when updating this
+  timeout:
+    description: Configure a custom timeout limit
+    type: string
+    default: 10m
 
 executor:
   name: default
@@ -44,3 +48,4 @@ steps:
   - fmt:
       path: << parameters.path >>
       recursive: << parameters.recursive >>
+      timeout: <<parameters.timeout>>
