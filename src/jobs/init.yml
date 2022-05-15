@@ -26,6 +26,10 @@ parameters:
     description: "Specify the Terraform Docker image tag for the executor"
     type: "string"
     default: "1.0.0" # update commands/install when updating this
+  timeout:
+    description: Configure a custom timeout limit
+    type: string
+    default: 10m
   resource_class:
     description: "Specify the resource class for Docker Executor"
     type: "string"
@@ -49,3 +53,4 @@ steps:
   - init:
       path: << parameters.path >>
       cli_config_file: << parameters.cli_config_file >>
+      timeout: <<parameters.timeout>>

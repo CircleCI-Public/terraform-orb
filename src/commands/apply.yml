@@ -31,10 +31,15 @@ parameters:
     type: "string"
     description: "Path to terraform cli config file"
     default: ""
+  timeout:
+    description: Configure a custom timeout limit
+    type: string
+    default: 10m
 
 steps:
   - run:
       name: terraform apply
+      no_output_timeout: <<parameters.timeout>>
       environment:
         TF_PARAM_PATH: <<parameters.path>>
         TF_PARAM_VAR: <<parameters.var>>
