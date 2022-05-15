@@ -55,17 +55,14 @@ parameters:
     description: "Specify the Terraform Docker image tag for the executor"
     type: "string"
     default: "1.0.0" # update commands/install when updating this
-<<<<<<< HEAD
-  resource_class:
-    description: "Specify the resource class for Docker Executor"
-    type: "string"
-    default: "medium"
-=======
   timeout:
     description: Configure a custom timeout limit
     type: string
     default: 10m
->>>>>>> 5c7ae1e5e113f29368b150c18ab45b3f589485ec
+  resource_class:
+    description: "Specify the resource class for Docker Executor"
+    type: "string"
+    default: "medium"
 
 executor:
   name: default
