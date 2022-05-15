@@ -29,7 +29,7 @@ parameters:
   resource_class:
     description: "Specify the resource class for Docker Executor"
     type: "string"
-    default: "small"
+    default: "medium"
 
 executor:
   name: default
