@@ -48,9 +48,9 @@ parameters:
     type: "string"
     default: "1.0.0" # update commands/install when updating this
   timeout:
-    description: Configure a custom timeout limit
-    type: string
-    default: 10m
+    description: "Configure a custom timeout limit"
+    type: "string"
+    default: "10m"
   resource_class:
     description: "Specify the resource class for Docker Executor"
     type: "string"
