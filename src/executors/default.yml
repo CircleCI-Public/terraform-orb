@@ -8,4 +8,4 @@ parameters:
   tag:
     description: Specify the Terraform Docker image tag for the executor
     type: string
-    default: "1.0.0" # update commands/install when updating this
+    default: latest
