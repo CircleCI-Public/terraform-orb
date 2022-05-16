@@ -4,8 +4,12 @@ description: |
 parameters:
   terraform_version:
     type: "string"
-    description: "Specify version of terraform to install."
-    default: "1.0.0" # should match executor
+    description: |
+      Version of Terraform to install. Only stable versions are supported. You can specify the version in three ways:
+      * latest: most recent version
+      * full version number (1.2.3): a specific version
+      * anything else (1.2, 1): the most recent stable version which matches this prefix.
+    default: latest
   os:
     type: enum
     description: "Specify the operating system version to install. Must be one of these values: linux, darwin"

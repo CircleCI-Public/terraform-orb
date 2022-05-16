@@ -47,8 +47,37 @@ install_terraform() {
 	$SUDO mv terraform /usr/local/bin
 }
 
+determine_version() {
+	# We might have an exact version, a partial version, or "latest"
+	version_spec=$1
+
+	version_regex="^[0-9]+\.[0-9]+\.[0-9]+$"
+
+	# Exact version needs no further processing
+	if [[ $version_spec =~ $version_regex ]]; then
+		echo "$version_spec"
+		return
+	fi
+
+	index_json=$(curl -sf https://releases.hashicorp.com/terraform/index.json)
+	released_versions=$(echo "$index_json" | jq -r '.versions | keys | .[]' | grep -E "$version_regex" | sort -rV)
+
+	if [[ $version_spec = latest ]]; then
+		head -1 <<< "$released_versions"
+		return
+	fi
+
+	grep -m1 -E "^$version_spec" <<< "$released_versions" || {
+		echo "Couldn't find matching version for '$version_spec'"
+		exit 1
+	}
+	return
+}
+
 init
-download_version "${TF_PARAM_VERSION}"
+tf_version=$(determine_version "$TF_PARAM_VERSION")
+echo "Using Terraform version '$tf_version'"
+download_version "${tf_version}"
 checksum_package
 install_terraform
 terraform version
