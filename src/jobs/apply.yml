@@ -51,6 +51,10 @@ parameters:
     type: "string"
     description: "Path to terraform cli config file"
     default: ""
+  plan:
+    type: string
+    description: Optionally provide a plan file to supply to the 'apply' command.
+    default: ""
   tag:
     description: "Specify the Terraform Docker image tag for the executor"
     type: "string"
@@ -92,6 +96,7 @@ steps:
       backend_config: << parameters.backend_config >>
       backend_config_file: << parameters.backend_config_file >>
       cli_config_file: << parameters.cli_config_file >>
+      plan: <<parameters.plan>>
       timeout: <<parameters.timeout>>
   - when:
       condition: << parameters.persist-workspace >>
