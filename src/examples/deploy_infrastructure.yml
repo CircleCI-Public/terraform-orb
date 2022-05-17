@@ -6,7 +6,7 @@ description: |
 usage:
   version: 2.1
   orbs:
-    terraform: circleci/terraform@dev:alpha
+    terraform: circleci/terraform@3.1
   workflows:
     deploy_infrastructure:
       jobs:
@@ -31,4 +31,4 @@ usage:
               - terraform/plan
             filters:
               branches:
-                only: master
+                only: main

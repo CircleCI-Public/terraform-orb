@@ -1,10 +1,10 @@
 description: |
-  Deploy infrastructure by leveraging a sequence of commands to create and apply subseqent terraform plan.
+  Deploy infrastructure by leveraging a sequence of commands to create and apply subsequent terraform plan.
 
 usage:
   version: 2.1
   orbs:
-    terraform: circleci/terraform@x.y.z
+    terraform: circleci/terraform@3.1
   jobs:
     single-job-lifecycle:
       executor: terraform/default
