@@ -9,7 +9,7 @@ download_version() {
 
 init() {
 	mkdir -p /tmp/terraform-install
-	cd /tmp/terraform-install
+	cd /tmp/terraform-install || exit 1
 }
 
 # Reported in #61 that recent versions of the Terraform Docker image do not contain shasum
