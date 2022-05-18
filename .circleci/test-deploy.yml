@@ -111,6 +111,7 @@ workflows:
             - terraform/apply
             - terraform/destroy
           context: orb-publisher
+          github-token: GHI_TOKEN
           filters:
             branches:
               ignore: /.*/
