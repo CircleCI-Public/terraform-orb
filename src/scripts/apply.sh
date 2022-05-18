@@ -29,7 +29,7 @@ if [[ -n "${TF_PARAM_BACKEND_CONFIG_FILE}" ]]; then
 fi
 if [[ -n "${TF_PARAM_BACKEND_CONFIG}" ]]; then
     for config in $(echo "${TF_PARAM_BACKEND_CONFIG}" | tr ',' '\n'); do
-        INIT_ARGS="$INIT_ARGS -backend-config=$config"
+        INIT_ARGS="$INIT_ARGS -backend-config=$(eval echo "$config")"
     done
 fi
 export INIT_ARGS
@@ -39,7 +39,7 @@ export workspace
 unset TF_WORKSPACE
 if [[ -n "${TF_PARAM_VAR}" ]]; then
     for var in $(echo "${TF_PARAM_VAR}" | tr ',' '\n'); do
-        PLAN_ARGS="$PLAN_ARGS -var $var"
+        PLAN_ARGS="$PLAN_ARGS -var $(eval echo "$var")"
     done
 fi
 if [[ -n "${TF_PARAM_VAR_FILE}" ]]; then
