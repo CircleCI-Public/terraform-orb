@@ -66,4 +66,4 @@ if [[ -n "${TF_PARAM_VAR_FILE}" ]]; then
 fi
 export PLAN_ARGS
 # shellcheck disable=SC2086
-terraform -chdir="$module_path" plan -input=false -out=plan.out $PLAN_ARGS
+terraform -chdir="$module_path" plan -input=false -out=${TF_PARAM_OUT} $PLAN_ARGS
