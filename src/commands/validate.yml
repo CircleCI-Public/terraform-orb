@@ -6,10 +6,15 @@ parameters:
     type: "string"
     description: "Path to the terraform module"
     default: "."
+  cli_config_file:
+    type: "string"
+    description: "Path to terraform cli config file"
+    default: ""
   timeout:
     description: Configure a custom timeout limit
     type: string
     default: 10m
+
 
 steps:
   - run:
@@ -17,4 +22,5 @@ steps:
       no_output_timeout: <<parameters.timeout>>
       environment:
         TF_PARAM_PATH: << parameters.path >>
+        TF_PARAM_CLI_CONFIG_FILE: <<parameters.cli_config_file>>
       command: <<include(scripts/validate.sh)>>

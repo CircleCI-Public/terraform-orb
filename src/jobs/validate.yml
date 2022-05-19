@@ -72,4 +72,5 @@ steps:
       timeout: <<parameters.timeout>>
   - validate:
       path: << parameters.path >>
+      cli_config_file: << parameters.cli_config_file >>
       timeout: <<parameters.timeout>>
