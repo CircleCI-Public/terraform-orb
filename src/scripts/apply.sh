@@ -33,7 +33,6 @@ if [[ -n "${TF_PARAM_BACKEND_CONFIG}" ]]; then
     done
 fi
 export INIT_ARGS
-readonly workspace_parameter
 workspace_parameter="$(eval echo "${TF_PARAM_WORKSPACE}")"
 readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
 export workspace
