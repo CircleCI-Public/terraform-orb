@@ -10,6 +10,10 @@ parameters:
     default: "."
     description: "Workspace root path that is either an absolute path or a path relative to the working directory. Defaults to '.' (the working directory)"
     type: string
+  workspace:
+    type: "string"
+    description: "Name of the terraform workspace"
+    default: ""
   path:
     type: "string"
     description: "Path to the terraform module"
@@ -74,3 +78,4 @@ steps:
       path: << parameters.path >>
       cli_config_file: << parameters.cli_config_file >>
       timeout: <<parameters.timeout>>
+      workspace: <<parameters.workspace>>
