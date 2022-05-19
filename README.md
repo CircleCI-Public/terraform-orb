@@ -1,33 +1,35 @@
-# terraform Orb [![CircleCI Build Status](https://circleci.com/gh/CircleCI-Public/terraform-orb.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/CircleCI-Public/terraform-orb) [![CircleCI Orb Version](https://badges.circleci.com/orbs/circleci/terraform.svg)](https://circleci.com/orbs/registry/orb/circleci/terraform) [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/CircleCI-Public/terraform-orb/master/LICENSE) [![CircleCI Community](https://img.shields.io/badge/community-CircleCI%20Discuss-343434.svg)](https://discuss.circleci.com/c/ecosystem/orbs)
-
-A description of your orb. Utilize this orb to easily add X to your CI/CD pipeline.
-
-**TODO:**
-Publish your production orb! You may notice the badges above and links to the registry page below are not working yet, once you publish your first production version orb, these will begin to function.
-
-What to do:
-* Make changes to your `Alpha` branch.
-* Flush out your integration test jobs
-* Merge to `master` with "`[semver:major]`" in the commit subject to publish 1.0.0 of your orb.
+# Terraform Orb for CircleCI [![CircleCI Build Status](https://circleci.com/gh/CircleCI-Public/terraform-orb.svg?style=shield "CircleCI Build Status")](https://circleci.com/gh/CircleCI-Public/terraform-orb) [![CircleCI Orb Version](https://badges.circleci.com/orbs/circleci/terraform.svg)](https://circleci.com/orbs/registry/orb/circleci/terraform) [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://raw.githubusercontent.com/CircleCI-Public/terraform-orb/master/LICENSE) [![CircleCI Community](https://img.shields.io/badge/community-CircleCI%20Discuss-343434.svg)](https://discuss.circleci.com/c/ecosystem/orbs)
 
 
-## Usage
+Run Terraform in your CircleCI Pipelines with the Terraform Orb. Integrate Infrastructure-as-Code (IaC) to help provision and manage any cloud, infrastructure, or service of your choice.
 
-Example use-cases are provided on the orb [registry page](https://circleci.com/orbs/registry/orb/circleci/terraform#usage-examples). Source for these examples can be found within the `src/examples` directory.
+View the [usage examples](https://circleci.com/developer/orbs/orb/circleci/terraform#usage-examples) on the [Orb Registry](https://circleci.com/developer/orbs/orb/circleci/terraform).
 
+---
 
 ## Resources
 
-[CircleCI Orb Registry Page](https://circleci.com/orbs/registry/orb/circleci/terraform) - The official registry page of this orb for all versions, executors, commands, and jobs described.  
-[CircleCI Orb Docs](https://circleci.com/docs/2.0/orb-intro/#section=configuration) - Docs for using and creating CircleCI Orbs.  
+[CircleCI Orb Registry Page](https://circleci.com/orbs/registry/orb/circleci/terraform) - The official registry page of this orb for all versions, executors, commands, and jobs described.
 
-### How To Contribute
+[CircleCI Orb Docs](https://circleci.com/docs/2.0/orb-intro/#section=configuration) - Docs for using, creating, and publishing CircleCI Orbs.
+
+---
+
+### How to Contribute
 
 We welcome [issues](https://github.com/CircleCI-Public/terraform-orb/issues) to and [pull requests](https://github.com/CircleCI-Public/terraform-orb/pulls) against this repository!
 
-To publish a new production version:
-* Create a PR to the `Alpha` branch with your changes. This will act as a "staging" branch.
-* When ready to publish a new production version, create a PR from `Alpha` to `master`. The Git Subject should include `[semver:patch|minor|release|skip]` to indicate the type of release.
-* On merge, the release will be published to the orb registry automatically.
-
-For further questions/comments about this or other orbs, visit the Orb Category of [CircleCI Discuss](https://discuss.circleci.com/c/orbs).
+### How to Publish An Update
+1. Merge pull requests with desired changes to the main branch.
+    - For the best experience, squash-and-merge and use [Conventional Commit Messages](https://conventionalcommits.org/).
+2. Find the current version of the orb.
+    - You can run `circleci orb info circleci/terraform | grep "Latest"` to see the current version.
+3. Create a [new Release](https://github.com/CircleCI-Public/terraform-orb/releases/new) on GitHub.
+    - Click "Choose a tag" and _create_ a new [semantically versioned](http://semver.org/) tag. (ex: v1.0.0)
+      - We will have an opportunity to change this before we publish if needed after the next step.
+4.  Click _"+ Auto-generate release notes"_.
+    - This will create a summary of all of the merged pull requests since the previous release.
+    - If you have used _[Conventional Commit Messages](https://conventionalcommits.org/)_ it will be easy to determine what types of changes were made, allowing you to ensure the correct version tag is being published.
+5. Now ensure the version tag selected is semantically accurate based on the changes included.
+6. Click _"Publish Release"_.
+    - This will push a new tag and trigger your publishing pipeline on CircleCI.
