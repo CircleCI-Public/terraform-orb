@@ -33,7 +33,6 @@ if [[ -n "${TF_PARAM_BACKEND_CONFIG}" ]]; then
 fi
 export INIT_ARGS
 
-
 workspace_parameter="$(eval echo "${TF_PARAM_WORKSPACE}")"
 readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
 export workspace
@@ -56,7 +55,7 @@ if [[ -n "${TF_PARAM_VAR}" ]]; then
     done
 fi
 if [[ -n "${TF_PARAM_VAR_FILE}" ]]; then
-    for file in $(echo "${TF_PARAM_VAR_FILE}" | tr ',' '\n'); do
+    for file in $(eval echo "${TF_PARAM_VAR_FILE}" | tr ',' '\n'); do
         if [[ -f "$module_path/$file" ]]; then
             PLAN_ARGS="$PLAN_ARGS -var-file=$file"
         else
