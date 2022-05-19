@@ -10,6 +10,10 @@ parameters:
     default: "."
     description: "Workspace root path that is either an absolute path or a path relative to the working directory. Defaults to '.' (the working directory)"
     type: string
+  workspace:
+    type: "string"
+    description: "Name of the terraform workspace"
+    default: ""
   path:
     type: "string"
     description: "Path to the terraform module"
@@ -35,10 +39,6 @@ parameters:
     type: boolean
     description: "Enable backend configuration or not"
     default: true
-  workspace:
-    type: "string"
-    description: "Name of the terraform workspace"
-    default: ""
   tag:
     description: "Specify the Terraform Docker image tag for the executor"
     type: "string"
@@ -77,5 +77,5 @@ steps:
   - validate:
       path: << parameters.path >>
       cli_config_file: << parameters.cli_config_file >>
-      workspace: << parameter.workspace >>
       timeout: <<parameters.timeout>>
+      workspace: <<parameters.workspace>>
