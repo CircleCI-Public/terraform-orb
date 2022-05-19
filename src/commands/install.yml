@@ -4,8 +4,12 @@ description: |
 parameters:
   terraform_version:
     type: "string"
-    description: "Specify version of terraform to install."
-    default: "1.0.0" # should match executor
+    description: |
+      Version of Terraform to install. Only stable versions are supported. You can specify the version in three ways:
+      * latest: most recent version
+      * full version number (1.2.3): a specific version
+      * anything else (1.2, 1): the most recent stable version which matches this prefix.
+    default: "1.0.0"
   os:
     type: enum
     description: "Specify the operating system version to install. Must be one of these values: linux, darwin"
@@ -16,10 +20,15 @@ parameters:
     description: "Specify the platform architecture to install. Must be one of these values: amd64, arm64"
     default: "amd64"
     enum: ["amd64", "arm64"]
+  timeout:
+    description: Configure a custom timeout limit
+    type: string
+    default: 10m
 
 steps:
   - run:
       name: Install terraform binary
+      no_output_timeout: <<parameters.timeout>>
       environment:
         TF_PARAM_VERSION: <<parameters.terraform_version>>
         TF_PARAM_OS: <<parameters.os>>

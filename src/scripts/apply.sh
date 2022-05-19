@@ -29,38 +29,38 @@ if [[ -n "${TF_PARAM_BACKEND_CONFIG_FILE}" ]]; then
 fi
 if [[ -n "${TF_PARAM_BACKEND_CONFIG}" ]]; then
     for config in $(echo "${TF_PARAM_BACKEND_CONFIG}" | tr ',' '\n'); do
-        INIT_ARGS="$INIT_ARGS -backend-config=$config"
+        INIT_ARGS="$INIT_ARGS -backend-config=$(eval echo "$config")"
     done
 fi
 export INIT_ARGS
-readonly workspace_parameter="${TF_PARAM_WORKSPACE}"
+workspace_parameter="$(eval echo "${TF_PARAM_WORKSPACE}")"
 readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
 export workspace
 unset TF_WORKSPACE
 if [[ -n "${TF_PARAM_VAR}" ]]; then
     for var in $(echo "${TF_PARAM_VAR}" | tr ',' '\n'); do
-        PLAN_ARGS="$PLAN_ARGS -var $var"
+        PLAN_ARGS="$PLAN_ARGS -var $(eval echo "$var")"
     done
 fi
 if [[ -n "${TF_PARAM_VAR_FILE}" ]]; then
-for file in $(echo "${TF_PARAM_VAR_FILE}" | tr ',' '\n'); do
-if [[ -f "$module_path/$file" ]]; then
-        PLAN_ARGS="$PLAN_ARGS -var-file=$file"
-    else
-        echo "var file '$file' wasn't found" >&2
-        exit 1
-    fi
-done
+    for file in $(eval echo "${TF_PARAM_VAR_FILE}" | tr ',' '\n'); do
+        if [[ -f "$module_path/$file" ]]; then
+            PLAN_ARGS="$PLAN_ARGS -var-file=$file"
+        else
+            echo "var file '$file' wasn't found" >&2
+            exit 1
+        fi
+    done
 fi
 export PLAN_ARGS
 # shellcheck disable=SC2086
-terraform -chdir="$module_path" init -input=false -no-color $INIT_ARGS
+terraform -chdir="$module_path" init -input=false $INIT_ARGS
 # Test for saving state locally vs a remote state backend storage
-if [[ $workspace_parameter != "" ]]; then
+if [[ -n "$workspace_parameter" ]]; then
     echo "[INFO] Provisioning local workspace: $workspace"
-    terraform -chdir="$module_path" workspace select -no-color "$workspace" || terraform -chdir="$module_path" workspace new -no-color "$workspace"
+    terraform -chdir="$module_path" workspace select "$workspace" || terraform -chdir="$module_path" workspace new "$workspace"
 else
     echo "[INFO] Remote State Backend Enabled"
 fi
 # shellcheck disable=SC2086
-terraform -chdir="$module_path" apply -auto-approve $PLAN_ARGS
+terraform -chdir="$module_path" apply -auto-approve $PLAN_ARGS ${TF_PARAM_PLAN}

@@ -10,17 +10,16 @@ parameters:
     type: "boolean"
     description: "Process files in subdirectories"
     default: false
+  timeout:
+    description: Configure a custom timeout limit
+    type: string
+    default: 10m
 
 steps:
   - run:
       name: terraform fmt
-      command: |
-        # 'path' is a required parameter, save it as module_path
-        readonly module_path="<< parameters.path >>"
-        export path=$module_path
-
-        if [[ ! -d "$module_path" ]]; then
-          echo "Path does not exist: \"$module_path\""
-          exit 1
-        fi
-        terraform -chdir="$module_path" fmt -no-color -check -diff <<# parameters.recursive >> -recursive <</ parameters.recursive >>
+      no_output_timeout: <<parameters.timeout>>
+      environment:
+        TF_PARAM_MOD_PATH: << parameters.path >>
+        TF_PARAM_IS_RECURSIVE: << parameters.recursive >>
+      command: <<include(scripts/fmt.sh)>>
