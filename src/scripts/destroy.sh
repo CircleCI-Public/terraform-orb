@@ -43,7 +43,7 @@ terraform -chdir="$module_path" init -input=false $INIT_ARGS
 
 # If TF_WORKSPACE is set we don't want terraform init to use the value, in the case we are running new_workspace.sh this would cause an error
 
-readonly workspace_parameter="${TF_PARAM_WORKSPACE}"
+workspace_parameter="$(eval echo "${TF_PARAM_WORKSPACE}")"
 
 readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
 
