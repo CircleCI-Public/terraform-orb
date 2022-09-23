@@ -67,6 +67,10 @@ parameters:
     description: "Specify the resource class for Docker Executor"
     type: "string"
     default: "medium"
+  parallelism:
+    description: "Limit the number of concurrent operation Terraform is running. Defaults to 10"
+    type: integer
+    default: 10
 
 executor:
   name: default
@@ -98,6 +102,8 @@ steps:
       cli_config_file: << parameters.cli_config_file >>
       plan: <<parameters.plan>>
       timeout: <<parameters.timeout>>
+      parallelism: <<parameters.parallelism>>
+
   - when:
       condition: << parameters.persist-workspace >>
       steps:
