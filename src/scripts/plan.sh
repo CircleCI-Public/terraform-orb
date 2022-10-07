@@ -39,7 +39,7 @@ export workspace
 unset TF_WORKSPACE
 
 # shellcheck disable=SC2086
-terraform -chdir="$module_path" init -input=false $INIT_ARGS
+terraform -chdir="$module_path" init -upgrade -input=false $INIT_ARGS
 
 # Test for saving state locally vs a remote state backend storage
 if [[ -n "$workspace_parameter" ]]; then

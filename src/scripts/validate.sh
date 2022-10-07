@@ -19,7 +19,7 @@ readonly workspace="${TF_WORKSPACE:-$workspace_parameter}"
 export workspace
 unset TF_WORKSPACE
 
-terraform -chdir="$TF_PARAM_PATH" init -input=false -backend=false
+terraform -chdir="$TF_PARAM_PATH" init -upgrade -input=false -backend=false
 
 if [[ -n "$workspace_parameter" ]]; then
     echo "[INFO] Provisioning local workspace: $workspace"
