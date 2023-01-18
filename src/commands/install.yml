@@ -1,5 +1,6 @@
 description: |
   Install specified version of terraform.
+  Note: If you are using the default Terraform executor, Terraform is already installed and you will not need to run this command to install Terraform. 
 
 parameters:
   terraform_version:
