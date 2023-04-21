@@ -37,4 +37,4 @@ if [[ -n "${TF_PARAM_BACKEND_CONFIG}" ]]; then
 fi
 export INIT_ARGS
 # shellcheck disable=SC2086
-terraform -chdir="$module_path" init -input=false -backend=$backend $INIT_ARGS
+terraform -chdir="$module_path" init -upgrade -input=false -backend=$backend $INIT_ARGS
