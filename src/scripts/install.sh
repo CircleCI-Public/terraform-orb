@@ -28,10 +28,11 @@ checksumCommand() {
 
 checksum_package() {
 	# Validate checksum
+	version=$1
 	# shellcheck disable=SC2002
-	expected_sha=$(cat "terraform_${TF_PARAM_VERSION}_SHA256SUMS" | grep "terraform_${TF_PARAM_VERSION}_${TF_PARAM_OS}_${TF_PARAM_ARCH}.zip" | awk '{print $1}')
+	expected_sha=$(cat "terraform_${version}_SHA256SUMS" | grep "terraform_${version}_${TF_PARAM_OS}_${TF_PARAM_ARCH}.zip" | awk '{print $1}')
 	export -f checksumCommand
-	download_sha=$(checksumCommand "terraform_${TF_PARAM_VERSION}_${TF_PARAM_OS}_${TF_PARAM_ARCH}.zip")
+	download_sha=$(checksumCommand "terraform_${version}_${TF_PARAM_OS}_${TF_PARAM_ARCH}.zip")
 	echo "Validating download..."
 	if [ "$expected_sha" != "$download_sha" ]; then
 		echo "Expected SHA256SUM does not match downloaded file, exiting."
@@ -40,7 +41,8 @@ checksum_package() {
 }
 
 install_terraform() {
-	unzip -o "terraform_${TF_PARAM_VERSION}_${TF_PARAM_OS}_${TF_PARAM_ARCH}.zip"
+	version=$1
+	unzip -o "terraform_${version}_${TF_PARAM_OS}_${TF_PARAM_ARCH}.zip"
 	if [[ $EUID == 0 ]]; then export SUDO=""; else export SUDO="sudo"; fi
 	$SUDO mv terraform /usr/local/bin
 }
@@ -76,6 +78,6 @@ init
 tf_version=$(determine_version "$TF_PARAM_VERSION")
 echo "Using Terraform version '$tf_version'"
 download_version "${tf_version}"
-checksum_package
-install_terraform
+checksum_package "${tf_version}"
+install_terraform "${tf_version}"
 terraform version
