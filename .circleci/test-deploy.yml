@@ -38,6 +38,18 @@ jobs:
     steps:
       - terraform/install:
           terraform_version: "1.0.0"
+  validate-terraform-install-tag:
+    executor: 
+      name: terraform/default
+      tag: "1.5"
+    steps:
+      - terraform/install
+  validate-terraform-install-version:
+    executor: 
+      name: terraform/default
+    steps:
+      - terraform/install:
+          terraform_version: "1.5"
 workflows:
   test-deploy:
     jobs:
