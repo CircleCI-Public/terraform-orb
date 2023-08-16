@@ -49,7 +49,7 @@ jobs:
       name: terraform/default
     steps:
       - terraform/install:
-          terraform_version: "1.5"
+          terraform_version: "1.5.0"
 workflows:
   test-deploy:
     jobs:
