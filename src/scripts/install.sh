@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x
 download_version() {
 	version=$1
 	local base_url="https://releases.hashicorp.com/terraform/${version}/terraform_${version}"
