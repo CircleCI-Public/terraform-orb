@@ -62,6 +62,10 @@ workflows:
           filters: *filters
       - validate-terraform-install-old:
           filters: *filters
+      - validate-terraform-install-tag:
+          filters: *filters
+      - validate-terraform-install-version:
+          filters: *filters
       - terraform/init:
           context: CPE_ORBS_AWS
           filters: *filters
