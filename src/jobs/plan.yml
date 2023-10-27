@@ -67,6 +67,10 @@ parameters:
     description: Configure a custom state lock timeout
     type: string
     default: 30s
+  detailed-exitcode:
+    description: Return detailed exit code
+    type: bool
+    default: false
   resource_class:
     description: "Specify the resource class for Docker Executor"
     type: "string"
@@ -104,6 +108,7 @@ steps:
       out: << parameters.out >>
       timeout: <<parameters.timeout>>
       lock-timeout: <<parameters.lock-timeout>>
+      detailed-exitcode: <<parameters.detailed-exitcode>>
   - when:
       condition: << parameters.persist-workspace >>
       steps:

@@ -43,6 +43,10 @@ parameters:
     description: Configure a custom state lock timeout
     type: string
     default: 30s
+  detailed-exitcode:
+    description: Return detailed exit code
+    type: bool
+    default: false
 
 steps:
   - run:
@@ -58,4 +62,5 @@ steps:
         TF_PARAM_CLI_CONFIG_FILE: <<parameters.cli_config_file>>
         TF_PARAM_OUT: << parameters.out >>
         TF_PARAM_LOCK_TIMEOUT: << parameters.lock-timeout >>
+        TF_PARAM_DETAILED_EXITCODE: << parameters.detailed-exitcode >>
       command: <<include(scripts/plan.sh)>>
