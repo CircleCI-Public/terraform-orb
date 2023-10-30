@@ -1,7 +1,7 @@
 description: |
   Deploy infrastructure leveraging a sequence of jobs and workspaces to create and persist a terraform plan.
 
-  Apply will 'apply' the result of a terraform plan.
+  Apply will 'apply' the result of a terraform plan, if there is something in the plan.
 
 usage:
   version: 2.1
@@ -21,10 +21,12 @@ usage:
         - terraform/plan:
             checkout: true
             persist-workspace: true
+            detailed-exitcode: true
             context: terraform
             requires:
               - terraform/validate
         - terraform/apply:
+            when: on_fail
             attach-workspace: true
             context: terraform
             requires:
