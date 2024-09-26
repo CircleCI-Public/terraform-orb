@@ -35,6 +35,11 @@ if [[ -n "${TF_PARAM_BACKEND_CONFIG}" ]]; then
         INIT_ARGS="$INIT_ARGS -backend-config=$(eval echo "$config")"
     done
 fi
+
+if [[ "${TF_PARAM_UPGRADE}" = true ]]; then
+    INIT_ARGS="$INIT_ARGS -upgrade"
+fi
+
 export INIT_ARGS
 # shellcheck disable=SC2086
 terraform -chdir="$module_path" init -input=false -backend=$backend $INIT_ARGS

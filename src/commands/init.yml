@@ -27,6 +27,10 @@ parameters:
     description: Configure a custom timeout limit
     type: string
     default: 10m
+  upgrade:
+    description: "Install the latest terraform module and provider versions"
+    type: boolean
+    default: false
 
 steps:
   - run:
@@ -38,4 +42,5 @@ steps:
         TF_PARAM_BACKEND_CONFIG: << parameters.backend_config >>
         TF_PARAM_BACKEND_CONFIG_FILE: << parameters.backend_config_file >>
         TF_PARAM_CLI_CONFIG_FILE: << parameters.cli_config_file >>
+        TF_PARAM_UPGRADE: << parameters.upgrade >>
       command: <<include(scripts/init.sh)>>
