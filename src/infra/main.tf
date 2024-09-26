@@ -21,7 +21,7 @@ resource "aws_security_group" "instance" {
 }
 
 resource "aws_instance" "example" {
-  ami                    = "ami-006d159e1c8230536"
+  ami                    = "ami-0d53d72369335a9d6"
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.instance.id]
   tags = {
@@ -31,6 +31,8 @@ resource "aws_instance" "example" {
   }
   user_data = <<-EOF
               #!/bin/bash
+              apt update
+              apt install busybox
               echo "<h1>Hello from CircleCI!</h1>" > index.html
               nohup busybox httpd -f -p 8080 &
               EOF
