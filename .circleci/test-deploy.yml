@@ -28,12 +28,12 @@ jobs:
           workspace: "orb-testing"
   validate-terraform-install:
     machine:
-      image: ubuntu-2004:202010-01
+      image: ubuntu-2004:2024.05.1
     steps:
       - terraform/install
   validate-terraform-install-old:
     machine:
-      image: ubuntu-2004:202010-01
+      image: ubuntu-2004:2024.05.1
     steps:
       - terraform/install:
           terraform_version: "1.0.0"
