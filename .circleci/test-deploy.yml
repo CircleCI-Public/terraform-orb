@@ -2,7 +2,6 @@ version: 2.1
 orbs:
   terraform: circleci/terraform@dev:<<pipeline.git.revision>>
   orb-tools: circleci/orb-tools@11.1
-  shellcheck: circleci/shellcheck@2.0
 filters: &filters
   tags:
     only: /.*/
