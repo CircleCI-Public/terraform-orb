@@ -7,9 +7,9 @@ resource_class: << parameters.resource_class >>
 
 parameters:
   tag:
-    description: "Specify the Terraform Docker image tag for the executor"
+    description: "Specify the Terraform Docker image tag for the executor. Default to latest."
     type: "string"
-    default: "1.0.0" # update commands/install when updating this
+    default: "latest" # update commands/install when updating this
 
   resource_class:
     description: "Specify the resource class for Docker Executor"
