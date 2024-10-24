@@ -53,7 +53,9 @@ workflows:
     jobs:
       # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
       # Run any integration tests defined within the `jobs` key.
-      - test-absolute-path
+      - test-absolute-path:
+          context: CPE_ORBS_AWS
+          filters: *filters
       - validate-command-sequence:
           context: CPE_ORBS_AWS
           filters: *filters
