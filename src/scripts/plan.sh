@@ -18,7 +18,7 @@ fi
 # the following is needed to process backend configs
 if [[ -n "${TF_PARAM_BACKEND_CONFIG_FILE}" ]]; then
     for file in $(echo "${TF_PARAM_BACKEND_CONFIG_FILE}" | tr ',' '\n'); do
-        if [[ -f "$module_path/$file" ]]; then
+        if [[ -f "$module_path/$file" ]] || [[ -f "$file" ]]; then
             INIT_ARGS="$INIT_ARGS -backend-config=$file"
         else
             echo "Backend config '$file' wasn't found" >&2
@@ -56,7 +56,7 @@ if [[ -n "${TF_PARAM_VAR}" ]]; then
 fi
 if [[ -n "${TF_PARAM_VAR_FILE}" ]]; then
     for file in $(eval echo "${TF_PARAM_VAR_FILE}" | tr ',' '\n'); do
-        if [[ -f "$module_path/$file" ]]; then
+        if [[ -f "$module_path/$file" ]] || [[ -f "$file" ]]; then
             PLAN_ARGS="$PLAN_ARGS -var-file=$file"
         else
             echo "var file '$file' wasn't found" >&2
