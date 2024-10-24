@@ -7,6 +7,17 @@ filters: &filters
     only: /.*/
 jobs:
   # Define one or more jobs which will utilize your orb's commands and parameters to validate your changes.
+  test-absolute-path:
+    executor: terraform/default
+    steps:
+      - checkout
+      - terraform/init:
+          path: "src/infra"
+      - run: |
+          echo 'purpose = "To test absolute path"' > $HOME/a.tfvar
+      - terraform/plan:
+          var_file: $HOME/a.tfvar
+          path: "src/infra"
   validate-command-sequence:
     executor: terraform/default
     steps:
@@ -42,6 +53,9 @@ workflows:
     jobs:
       # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
       # Run any integration tests defined within the `jobs` key.
+      - test-absolute-path:
+          context: CPE_ORBS_AWS
+          filters: *filters
       - validate-command-sequence:
           context: CPE_ORBS_AWS
           filters: *filters
@@ -109,6 +123,7 @@ workflows:
             - terraform/plan
             - terraform/apply
             - terraform/destroy
+            - test-absolute-path
           context: orb-publisher
           github-token: GHI_TOKEN
           filters:
