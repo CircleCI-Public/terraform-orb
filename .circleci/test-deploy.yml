@@ -55,6 +55,8 @@ jobs:
       - checkout
       - run: echo "export TEMPORAL=this-is-sha" >> "$BASH_ENV"
       - run: echo "export VAR1=${TEMPORAL}" >> "$BASH_ENV"
+      - run: echo "$TEMPORAL"
+      - run: echo "$VAR1"
       - terraform/init:
           path: "src/infra"
       - terraform/plan:
