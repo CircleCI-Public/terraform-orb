@@ -63,6 +63,10 @@ parameters:
     description: "Configure a custom timeout limit"
     type: "string"
     default: "10m"
+  lock-timeout:
+    description: Configure a custom state lock timeout
+    type: string
+    default: 30s
   resource_class:
     description: "Specify the resource class for Docker Executor"
     type: "string"
@@ -103,7 +107,7 @@ steps:
       plan: <<parameters.plan>>
       timeout: <<parameters.timeout>>
       parallelism: <<parameters.parallelism>>
-
+      lock-timeout: <<parameters.lock-timeout>>
   - when:
       condition: << parameters.persist-workspace >>
       steps:

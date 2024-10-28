@@ -39,6 +39,14 @@ parameters:
     description: Configure a custom timeout limit
     type: string
     default: 10m
+  lock-timeout:
+    description: Configure a custom state lock timeout
+    type: string
+    default: 30s
+  lock:
+    description: Enable the lock on the state file or not
+    type: boolean
+    default: true
 
 steps:
   - run:
@@ -53,4 +61,6 @@ steps:
         TF_PARAM_BACKEND_CONFIG_FILE: <<parameters.backend_config_file>>
         TF_PARAM_CLI_CONFIG_FILE: <<parameters.cli_config_file>>
         TF_PARAM_OUT: << parameters.out >>
+        TF_PARAM_LOCK_TIMEOUT: << parameters.lock-timeout >>
+        TF_PARAM_LOCK: << parameters.lock >>
       command: <<include(scripts/plan.sh)>>
