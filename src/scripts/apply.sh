@@ -67,4 +67,4 @@ else
     echo "[INFO] Remote State Backend Enabled"
 fi
 # shellcheck disable=SC2086
-terraform -chdir="$module_path" apply -auto-approve $PLAN_ARGS ${TF_PARAM_PLAN}
+terraform -chdir="$module_path" apply -auto-approve -parallelism=${TF_PARAM_PARALLELISM} $PLAN_ARGS ${TF_PARAM_PLAN}
