@@ -54,17 +54,17 @@ jobs:
     shell: sh
     steps:
       - checkout
-      - terraform/install
+      # - terraform/install
       - run: echo "export TEMPORAL=this-is-sha" >> "$BASH_ENV"
       - run: echo "export VAR1=${TEMPORAL}" >> "$BASH_ENV"
       - run: echo "$TEMPORAL"
       - run: echo "$VAR1"
-      - terraform/init:
-          path: "src/infra"
-      - terraform/plan:
-          path: "src/infra"
-          workspace: "orb-testing"
-          var: "var1=${VAR1},var2=var2"
+      # - terraform/init:
+      #     path: "src/infra"
+      # - terraform/plan:
+      #     path: "src/infra"
+      #     workspace: "orb-testing"
+      #     var: "var1=${VAR1},var2=var2"
 
 workflows:
   test-deploy:
