@@ -50,9 +50,10 @@ jobs:
           terraform_version: "1.0.0"
   temporal-test-job:
     docker:
-      - image: hashicorp/terraform:1.1.2
+      - image: cimg/base:2024.10
     steps:
       - checkout
+      - terraform/install
       - run: echo "export TEMPORAL=this-is-sha" >> "$BASH_ENV"
       - run: echo "export VAR1=${TEMPORAL}" >> "$BASH_ENV"
       - run: echo "$TEMPORAL"
