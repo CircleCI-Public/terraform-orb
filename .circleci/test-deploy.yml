@@ -51,7 +51,7 @@ jobs:
   temporal-test-job:
     docker:
       - image: cimg/base:2024.10
-    shell: sh -eo pipefail
+    shell: /bin/sh -eo pipefail
     steps:
       - checkout
       - terraform/install
