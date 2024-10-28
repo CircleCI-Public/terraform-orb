@@ -53,7 +53,8 @@ jobs:
       - image: hashicorp/terraform:1.1.2
     steps:
       - checkout
-      - run: echo "export VAR1=${CIRCLE_SHA1}" >> $BASH_ENV
+      - run: echo "export TEMPORAL=this-is-sha" >> $BASH_ENV 
+      - run: echo "export VAR1=${TEMPORAL}" >> $BASH_ENV
       - terraform/init:
           path: "src/infra"
       - terraform/plan:
