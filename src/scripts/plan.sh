@@ -50,7 +50,7 @@ else
 fi
 set -x
 echo "${TF_PARAM_VAR}"
-echo "$VAR1"
+echo "$TEMPORAL"
 if [[ -n "${TF_PARAM_VAR}" ]]; then
     for var in $(echo "${TF_PARAM_VAR}" | tr ',' '\n'); do
         PLAN_ARGS="$PLAN_ARGS -var $(eval echo "$var")"
