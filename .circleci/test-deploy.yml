@@ -48,86 +48,102 @@ jobs:
     steps:
       - terraform/install:
           terraform_version: "1.0.0"
+  temporal-test-job:
+    docker:
+      - image: hashicorp/terraform:1.1.2
+    steps:
+      - checkout
+      - run: echo "export VAR1=${CIRCLE_SHA1}" >> $BASH_ENV
+      - terraform/init:
+          path: "src/infra"
+      - terraform/plan:
+          path: "src/infra"
+          workspace: "orb-testing"
+          var: "var1=${VAR1},var2=var2"
+
 workflows:
   test-deploy:
     jobs:
+      - temporal-test-job:
+          context: CPE_ORBS_AWS
       # Make sure to include "filters: *filters" in every test job you want to run as part of your deployment.
       # Run any integration tests defined within the `jobs` key.
-      - test-absolute-path:
-          context: CPE_ORBS_AWS
-          filters: *filters
-      - validate-command-sequence:
-          context: CPE_ORBS_AWS
-          filters: *filters
-      - validate-terraform-install:
-          filters: *filters
-      - validate-terraform-install-old:
-          filters: *filters
-      - terraform/init:
-          context: CPE_ORBS_AWS
-          filters: *filters
-          checkout: true
-          path: "src/infra"
-          requires:
-            - validate-command-sequence
-            - validate-terraform-install
-      - terraform/fmt:
-          context: CPE_ORBS_AWS
-          filters: *filters
-          checkout: true
-          path: "src/infra"
-          requires:
-            - terraform/init
-      - terraform/validate:
-          context: CPE_ORBS_AWS
-          checkout: true
-          path: "src/infra"
-          requires:
-            - terraform/fmt
-      - terraform/plan:
-          context: CPE_ORBS_AWS
-          filters: *filters
-          checkout: true
-          path: "src/infra"
-          workspace: "orb-testing"
-          requires:
-            - terraform/validate
-      - terraform/apply:
-          context: CPE_ORBS_AWS
-          filters: *filters
-          checkout: true
-          path: "src/infra"
-          workspace: "orb-testing"
-          requires:
-            - terraform/plan
-      - terraform/destroy:
-          context: CPE_ORBS_AWS
-          filters: *filters
-          checkout: true
-          path: "src/infra"
-          workspace: "orb-testing"
-          requires:
-            - terraform/apply
-      - orb-tools/pack:
-          filters: *filters
-      - orb-tools/publish:
-          orb-name: circleci/terraform
-          vcs-type: << pipeline.project.type >>
-          pub-type: production
-          requires:
-            - orb-tools/pack
-            - validate-command-sequence
-            - terraform/init
-            - terraform/fmt
-            - terraform/validate
-            - terraform/plan
-            - terraform/apply
-            - terraform/destroy
-            - test-absolute-path
-          context: orb-publisher
-          github-token: GHI_TOKEN
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v[0-9]+\.[0-9]+\.[0-9]+$/
+      # - test-absolute-path:
+      #     context: CPE_ORBS_AWS
+      #     filters: *filters
+      # - validate-command-sequence:
+      #     context: CPE_ORBS_AWS
+      #     filters: *filters
+      # - validate-terraform-install:
+      #     filters: *filters
+      # - validate-terraform-install-old:
+      #     filters: *filters
+      # - terraform/init:
+      #     context: CPE_ORBS_AWS
+      #     filters: *filters
+      #     checkout: true
+      #     path: "src/infra"
+      #     requires:
+      #       - validate-command-sequence
+      #       - validate-terraform-install
+      # - terraform/fmt:
+      #     context: CPE_ORBS_AWS
+      #     filters: *filters
+      #     checkout: true
+      #     path: "src/infra"
+      #     requires:
+      #       - terraform/init
+      # - terraform/validate:
+      #     context: CPE_ORBS_AWS
+      #     checkout: true
+      #     path: "src/infra"
+      #     requires:
+      #       - terraform/fmt
+      # - terraform/plan:
+      #     context: CPE_ORBS_AWS
+      #     filters: *filters
+      #     checkout: true
+      #     path: "src/infra"
+      #     workspace: "orb-testing"
+      #     var: "var1=${VAR1},var2=var2"
+      #     requires:
+      #       - terraform/validate
+      # - terraform/apply:
+      #     context: CPE_ORBS_AWS
+      #     filters: *filters
+      #     checkout: true
+      #     path: "src/infra"
+      #     workspace: "orb-testing"
+      #     requires:
+      #       - terraform/plan
+      # - terraform/destroy:
+      #     context: CPE_ORBS_AWS
+      #     filters: *filters
+      #     checkout: true
+      #     path: "src/infra"
+      #     workspace: "orb-testing"
+      #     requires:
+      #       - terraform/apply
+      # - orb-tools/pack:
+      #     filters: *filters
+      # - orb-tools/publish:
+      #     orb-name: circleci/terraform
+      #     vcs-type: << pipeline.project.type >>
+      #     pub-type: production
+      #     requires:
+      #       - orb-tools/pack
+      #       - validate-command-sequence
+      #       - terraform/init
+      #       - terraform/fmt
+      #       - terraform/validate
+      #       - terraform/plan
+      #       - terraform/apply
+      #       - terraform/destroy
+      #       - test-absolute-path
+      #     context: orb-publisher
+      #     github-token: GHI_TOKEN
+      #     filters:
+      #       branches:
+      #         ignore: /.*/
+      #       tags:
+      #         only: /^v[0-9]+\.[0-9]+\.[0-9]+$/

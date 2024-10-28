@@ -48,12 +48,15 @@ if [[ -n "$workspace_parameter" ]]; then
 else
     echo "[INFO] Remote State Backend Enabled"
 fi
-
+set -x
+echo "${TF_PARAM_VAR}"
 if [[ -n "${TF_PARAM_VAR}" ]]; then
     for var in $(echo "${TF_PARAM_VAR}" | tr ',' '\n'); do
         PLAN_ARGS="$PLAN_ARGS -var $(eval echo "$var")"
     done
 fi
+echo "$PLAN_ARGS"
+set +x
 if [[ -n "${TF_PARAM_VAR_FILE}" ]]; then
     for file in $(eval echo "${TF_PARAM_VAR_FILE}" | tr ',' '\n'); do
         if [[ -f "$module_path/$file" ]] || [[ -f "$file" ]]; then
