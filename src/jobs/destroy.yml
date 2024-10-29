@@ -71,8 +71,12 @@ steps:
       steps:
         - attach_workspace:
             at: << parameters.workspace-root >>
-  #- init:
-  #    path: << parameters.path >>
+  - init:
+      path: << parameters.path >>
+      backend_config: << parameters.backend_config >>
+      backend_config_file: << parameters.backend_config_file >>
+      cli_config_file: << parameters.cli_config_file >>
+      timeout: <<parameters.timeout>>
   - destroy:
       path: << parameters.path >>
       var: << parameters.var >>

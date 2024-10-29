@@ -33,7 +33,7 @@ parameters:
     default: ""
   out:
     type: string
-    description: The file path to save your terraform plan to.
+    description: The file path to save your terraform plan to. Set this to "" if you are using terraform cloud.
     default: "plan.out"
   timeout:
     description: Configure a custom timeout limit
