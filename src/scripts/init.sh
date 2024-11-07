@@ -9,15 +9,18 @@ if [[ -n "${TF_PARAM_CLI_CONFIG_FILE}" ]]; then
     fi
 fi
 # 'path' is a required parameter, save it as module_path
-readonly module_path="$(eval echo "$TF_PARAM_PATH")"
-export path=$module_path
+module_path="$(eval echo "$TF_PARAM_PATH")"
+readonly module_path
+path=$module_path
+export path
 
-export backend="${TF_PARAM_BACKEND}"
 
 if [[ ! -d "$module_path" ]]; then
     echo "Path does not exist: $module_path"
     exit 1
 fi
+backend="${TF_PARAM_BACKEND}"
+export backend
 
 # Initialize terraform
 if [[ -n "${TF_PARAM_BACKEND_CONFIG_FILE}" ]]; then

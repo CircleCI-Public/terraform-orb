@@ -8,8 +8,10 @@ if [[ -n "${TF_PARAM_CLI_CONFIG_FILE}" ]]; then
         exit 1
     fi
 fi
-readonly module_path="$(eval echo "$TF_PARAM_PATH")"
-export path=$module_path
+module_path="$(eval echo "$TF_PARAM_PATH")"
+readonly module_path
+path=$module_path
+export path
 if [[ ! -d "$module_path" ]]; then
     echo "Path does not exist: $module_path"
     exit 1
