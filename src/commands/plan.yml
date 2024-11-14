@@ -2,6 +2,10 @@ description: |
   Execute 'terraform plan' against current state.
 
 parameters:
+  destroy_plan:
+    type: boolean
+    description: Run this plan as a destroy plan.
+    default: false
   path:
     type: "string"
     description: "Path to the terraform module"
@@ -53,6 +57,7 @@ steps:
       name: terraform plan
       no_output_timeout: <<parameters.timeout>>
       environment:
+        TF_PARAM_DESTROY: <<parameters.destroy_plan>>
         TF_PARAM_PATH: <<parameters.path>>
         TF_PARAM_VAR: <<parameters.var>>
         TF_PARAM_VAR_FILE: <<parameters.var_file>>

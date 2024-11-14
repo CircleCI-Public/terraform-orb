@@ -100,6 +100,16 @@ workflows:
           workspace: "orb-testing"
           requires:
             - terraform/plan
+      - terraform/plan:
+          name: Plan destroy
+          context: CPE_ORBS_AWS
+          filters: *filters
+          checkout: true
+          path: "src/infra"
+          workspace: "orb-testing"
+          destroy_plan: true
+          requires:
+            - terraform/apply
       - terraform/destroy:
           context: CPE_ORBS_AWS
           filters: *filters
@@ -107,7 +117,7 @@ workflows:
           path: "src/infra"
           workspace: "orb-testing"
           requires:
-            - terraform/apply
+            - Plan destroy
       - orb-tools/pack:
           filters: *filters
       - orb-tools/publish:
@@ -122,6 +132,7 @@ workflows:
             - terraform/validate
             - terraform/plan
             - terraform/apply
+            - Plan destroy
             - terraform/destroy
             - test-absolute-path
           context: orb-publisher

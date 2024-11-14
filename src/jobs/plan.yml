@@ -2,6 +2,10 @@ description: >
   Run Terraform plan against current state
 
 parameters:
+  destroy_plan:
+    type: boolean
+    description: Run this plan as a destroy plan.
+    default: false
   attach-workspace:
     default: false
     description: "Do cool stuff with workspaces"
@@ -95,6 +99,7 @@ steps:
       timeout: <<parameters.timeout>>
   - plan:
       path: << parameters.path >>
+      destroy_plan: << parameters.destroy_plan >>
       var: << parameters.var >>
       var_file: << parameters.var_file >>
       workspace: << parameters.workspace >>

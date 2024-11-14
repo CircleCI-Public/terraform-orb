@@ -4,7 +4,7 @@ description: |
 usage:
   version: 2.1
   orbs:
-    terraform: circleci/terraform@3.3
+    terraform: circleci/terraform@3.5
   jobs:
     single-job-lifecycle:
       executor: terraform/default
@@ -21,6 +21,9 @@ usage:
             path: "."
         - terraform/apply:
             path: "."
+        - terraform/plan:
+            path: "."
+            destroy_plan: true
         - terraform/destroy:
             path: "."
   workflows:
