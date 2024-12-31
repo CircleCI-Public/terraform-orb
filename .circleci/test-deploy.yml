@@ -88,6 +88,7 @@ workflows:
           context: CPE_ORBS_AWS
           filters: *filters
           checkout: true
+          var: foo=bar,bar=foo,doo=moo,wa=[ki,ti],wa=[ki,ti,asdf,asdf,xcv,],doo=moo
           path: "src/infra"
           workspace: "orb-testing"
           requires:
