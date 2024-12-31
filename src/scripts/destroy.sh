@@ -64,9 +64,15 @@ else
     echo "[INFO] Remote State Backend Enabled"
 fi
 if [[ -n "${TF_PARAM_VAR}" ]]; then
-    for var in $(echo "${TF_PARAM_VAR}" | tr ',' '\n'); do
-        PLAN_ARGS="$PLAN_ARGS -var $(eval echo "$var")"
+    re='([^,=]+)=\[([A-Za-z0-9,]*)*\]|([^,=]+)=[^,]*'
+    PLAN_ARGS=""
+    while [[ $TF_PARAM_VAR =~ $re ]]; do
+        match="${BASH_REMATCH[0]}"
+        PLAN_ARGS="$PLAN_ARGS -var $match"
+        TF_PARAM_VAR="${TF_PARAM_VAR#"$match"}"
+        TF_PARAM_VAR="${TF_PARAM_VAR#,}"
     done
+    echo "$PLAN_ARGS"
 fi
 
 if [[ -n "${TF_PARAM_VAR_FILE}" ]]; then
