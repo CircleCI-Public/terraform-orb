@@ -71,6 +71,10 @@ parameters:
     description: Configure a custom state lock timeout
     type: string
     default: 30s
+  lock:
+    description: Enable the lock on the state file or not
+    type: boolean
+    default: true
   resource_class:
     description: "Specify the resource class for Docker Executor"
     type: "string"
@@ -109,6 +113,7 @@ steps:
       out: << parameters.out >>
       timeout: <<parameters.timeout>>
       lock-timeout: <<parameters.lock-timeout>>
+      lock: <<parameters.lock>>
   - when:
       condition: << parameters.persist-workspace >>
       steps:
