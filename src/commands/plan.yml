@@ -72,4 +72,5 @@ steps:
         TF_PARAM_OUT: << parameters.out >>
         TF_PARAM_LOCK_TIMEOUT: << parameters.lock-timeout >>
         TF_PARAM_LOCK: << parameters.lock >>
+        TF_PARAM_PARALLELISM: << parameters.parallelism >>
       command: <<include(scripts/plan.sh)>>
