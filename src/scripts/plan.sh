@@ -78,4 +78,4 @@ fi
 export PLAN_ARGS
 # shellcheck disable=SC2086
 
-terraform -chdir="$module_path" apply -auto-approve -parallelism=${TF_PARAM_PARALLELISM} $PLAN_ARGS ${TF_PARAM_PLAN}
+terraform -chdir="$module_path" plan -auto-approve -parallelism=${TF_PARAM_PARALLELISM} $PLAN_ARGS
