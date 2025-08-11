@@ -43,6 +43,10 @@ parameters:
     description: Configure a custom timeout limit
     type: string
     default: 10m
+  parallelism:
+    description: "Limit the number of concurrent operation Terraform is running. Defaults to 10"
+    type: integer
+    default: 10
   lock-timeout:
     description: Configure a custom state lock timeout
     type: string
@@ -68,4 +72,5 @@ steps:
         TF_PARAM_OUT: << parameters.out >>
         TF_PARAM_LOCK_TIMEOUT: << parameters.lock-timeout >>
         TF_PARAM_LOCK: << parameters.lock >>
+        TF_PARAM_PARALLELISM: << parameters.parallelism >>
       command: <<include(scripts/plan.sh)>>
