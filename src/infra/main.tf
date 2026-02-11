@@ -1,5 +1,12 @@
 provider "aws" {
   region = "us-west-1"
+  default_tags {
+    tags = {
+    aws-apn-id = "pc:prod-npbeysvqzcwba"
+    # Environment = var.environment
+    # ManagedBy   = "CircleCI"
+    }
+  }
 }
 
 terraform {
