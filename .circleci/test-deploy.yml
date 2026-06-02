@@ -123,6 +123,7 @@ workflows:
       - orb-tools/publish:
           orb-name: circleci/terraform
           vcs-type: << pipeline.project.type >>
+          enable-pr-comment: false
           pub-type: production
           requires:
             - orb-tools/pack
